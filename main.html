@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title>Amplitude</title>
+    <link rel="stylesheet" type="text/css" href="lib/slider/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="content.css">
+    <script type="text/javascript" src="lib/jquery.js"></script>
+    <script type="text/javascript" src="lib/slider/js/range.js"></script>
+    <script type="text/javascript" src="lib/slider/js/timer.js"></script>
+    <script type="text/javascript" src="lib/slider/js/slider.js"></script>
+    <script type="text/javascript" src="lib/id3/id3.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+    <section id="amplitude" class="section active">
+        
+        <div class="section-header">
+        
+            <div class="inline section-header-logo">&#9776;</div>
+            
+            <div class="inline section-header-spacer section-header-spacer-amplitude"></div>
+            
+            <div class="inline section-header-title">Amplitude</div>
+            
+            <div class="inline section-header-spacer section-header-spacer-amplitude"></div>
+           
+            <div id="h-minimize" class="inline section-header-icon section-header-minimize"></div>
+            
+            <div class="inline section-header-icon section-header-windowshade"></div>
+            
+            <div id="h-close" class="inline section-header-icon section-header-close">
+                <div class="cross cross1"></div>
+                <div class="cross cross2"></div>
+            </div>
+            
+        </div>
+        
+        <div class="section-content">
+        
+            <canvas id="fft" class="fft-canvas" width="153" height="63"></canvas>
+            
+            <div id="scrolling-label" class="inline label scrolling-label">Amplitude</div>
+            
+            <div id="kbps-label" class="inline label kbps-label">&nbsp;</div>
+            
+            <div class="inline text">kbps</div>
+            
+            <div id="khz-label" class="inline label khz-label">&nbsp;</div>
+            
+            <div class="inline text">kHz</div>
+            
+            <div class="inline khz-spacer"></div>
+            
+            <div id="mono-label" class="inline mono-label">mono</div>
+            
+            <div id="stereo-label" class="inline stereo-label">stereo</div>
+           
+            <div id="volume-slider" class="inline" style="width: 121px; height: 20px;"></div>
+            
+            <div id="pan-slider" class="inline pan-slider" style="width: 76px; height: 20px;"></div>
+            
+            <div class="inline button switch off mtop first disabled"><span class="inline"></span><span class="inline">eq</span></div>
+            
+            <div class="inline button switch off mtop disabled"><span class="inline"></span><span class="inline">pl</span></div>
+            
+            
+            <div class="clearfix"></div>
+            
+            <div id="range-slider" class="range-slider" style="width:  442px; height: 22px;"></div>
+            
+            <div class="buttons">
+            
+                <div class="inline button prev disabled">
+                    <span class="line"></span>
+                    <span class="left-arrow"></span>
+                </div>
+                
+                <div id="btn-play" class="inline button play">
+                    <span class="right-arrow"></span>
+                </div>
+                
+                <div id="btn-pause" class="inline button pause">
+                    <span class="line1"></span>
+                    <span class="line2"></span>
+                </div>
+                
+                <div id="btn-stop" class="inline button stop">
+                    <span class="square"></span>
+                </div>
+                
+                <div class="inline button next disabled">
+                    <span class="right-arrow"></span>
+                    <span class="line"></span>
+                </div>
+                
+                <div class="inline button open">
+                    <span class="up-arrow"></span>
+                    <span class="line"></span>
+                    <input type="file" id="open" accept="audio/mp3"/>
+                </div>
+            
+                <div class="inline button switch mtop off disabled"><span class="inline"></span><span class="inline">shuffle</span></div>
+                <div id="sw-repeat" class="inline button switch mtop off"><span class="inline"></span><span class="inline" style="margin-top: 1px; margin-bottom: -1px">&#8635;</span></div>
+            
+                <a href="http://artit.hu" class="inline" target="_blank"><img id="logo" class="logo" src="logo.svg"/></a>
+            </div>
+            
+        </div>
+    </section>
+</body>
+</html>
