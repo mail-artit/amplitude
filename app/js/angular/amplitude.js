@@ -1,0 +1,1 @@
+var amplitude = angular.module('amplitude',[]);

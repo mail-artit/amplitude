@@ -3,12 +3,12 @@ module.exports = function(grunt) {
         concat: {
             chrome_js: {
                 src: [
-                    "vendor/jquery.js",
+                    "vendor/angular/angular.js",
                     "vendor/slider/js/range.js",
                     "vendor/slider/js/timer.js",
                     "vendor/slider/js/slider.js",
                     "vendor/id3/id3.min.js",
-                    "app/js/*"
+                    "app/js/angular/**"
                 ],
                 dest: "chrome/js/app.js"
             },
