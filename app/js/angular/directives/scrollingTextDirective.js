@@ -48,6 +48,9 @@ amplitude.directive("scrollingText", function($parse) {
         
         if(text == null) {
           text = $scope.model.default;
+        } else {
+          text = text.trim().replace(/[\x00-\x1F\x7F-\x9F]/gi, "");
+          $element.html(text);
         }
 
         if(_str !== text + " *** ") {

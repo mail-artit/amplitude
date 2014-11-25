@@ -9,6 +9,16 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
     
     $scope.audioContext = new AudioContext();
 
+    $scope.secondsToString = function(s, delim) {
+        var min = Math.floor(s / 60),
+            mods = Math.floor(s) - min * 60;
+            
+        min = min < 10 ? "0"+min : ""+min;
+        mods = mods < 10 ? "0"+mods : ""+mods;
+        
+        return min+delim+mods;
+    };
+
     $scope.makeSound = function(tags) {
         var ret =  {
             "title": tags.title || "Unknown Title",
@@ -19,7 +29,7 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
                 return (ret.track !== null ? ret.track +". " : "") +
                     ret.artist + " - " +
                     ret.title + 
-                    (ret.duration ? " ("+ secondsToString(ret.duration, ":") + ")" : "");
+                    (ret.duration ? " ("+ $scope.secondsToString(ret.duration, ":") + ")" : "");
             }
         };
         
@@ -42,6 +52,7 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
         $scope.currentSound.audio.addEventListener("canplaythrough", function() {
             if($scope.currentSound && $scope.currentSound.audio) {
                 $scope.currentSound.audio.play();
+                $scope.$broadcast("canplaythrough");
                 //ScrollingLabel.start();
                 //CanvasRenderer.start();
                 //$("#range-slider").find(".handle").removeClass("hidden");
@@ -52,6 +63,7 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
             if($scope.currentSound && $scope.currentSound.audio) {
                 $scope.currentSound.duration = $scope.currentSound.audio.duration;
                 $scope.currentSound.currentTime = $scope.currentSound.audio.currentTime;
+                $scope.$broadcast("timeupdate");
                 //updateUI();
             }
         });
@@ -96,15 +108,14 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
 			$scope.destructCurrentSound();
 
 			id3(files[0], function(err, tags) {
+
 	            $scope.currentSound = $scope.makeSound(tags);
-	            
 	            $scope.currentSound.ctx = $scope.audioContext;
-	            
 	            $scope.currentSound.src = URL.createObjectURL(files[0]);
-	            
 	            $scope.constructCurrentSound();
 	            
 	            callback();
+
 	        });
 		}
 	};
