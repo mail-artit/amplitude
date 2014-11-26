@@ -1,6 +1,6 @@
 amplitude.directive("scrollingText", function($parse) {
 
-  var _str = "Amplitude",
+  var _str = "",
         _index = 0,
         _paused = 1,
         _tickTime = 0,

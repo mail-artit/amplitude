@@ -1,4 +1,4 @@
-amplitude.controller('AmplitudeController', ['$scope', function($scope) {
+amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, $scope) {
 	
 	$scope.config = {
 		title : 'Amplitude',
@@ -8,16 +8,6 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
 	$scope.currentSound = null;
     
     $scope.audioContext = new AudioContext();
-
-    $scope.secondsToString = function(s, delim) {
-        var min = Math.floor(s / 60),
-            mods = Math.floor(s) - min * 60;
-            
-        min = min < 10 ? "0"+min : ""+min;
-        mods = mods < 10 ? "0"+mods : ""+mods;
-        
-        return min+delim+mods;
-    };
 
     $scope.makeSound = function(tags) {
         var ret =  {
@@ -29,7 +19,7 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
                 return (ret.track !== null ? ret.track +". " : "") +
                     ret.artist + " - " +
                     ret.title + 
-                    (ret.duration ? " ("+ $scope.secondsToString(ret.duration, ":") + ")" : "");
+                    (ret.duration ? " ("+ utils.secondsToString(ret.duration, ":") + ")" : "");
             }
         };
         
@@ -64,7 +54,6 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
                 $scope.currentSound.duration = $scope.currentSound.audio.duration;
                 $scope.currentSound.currentTime = $scope.currentSound.audio.currentTime;
                 $scope.$broadcast("timeupdate");
-                //updateUI();
             }
         });
         
@@ -91,7 +80,6 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
         
         $scope.currentSound.analyser.smoothingTimeConstant = 0.7;
         $scope.currentSound.analyser.fftSize = 2048;
-        $scope.currentSound.frequencyData = new Uint8Array($scope.currentSound.analyser.frequencyBinCount);
     };
 
     $scope.destructCurrentSound = function() {
@@ -100,7 +88,7 @@ amplitude.controller('AmplitudeController', ['$scope', function($scope) {
             $scope.currentSound.audio.pause();
             $scope.currentSound.audio = null;
         }
-        //resetUI();
+        $scope.$broadcast("currentSoundDestructed");
     };
 
     $scope.openFile = {

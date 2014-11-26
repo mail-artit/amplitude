@@ -32,23 +32,23 @@
         
         <div class="section-content">
         
-            <canvas id="fft" class="fft-canvas" width="153" height="63"></canvas>
+            <canvas display-panel ng-model="displayPanel" class="fft-canvas" width="153" height="63"></canvas>
             
             <div scrolling-text ng-model="scrollingText" class="inline label scrolling-label"></div>
             
-            <div id="kbps-label" class="inline label kbps-label">&nbsp;</div>
+            <div ng-bind="kbps" class="inline label kbps-label"></div>
             
             <div class="inline text">kbps</div>
             
-            <div id="khz-label" class="inline label khz-label">&nbsp;</div>
+            <div ng-bind="khz" class="inline label khz-label"></div>
             
             <div class="inline text">kHz</div>
             
             <div class="inline khz-spacer"></div>
             
-            <div id="mono-label" class="inline mono-label">mono</div>
+            <div class="inline mono-label" ng-class="{active : channels === 1}">mono</div>
             
-            <div id="stereo-label" class="inline stereo-label">stereo</div>
+            <div class="inline stereo-label" ng-class="{active : channels > 1}">stereo</div>
            
             <div id="volume-slider" class="inline" style="width: 121px; height: 20px;"></div>
             
@@ -69,16 +69,16 @@
                     <span class="left-arrow"></span>
                 </div>
                 
-                <div id="btn-play" class="inline button play">
+                <div ng-click="play()" class="inline button play">
                     <span class="right-arrow"></span>
                 </div>
                 
-                <div id="btn-pause" class="inline button pause">
+                <div ng-click="pause()" class="inline button pause">
                     <span class="line1"></span>
                     <span class="line2"></span>
                 </div>
                 
-                <div id="btn-stop" class="inline button stop">
+                <div ng-click="stop()" class="inline button stop">
                     <span class="square"></span>
                 </div>
                 
