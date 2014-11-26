@@ -1,5 +1,7 @@
-amplitude.controller('MainController', ['utils', '$scope', function (utils, $scope) {
+amplitude.controller('MainController', ['$window', 'utils', '$scope', function ($window, utils, $scope) {
 	
+	$scope.active = 0;
+
 	$scope.scrollingText = {
 		'default': $scope.config.title,
 		'text' : null,
@@ -34,6 +36,16 @@ amplitude.controller('MainController', ['utils', '$scope', function (utils, $sco
 		$scope.displayPanel.currentSound = null;
 		$scope.displayPanel.state = "default";
 	});
+
+	$window.onfocus = function() {
+		$scope.active = 1;
+		$scope.$apply();
+	};
+
+	$window.onblur = function() {
+		$scope.active = 0;
+		$scope.$apply();
+	};
 
 	function updateUI () {
 		$scope.scrollingText.text = $scope.currentSound.getScrollingText();

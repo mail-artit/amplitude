@@ -7,7 +7,7 @@
     <script type="text/javascript" src="js/app.js"></script>
 </head>
 <body>
-    <section id="amplitude" class="section active" ng-controller="MainController">
+    <section class="section" ng-class="{active: active}" ng-controller="MainController">
         
         <div class="section-header">
         
@@ -50,9 +50,9 @@
             
             <div class="inline stereo-label" ng-class="{active : channels > 1}">stereo</div>
            
-            <div id="volume-slider" class="inline" style="width: 121px; height: 20px;"></div>
+            <div slider ng-model="volumeSlider" class="inline" style="width: 121px; height: 20px;"></div>
             
-            <div id="pan-slider" class="inline pan-slider" style="width: 76px; height: 20px;"></div>
+            <div slider ng-model="panSlider" class="inline pan-slider" style="width: 76px; height: 20px;"></div>
             
             <div class="inline button switch off mtop first disabled"><span class="inline"></span><span class="inline">eq</span></div>
             
@@ -60,7 +60,7 @@
             
             <div class="clearfix"></div>
             
-            <div id="range-slider" class="range-slider" style="width:  442px; height: 22px;"></div>
+            <div slider ng-model="durationSlider" class="range-slider" style="width:  442px; height: 22px;"></div>
             
             <div class="buttons">
             
@@ -99,7 +99,6 @@
             
                 <a ng-href="{{config.homepage}}" class="inline" target="_blank"><img id="logo" class="logo" src="images/logo.svg"/></a>
             </div>
-            
         </div>
     </section>
 </body>

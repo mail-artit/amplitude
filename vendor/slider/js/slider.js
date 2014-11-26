@@ -1,44 +1,7 @@
-/*----------------------------------------------------------------------------\
-|                                Slider 1.02                                  |
-|-----------------------------------------------------------------------------|
-|                         Created by Erik Arvidsson                           |
-|                  (http://webfx.eae.net/contact.html#erik)                   |
-|                      For WebFX (http://webfx.eae.net/)                      |
-|-----------------------------------------------------------------------------|
-| A  slider  control that  degrades  to an  input control  for non  supported |
-| browsers.                                                                   |
-|-----------------------------------------------------------------------------|
-|                Copyright (c) 2002, 2003, 2006 Erik Arvidsson                |
-|-----------------------------------------------------------------------------|
-| Licensed under the Apache License, Version 2.0 (the "License"); you may not |
-| use this file except in compliance with the License.  You may obtain a copy |
-| of the License at http://www.apache.org/licenses/LICENSE-2.0                |
-| - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-| Unless  required  by  applicable law or  agreed  to  in  writing,  software |
-| distributed under the License is distributed on an  "AS IS" BASIS,  WITHOUT |
-| WARRANTIES OR  CONDITIONS OF ANY KIND,  either express or implied.  See the |
-| License  for the  specific language  governing permissions  and limitations |
-| under the License.                                                          |
-|-----------------------------------------------------------------------------|
-| Dependencies: timer.js - an OO abstraction of timers                        |
-|               range.js - provides the data model for the slider             |
-|               winclassic.css or any other css file describing the look      |
-|-----------------------------------------------------------------------------|
-| 2002-10-14 | Original version released                                      |
-| 2003-03-27 | Added a test in the constructor for missing oElement arg       |
-| 2003-11-27 | Only use mousewheel when focused                               |
-| 2006-05-28 | Changed license to Apache Software License 2.0.                |
-|-----------------------------------------------------------------------------|
-| Created 2002-10-14 | All changes are in the log above. | Updated 2006-05-28 |
-\----------------------------------------------------------------------------*/
-
-Slider.isSupported = typeof document.createElement != "undefined" &&
-	typeof document.documentElement != "undefined" &&
-	typeof document.documentElement.offsetWidth == "number";
 
 
 function Slider(oElement, oInput, sOrientation) {
-	if (!oElement) return;
+
 	this._orientation = sOrientation || "horizontal";
 	this._range = new Range();
 	this._range.setExtent(0);
@@ -46,274 +9,79 @@ function Slider(oElement, oInput, sOrientation) {
 	this._unitIncrement = 1;
 	this._timer = new Timer(10);
 
+	this.document = oElement.ownerDocument;
 
-	if (Slider.isSupported && oElement) {
+	this.element = oElement;
+	this.element.slider = this;
 
-		this.document = oElement.ownerDocument || oElement.document;
+	// add class name tag to class name
+	this.element.className = this._orientation + " " + this.classNameTag + " " + this.element.className;
 
-		this.element = oElement;
-		this.element.slider = this;
-		this.element.unselectable = "on";
+	// create line
+	this.line = this.document.createElement("div");
+	this.line.className = "line";
+	this.line.appendChild(this.document.createElement("div"));
+	this.element.appendChild(this.line);
 
-		// add class name tag to class name
-		this.element.className = this._orientation + " " + this.classNameTag + " " + this.element.className;
-
-		// create line
-		this.line = this.document.createElement("DIV");
-		this.line.className = "line";
-		this.line.unselectable = "on";
-		this.line.appendChild(this.document.createElement("DIV"));
-		this.element.appendChild(this.line);
-
-		// create handle
-		this.handle = this.document.createElement("DIV");
-		this.handle.className = "handle";
-		this.handle.unselectable = "on";
-		this.handle.appendChild(this.document.createElement("DIV"));
-		this.handle.firstChild.appendChild(
-			this.document.createTextNode(String.fromCharCode(160)));
-		this.element.appendChild(this.handle);
-	}
+	// create handle
+	this.handle = this.document.createElement("div");
+	this.handle.className = "handle";
+	this.handle.appendChild(this.document.createElement("div"));
+	this.handle.firstChild.appendChild(this.document.createTextNode(String.fromCharCode(160)));
+	this.element.appendChild(this.handle);
 
 	this.input = oInput;
 
-	// events
 	var oThis = this;
+
 	this._range.onchange = function () {
 		oThis.recalculate();
-		if (typeof oThis.onchange == "function")
-			oThis.onchange();
+		oThis.onchange && oThis.onchange();
 	};
 
-	if (Slider.isSupported && oElement) {
-		this.element.onfocus		= Slider.eventHandlers.onfocus;
-		this.element.onblur			= Slider.eventHandlers.onblur;
-		this.element.onmousedown	= Slider.eventHandlers.onmousedown;
-		this.element.onmouseover	= Slider.eventHandlers.onmouseover;
-		this.element.onmouseout		= Slider.eventHandlers.onmouseout;
-		this.element.onkeydown		= Slider.eventHandlers.onkeydown;
-		this.element.onkeypress		= Slider.eventHandlers.onkeypress;
-		this.element.onmousewheel	= Slider.eventHandlers.onmousewheel;
-		this.handle.onselectstart	=
-		this.element.onselectstart	= function () { return false; };
+	this.element.onmousedown	= Slider.eventHandlers.onmousedown;
+	this.element.onmouseover	= Slider.eventHandlers.onmouseover;
+	this.element.onmouseout		= Slider.eventHandlers.onmouseout;
 
-		this._timer.ontimer = function () {
-			oThis.ontimer();
-		};
+	this._timer.ontimer = function () {
+		oThis.ontimer();
+	};
 
-		// extra recalculate for ie
-		window.setTimeout(function() {
-			oThis.recalculate();
-		}, 1);
-	}
-	else {
-		this.input.onchange = function (e) {
-			oThis.setValue(oThis.input.value);
-		};
-	}
+	oThis.recalculate();
 }
 
 Slider.eventHandlers = {
-
-	// helpers to make events a bit easier
-	getEvent:	function (e, el) {
-		if (!e) {
-			if (el)
-				e = el.document.parentWindow.event;
-			else
-				e = window.event;
-		}
-		if (!e.srcElement) {
-			var el = e.target;
-			while (el != null && el.nodeType != 1)
-				el = el.parentNode;
-			e.srcElement = el;
-		}
-		if (typeof e.offsetX == "undefined") {
-			e.offsetX = e.layerX;
-			e.offsetY = e.layerY;
-		}
-
-		return e;
-	},
-
-	getDocument:	function (e) {
-		if (e.target)
-			return e.target.ownerDocument;
-		return e.srcElement.document;
-	},
-
-	getSlider:	function (e) {
-		var el = e.target || e.srcElement;
-		while (el != null && el.slider == null)	{
-			el = el.parentNode;
-		}
-		if (el)
-			return el.slider;
-		return null;
-	},
-
-	getLine:	function (e) {
-		var el = e.target || e.srcElement;
-		while (el != null && el.className != "line")	{
-			el = el.parentNode;
-		}
-		return el;
-	},
-
-	getHandle:	function (e) {
-		var el = e.target || e.srcElement;
-		var re = /handle/;
-		while (el != null && !re.test(el.className))	{
-			el = el.parentNode;
-		}
-		return el;
-	},
-	// end helpers
-
-	onfocus:	function (e) {
-		var s = this.slider;
-		s._focused = true;
-		s.handle.className = "handle hover";
-	},
-
-	onblur:	function (e) {
-		var s = this.slider
-		s._focused = false;
-		s.handle.className = "handle";
-	},
-
-	onmouseover:	function (e) {
-		e = Slider.eventHandlers.getEvent(e, this);
-		var s = this.slider;
-		if (e.srcElement == s.handle)
-			s.handle.className = "handle hover";
-	},
-
-	onmouseout:	function (e) {
-		e = Slider.eventHandlers.getEvent(e, this);
-		var s = this.slider;
-		if (e.srcElement == s.handle && !s._focused)
-			s.handle.className = "handle";
-	},
-
 	onmousedown:	function (e) {
-		e = Slider.eventHandlers.getEvent(e, this);
-		
-		if(e.which !== 1) {
-			return;
-		}
-		
 		var s = this.slider;
-		
 		s.setMoving(1);
-		
-		if (s.element.focus)
-			s.element.focus();
-
+		s.element.focus && s.element.focus();
 		Slider._currentInstance = s;
-		var doc = s.document;
-
-		if (doc.addEventListener) {
-			doc.addEventListener("mousemove", Slider.eventHandlers.onmousemove, true);
-			doc.addEventListener("mouseup", Slider.eventHandlers.onmouseup, true);
-		}
-		else if (doc.attachEvent) {
-			doc.attachEvent("onmousemove", Slider.eventHandlers.onmousemove);
-			doc.attachEvent("onmouseup", Slider.eventHandlers.onmouseup);
-			doc.attachEvent("onlosecapture", Slider.eventHandlers.onmouseup);
-			s.element.setCapture();
-		}
-
-		if (Slider.eventHandlers.getHandle(e)) {	// start drag
-			Slider._sliderDragData = {
-				screenX:	e.screenX,
-				screenY:	e.screenY,
-				dx:			e.screenX - s.handle.offsetLeft,
-				dy:			e.screenY - s.handle.offsetTop,
-				startValue:	s.getValue(),
-				slider:		s
-			};
-		}
-		else {
-			var lineEl = Slider.eventHandlers.getLine(e);
-			s._mouseX = e.pageX;/* + (lineEl ? s.line.offsetLeft : 0);*/
-			s._mouseY = e.pageY;/* + (lineEl ? s.line.offsetTop : 0);*/
-			s._increasing = null;
-			s.ontimer();
-		}
+		s.document.addEventListener("mousemove", Slider.eventHandlers.onmousemove, true);
+		s.document.addEventListener("mouseup", Slider.eventHandlers.onmouseup, true);
+		s._mouseX = e.pageX;
+		s._mouseY = e.pageY;
+		s.ontimer();
 	},
 
 	onmousemove:	function (e) {
-		e = Slider.eventHandlers.getEvent(e, this);
-
-		if (Slider._sliderDragData) {	// drag
-			var s = Slider._sliderDragData.slider;
-
-			var boundSize = s.getMaximum() - s.getMinimum();
-			var size, pos, reset;
-
-			if (s._orientation == "horizontal") {
-				size = s.element.offsetWidth - s.handle.offsetWidth;
-				pos = e.screenX - Slider._sliderDragData.dx;
-				reset = Math.abs(e.screenY - Slider._sliderDragData.screenY) > 100;
-			}
-			else {
-				size = s.element.offsetHeight - s.handle.offsetHeight;
-				pos = s.element.offsetHeight - s.handle.offsetHeight -
-					(e.screenY - Slider._sliderDragData.dy);
-				reset = Math.abs(e.screenX - Slider._sliderDragData.screenX) > 100;
-			}
-			s.setValue(reset ? Slider._sliderDragData.startValue :
-						s.getMinimum() + boundSize * pos / size);
-			
-			s.onchange && s.onchange(s);
-			
-			return false;
+		var s = Slider._currentInstance;
+		if (s != null) {
+			s._mouseX = e.pageX;
+			s._mouseY = e.pageY;
 		}
-		else {
-			var s = Slider._currentInstance;
-			if (s != null) {
-				var lineEl = Slider.eventHandlers.getLine(e);
-				s._mouseX = e.pageX ; /*+ (lineEl ? s.line.offsetLeft : 0);*/
-				s._mouseY = e.pageY;/* + (lineEl ? s.line.offsetTop : 0);*/
-			}
-		}
-
 	},
 
 	onmouseup:	function (e) {
-		e = Slider.eventHandlers.getEvent(e, this);
 		var s = Slider._currentInstance;
 		var doc = s.document;
-		if (doc.removeEventListener) {
-			doc.removeEventListener("mousemove", Slider.eventHandlers.onmousemove, true);
-			doc.removeEventListener("mouseup", Slider.eventHandlers.onmouseup, true);
-		}
-		else if (doc.detachEvent) {
-			doc.detachEvent("onmousemove", Slider.eventHandlers.onmousemove);
-			doc.detachEvent("onmouseup", Slider.eventHandlers.onmouseup);
-			doc.detachEvent("onlosecapture", Slider.eventHandlers.onmouseup);
-			s.element.releaseCapture();
-		}
-
-		if (Slider._sliderDragData) {	// end drag
-			//s.onchange && s.onchange(s);
-			Slider._sliderDragData = null;
-		} else {
-			s._timer.stop();
-			s._increasing = null;
-		}
-		
+		doc.removeEventListener("mousemove", Slider.eventHandlers.onmousemove, true);
+		doc.removeEventListener("mouseup", Slider.eventHandlers.onmouseup, true);
+		s._timer.stop();
 		s.onchange && s.onchange({"mouse": 1});
-		
 		s.setMoving(0);
-		
 		Slider._currentInstance = null;
 	}
 };
-
-
 
 Slider.prototype.classNameTag = "dynamic-slider-control",
 
@@ -392,19 +160,13 @@ Slider.prototype.setMoving = function(moving) {
 
 Slider.prototype.setOrientation = function (sOrientation) {
 	if (sOrientation != this._orientation) {
-		if (Slider.isSupported && this.element) {
-			// add class name tag to class name
-			this.element.className = this.element.className.replace(this._orientation,
-									sOrientation);
-		}
+		this.element.className = this.element.className.replace(this._orientation, sOrientation);
 		this._orientation = sOrientation;
 		this.recalculate();
-
 	}
 };
 
 Slider.prototype.recalculate = function() {
-	if (!Slider.isSupported || !this.element) return;
 
 	var w = this.element.offsetWidth;
 	var h = this.element.offsetHeight;
@@ -412,8 +174,6 @@ Slider.prototype.recalculate = function() {
 	var hh = this.handle.offsetHeight;
 	var lw = this.line.offsetWidth;
 	var lh = this.line.offsetHeight;
-
-	// this assumes a border-box layout
 
 	if (this._orientation == "horizontal") {
 		this.handle.style.left = (w - hw) * (this.getValue() - this.getMinimum()) /
@@ -423,8 +183,7 @@ Slider.prototype.recalculate = function() {
 		this.line.style.left = 0;
 		this.line.style.width = (w - 2) +"px";
 		this.line.firstChild.style.width = (w - 4) +"px";
-	}
-	else {
+	} else {
 		this.handle.style.left = (w - hw) / 2 + "px";
 		this.handle.style.top = h - hh - (h - hh) * (this.getValue() - this.getMinimum()) /
 			(this.getMaximum() - this.getMinimum()) + "px";
@@ -444,21 +203,13 @@ Slider.prototype.ontimer = function () {
 	var ht = this.handle.offsetTop;
 
 	if (this._orientation == "horizontal") {
-		if(!Slider._sliderDragData) {
-			this.setValue(((this._mouseX - $(this.line.firstChild).offset().left)/this.line.firstChild.offsetWidth)*this.getMaximum());
-			this.onchange && this.onchange({"mouse": 0});
-		}
-	} else {
-		if (this._mouseY > ht + hh &&
-			(this._increasing == null || !this._increasing)) {
-			this.setValue(this.getValue() - this.getBlockIncrement());
-			this._increasing = false;
-		}
-		else if (this._mouseY < ht &&
-			(this._increasing == null || this._increasing)) {
-			this.setValue(this.getValue() + this.getBlockIncrement());
-			this._increasing = true;
-		}
+		this.setValue(((this._mouseX - 
+			(this.line.firstChild.getBoundingClientRect().left + 
+				window.pageXOffset - 
+				document.documentElement.clientLeft)) /
+			this.line.firstChild.offsetWidth)*this.getMaximum());
+
+		this.onchange && this.onchange({"mouse": 0});
 	}
 
 	this._timer.start();
