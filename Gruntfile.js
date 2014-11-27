@@ -1,6 +1,10 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
+            common_sass: {
+                src: [".tmp/sass/*", "app/sass/**"],
+                dest: ".tmp/dest/sass/common.scss"
+            },
             chrome_js: {
                 src: [
                     "vendor/angular/angular.js",
@@ -13,8 +17,28 @@ module.exports = function(grunt) {
                 dest: "chrome/js/app.js"
             },
             chrome_css: {
-                src: ["vendor/slider/css/style.css", "app/css/*"],
+                src: ["vendor/slider/css/style.css", "app/css/*", ".tmp/css/*"],
                 dest: "chrome/css/app.css"
+            }
+        },
+        svgzr: {
+            svg: {
+                options: {
+                    files: {
+                        cwdSvg: 'app/svg/',
+                    },
+                    prefix: 'svg-',
+                    svg: {
+                        destFile: '.tmp/sass/svg.scss'
+                    }
+                }
+            }
+        },
+        sass: {
+            common: {
+                files: {
+                    '.tmp/css/common.css': '.tmp/dest/sass/common.scss'
+                }
             }
         },
         copy: {
@@ -45,7 +69,7 @@ module.exports = function(grunt) {
                   "app/**",
                   "vendor/**"
                 ],
-                tasks: ["copy:chrome", "concat:chrome_js", "concat:chrome_css"]
+                tasks: ["build:chrome"]
             }
         }
     });
@@ -53,11 +77,28 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-svgzr');
+    grunt.loadNpmTasks('grunt-sass');
+
+    grunt.registerTask("common", [
+        "svgzr:svg",
+        "concat:common_sass",
+        "sass:common"
+    ]);
+
+    grunt.registerTask("build:common", [
+        "common",
+        "copy:chrome",
+    ]);
+
+    grunt.registerTask("build:chrome", [
+        "build:common",
+        "concat:chrome_js",
+        "concat:chrome_css"
+    ]);
 
     grunt.registerTask("default", [
-        "copy:chrome",
-        "concat:chrome_js",
-        "concat:chrome_css",
+        "build:chrome",
         "watch:chrome"
     ]);
 }

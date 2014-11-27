@@ -1,0 +1,7 @@
+.logo {
+	@extend .svg-logo;
+	background-size: 100%;
+    width: 25px;
+    height: 25px;
+    margin-left: 25px;
+}

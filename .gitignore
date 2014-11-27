@@ -1,5 +1,4 @@
-/chrome
-/chrome/*
-/node_modules
-/node_modules/*
+chrome
+node_modules
 npm-debug.log
+.tmp
