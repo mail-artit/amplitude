@@ -2,6 +2,8 @@
 
 function Slider(oElement, oInput, sOrientation) {
 
+	var oThis = this;
+
 	this._orientation = sOrientation || "horizontal";
 	this._range = new Range();
 	this._range.setExtent(0);
@@ -32,22 +34,20 @@ function Slider(oElement, oInput, sOrientation) {
 
 	this.input = oInput;
 
-	var oThis = this;
-
 	this._range.onchange = function () {
 		oThis.recalculate();
 		oThis.onchange && oThis.onchange();
 	};
 
-	this.element.onmousedown	= Slider.eventHandlers.onmousedown;
-	this.element.onmouseover	= Slider.eventHandlers.onmouseover;
-	this.element.onmouseout		= Slider.eventHandlers.onmouseout;
+	this.element.onmousedown = Slider.eventHandlers.onmousedown;
+	this.element.onmouseover = Slider.eventHandlers.onmouseover;
+	this.element.onmouseout = Slider.eventHandlers.onmouseout;
 
 	this._timer.ontimer = function () {
 		oThis.ontimer();
 	};
 
-	oThis.recalculate();
+	this.recalculate();
 }
 
 Slider.eventHandlers = {
