@@ -2,7 +2,6 @@
 <html lang="en-us" ng-app="amplitude" ng-controller="AmplitudeController">
 <head>
     <meta charset="utf-8">
-    <title>Amplitude</title>
     <link rel="stylesheet" type="text/css" href="css/app.css">
     <script type="text/javascript" src="js/app.js"></script>
 </head>
@@ -54,9 +53,9 @@
             
             <div slider ng-model="panSlider" class="inline pan-slider" style="width: 76px; height: 20px;"></div>
             
-            <div class="inline button switch off mtop first disabled"><span class="inline"></span><span class="inline">eq</span></div>
+            <div class="inline button switch mtop first disabled"><span class="inline"></span><span class="inline">eq</span></div>
             
-            <div class="inline button switch off mtop disabled"><span class="inline"></span><span class="inline">pl</span></div>
+            <div class="inline button switch mtop disabled"><span class="inline"></span><span class="inline">pl</span></div>
             
             <div class="clearfix"></div>
             
@@ -95,7 +94,7 @@
             
                 <div class="inline button switch mtop off disabled"><span class="inline"></span><span class="inline">shuffle</span></div>
 
-                <div id="sw-repeat" class="inline button switch mtop off"><span class="inline"></span><span class="inline" style="margin-top: 1px; margin-bottom: -1px">&#8635;</span></div>
+                <div ng-click="config.repeat = (config.repeat + 1) % 2" class="inline button switch mtop" ng-class="{active: config.repeat}"><span class="inline"></span><span class="inline" style="margin-top: 1px; margin-bottom: -1px">&#8635;</span></div>
             
                 <a ng-href="{{config.homepage}}" class="inline" target="_blank"><div id="logo" class="logo"></div></a>
             </div>

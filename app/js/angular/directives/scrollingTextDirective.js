@@ -46,7 +46,7 @@ amplitude.directive("scrollingText", function($parse) {
 
       $scope.$watch('model.text', function (text) {
         
-        if(text == null) {
+        if(text === null) {
           text = $scope.model.default;
         } else {
           text = text.trim().replace(/[\x00-\x1F\x7F-\x9F]/gi, "");

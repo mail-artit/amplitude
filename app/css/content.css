@@ -44,7 +44,7 @@ a {
     margin-top: 5px;
     width: 12px;
     height: 12px;
-    -webkit-border-radius: 3px 3px;
+    border-radius: 3px 3px;
     -webkit-app-region: no-drag;
 }
 
@@ -103,7 +103,7 @@ a {
     width: 2px;
     height: 15px;
     background-color: rgb(191,191,141);
-    -webkit-border-radius: 2px;
+    border-radius: 2px;
     -webkit-filter: blur(1px);
     left: 5px;
 }
@@ -148,7 +148,7 @@ a {
     color-stop(1, rgb(66,68,46)));
     height: 10px;
     margin-top: 5px;
-    -webkit-border-radius: 3px 3px;
+    border-radius: 3px 3px;
     border: 1px solid black;
 }
 

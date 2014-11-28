@@ -6,12 +6,68 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		'default': $scope.config.title,
 		'text' : null,
 		'still' : null,
-		'state' : 'paused'
+		'state' : 'paused',
+		'stillTimeout': null
 	};
 
 	$scope.displayPanel = {
 		'state' : 'default',
 		'currentSound' : null
+	};
+
+	$scope.volumeSlider = {
+		'max': 100,
+		'value': 100,
+		'block': 10,
+		'onchange': function(sender) {
+			var val = $scope.volumeSlider.value,
+            	gradVal = Math.floor(120-(120/100*val)),
+            	gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
+        
+        	$scope.volumeSlider.background = gradient;
+        	$scope.config.volume = val;
+
+	        if(sender) {
+	            clearTimeout($scope.scrollingText.stillTimeout);
+	            $scope.scrollingText.still = "volume: "+val+"%";
+	            $scope.$apply();
+	            $scope.scrollingText.stillTimeout = setTimeout(function() {
+	                $scope.scrollingText.still = null;
+	                $scope.$apply();
+	            }, 1000);
+	        }
+		}
+	};
+
+	$scope.panSlider = {
+		'max': 100,
+		'value': 50,
+		'block': 10,
+		'stickTo': [50,15],
+		'onchange': function(sender) {
+			var val = $scope.panSlider.value,
+	            gradVal = Math.floor(120+-120*(50-val)*(val > 50 ? -1 : 1)/50),
+	            gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
+
+            $scope.config.pan = val;
+        	$scope.panSlider.background = gradient;
+        
+	        if(sender) {
+	            clearTimeout($scope.scrollingText.stillTimeout);
+	            $scope.scrollingText.still = "balance: " + 
+	                (val === 50 ? 
+	                    "center" : 
+	                    (val < 50 ?
+	                        (Math.floor((50 - val)/50*100) + "% left") :
+	                        (Math.floor((val-50)/50*100) + "% right")
+	                            ));
+	            $scope.$apply();
+	            $scope.scrollingText.stillTimeout = setTimeout(function() {
+	                $scope.scrollingText.still = null;
+	                $scope.$apply();
+	            }, 1000);
+	        }
+		}
 	};
 
 	$scope.kbps = '\u00A0';

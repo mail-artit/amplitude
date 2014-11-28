@@ -1,12 +1,14 @@
 amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, $scope) {
 	
 	$scope.config = {
-		title : 'Amplitude',
-		homepage : 'https://artit.hu'
+		title: 'Amplitude',
+		homepage: 'https://artit.hu',
+        volume: 100,
+        pan: 50,
+        repeat: 0
 	};
 
 	$scope.currentSound = null;
-    
     $scope.audioContext = new AudioContext();
 
     $scope.makeSound = function(tags) {
@@ -28,18 +30,18 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
 
 	$scope.constructCurrentSound = function() {
         
-        $scope.currentSound.audio = new Audio();
+        var audio = new Audio();
         
-        $scope.currentSound.audio.addEventListener("ended", function() {
-            /*if($("#sw-repeat").hasClass("active")) {
-                currentSound.audio.currentTime = 0;
-                currentSound.currentTime = 0;
+        audio.addEventListener("ended", function() {
+            if($scope.config.repeat) {
+                $scope.currentSound.audio.currentTime = 0;
+                $scope.currentSound.currentTime = 0;
             } else {
-                destructCurrentSound();
-            }*/
+                $scope.destructCurrentSound();
+            }
         });
         
-        $scope.currentSound.audio.addEventListener("canplaythrough", function() {
+        audio.addEventListener("canplaythrough", function() {
             if($scope.currentSound && $scope.currentSound.audio) {
                 $scope.currentSound.audio.play();
                 $scope.$broadcast("canplaythrough");
@@ -49,7 +51,7 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
             }
         });
         
-        $scope.currentSound.audio.addEventListener("timeupdate",function (){
+        audio.addEventListener("timeupdate",function (){
             if($scope.currentSound && $scope.currentSound.audio) {
                 $scope.currentSound.duration = $scope.currentSound.audio.duration;
                 $scope.currentSound.currentTime = $scope.currentSound.audio.currentTime;
@@ -60,9 +62,9 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
         $scope.currentSound.sampleRate = $scope.audioContext.sampleRate;
         $scope.currentSound.autoplay = false;
         
-        $scope.currentSound.audio.src = $scope.currentSound.src;
+        audio.src = $scope.currentSound.src;
 
-        $scope.currentSound.source = $scope.audioContext.createMediaElementSource($scope.currentSound.audio);
+        $scope.currentSound.source = $scope.audioContext.createMediaElementSource(audio);
         
         $scope.currentSound.gain = $scope.audioContext.createGain();
         $scope.currentSound.panner = $scope.audioContext.createPanner();
@@ -72,14 +74,15 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
         $scope.currentSound.source.connect($scope.currentSound.analyser);
         
         $scope.currentSound.gain.connect($scope.currentSound.panner);
-        
-        //$scope.currentSound.gain.gain.value = volumeSlider.getValue() / 100;
-        //panSlider.onchange(null);
+        $scope.currentSound.gain.gain.value = $scope.config.volume / 100;
         
         $scope.currentSound.panner.connect($scope.audioContext.destination);
-        
+        utils.pan($scope.config.pan, $scope.currentSound.panner);
+
         $scope.currentSound.analyser.smoothingTimeConstant = 0.7;
         $scope.currentSound.analyser.fftSize = 2048;
+
+        $scope.currentSound.audio = audio;
     };
 
     $scope.destructCurrentSound = function() {
@@ -107,5 +110,13 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
 	        });
 		}
 	};
+
+    $scope.$watch('config.volume', function(volume) {
+        $scope.currentSound && ($scope.currentSound.gain.gain.value = volume / 100);
+    });
+
+    $scope.$watch('config.pan', function(pan) {
+        $scope.currentSound && utils.pan(pan, $scope.currentSound.panner);
+    });
 
 }]);
