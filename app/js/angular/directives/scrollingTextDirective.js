@@ -1,6 +1,13 @@
 amplitude.directive("scrollingText", function($parse) {
 
-  var _str = "",
+  return {
+    restrict: 'A',
+    scope: { 
+      model: "=ngModel"
+    },
+    link: function($scope, $element, $attributes) {
+
+      var _str = "",
         _index = 0,
         _paused = 1,
         _tickTime = 0,
@@ -18,14 +25,6 @@ amplitude.directive("scrollingText", function($parse) {
             }
 
         };
-
-
-  return {
-    restrict: 'A',
-    scope: { 
-      model: "=ngModel"
-    },
-    link: function($scope, $element, $attributes) {
 
       var tick = function () {
           
