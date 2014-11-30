@@ -1,96 +1,104 @@
-amplitude.directive("scrollingText", function($parse) {
 
-  return {
-    restrict: 'A',
-    scope: { 
-      model: "=ngModel"
-    },
-    link: function($scope, $element, $attributes) {
+/*jslint browser: true*/
+/*global angular, amplitude*/
 
-      var _str = "",
-        _index = 0,
-        _paused = 1,
-        _tickTime = 0,
-        _timer = null,
-        _result = null,
-        _labelStill = null,
-        _label = null,
+(function () {
 
-        calcResult = function() {
+    'use strict';
 
-            _result = _str.substr(_index % _str.length, 31);
+    amplitude.directive("scrollingText", function () {
 
-            if(_result.length < 31) {
-              _result = _result + new Array(Math.floor((31 - _result.length + 1) / _result.length + 3)).join(_str).substr(0, 31 - _str.length + _index);
+        return {
+            restrict: 'A',
+            scope: {
+                model: "=ngModel"
+            },
+            link: function ($scope, $element) {
+
+                var str = "",
+                    index = 0,
+                    paused = 1,
+                    timer = null,
+                    result = null,
+                    labelStill = null;
+
+                function calcResult() {
+
+                    var dup = null;
+
+                    result = str.substr(index % str.length, 31);
+
+                    if (result.length < 31) {
+                        dup = new Array(Math.floor((31 - result.length + 1) / result.length + 3)).join(str);
+                        result = result + dup.substr(0, 31 - str.length + index);
+                    }
+
+                }
+
+                function tick() {
+
+                    calcResult();
+
+                    if (labelStill === null) {
+                        $element.html(result);
+                    } else {
+                        $element.html(labelStill);
+                    }
+
+                    index += 1;
+
+                    if (!paused) {
+                        timer = window.setTimeout(tick, 100);
+                    }
+
+                }
+
+                $scope.$watch('model.text', function (text) {
+
+                    if (text === null) {
+                        text = $scope.model.default;
+                    } else {
+                        text = text.trim().replace(/[\x00-\x1F\x7F-\x9F]/gi, '');
+                        $element.html(text);
+                    }
+
+                    if (str !== text + ' *** ') {
+                        str = text + ' *** ';
+                    }
+
+                });
+
+                $scope.$watch('model.still', function (still) {
+                    if (paused) {
+                        if (still === null) {
+                            $element.html($scope.model.default);
+                        } else {
+                            $element.html(still);
+                        }
+                    }
+                    labelStill = still;
+                });
+
+                $scope.$watch('model.state', function (state) {
+                    switch (state) {
+                    case "paused":
+                        paused = 1;
+                        window.clearTimeout(timer);
+                        break;
+                    case "stopped":
+                        index = 0;
+                        paused = 1;
+                        window.clearTimeout(timer);
+                        break;
+                    case "scrolling":
+                        if (paused) {
+                            paused = 0;
+                            tick();
+                        }
+                        break;
+                    }
+                });
             }
-
         };
-
-      var tick = function () {
-          
-          calcResult();
-          
-          if(_labelStill === null) {
-            $element.html(_result);
-          } else {
-            $element.html(_labelStill);
-          }
-
-          _index += 1;
-
-          if(!_paused) {
-              _timer = setTimeout(tick, 100);
-          }
-      };
-
-      $scope.$watch('model.text', function (text) {
-        
-        if(text === null) {
-          text = $scope.model.default;
-        } else {
-          text = text.trim().replace(/[\x00-\x1F\x7F-\x9F]/gi, "");
-          $element.html(text);
-        }
-
-        if(_str !== text + " *** ") {
-          _str = text + " *** ";
-        }
-
-      });
-
-      $scope.$watch('model.still', function (still) {
-        if(_paused) {
-          if(still === null) {
-            $element.html($scope.model.default);
-          } else {
-            $element.html(still);
-          }
-        } 
-        _labelStill = still;
-      });
-
-      $scope.$watch('model.state', function (state) {
-        switch(state) {
-          case "paused": {
-            _paused = 1;
-            clearTimeout(_timer);
-            break;
-          }
-          case "stopped": {
-            _index = 0;
-            _paused = 1;
-            clearTimeout(_timer);
-            break;
-          }
-          case "scrolling": {
-            if(_paused) {
-                _paused = 0;
-                tick();
-            }
-            break;
-          }
-        }
-      });
-    }
-  };
-});
+    });
+}());
