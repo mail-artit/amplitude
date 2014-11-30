@@ -5,7 +5,8 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
 		homepage: 'https://artit.hu',
         volume: 100,
         pan: 50,
-        repeat: 0
+        repeat: 0,
+        playing: 0
 	};
 
 	$scope.currentSound = null;
@@ -33,6 +34,7 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
         var audio = new Audio();
         
         audio.addEventListener("ended", function() {
+            console.log('ended');
             if($scope.config.repeat) {
                 $scope.currentSound.audio.currentTime = 0;
                 $scope.currentSound.currentTime = 0;
@@ -44,10 +46,8 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
         audio.addEventListener("canplaythrough", function() {
             if($scope.currentSound && $scope.currentSound.audio) {
                 $scope.currentSound.audio.play();
+                $scope.config.playing = 1;
                 $scope.$broadcast("canplaythrough");
-                //ScrollingLabel.start();
-                //CanvasRenderer.start();
-                //$("#range-slider").find(".handle").removeClass("hidden");
             }
         });
         
@@ -91,6 +91,7 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
             $scope.currentSound.audio.pause();
             $scope.currentSound.audio = null;
         }
+        $scope.config.playing = 0;
         $scope.$broadcast("currentSoundDestructed");
     };
 

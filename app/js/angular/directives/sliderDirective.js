@@ -29,6 +29,7 @@ amplitude.directive("slider", function($parse) {
       		});
 
       		$scope.$watch('model.block', function (block) {
+            if(!block) return;
         		slider.setBlockIncrement(block);
       		});
       		
@@ -41,6 +42,16 @@ amplitude.directive("slider", function($parse) {
       			if(!stickTo) return;
       			slider.setStickTo(stickTo[0],stickTo[1]);
       		});
+
+          $scope.$watch('model.handler', function (handler) {
+            if(!handler && handler !== 0) return;
+            var h =  $element[0].children[1];
+            if(!handler) {
+              h.style.display = 'none';
+            } else {
+              h.style.display = 'block';
+            }
+          });
 		}
 	}
 });

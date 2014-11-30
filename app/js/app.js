@@ -517,7 +517,6 @@ $(function() {
         if(sender) {
             clearTimeout(sliderTimer);
             
-            
             ScrollingLabel.setLabelStill("balance: " + 
                 (val === 50 ? 
                     "center" : 
