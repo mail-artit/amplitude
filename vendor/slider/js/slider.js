@@ -83,7 +83,7 @@ Slider.eventHandlers = {
 	}
 };
 
-Slider.prototype.classNameTag = "dynamic-slider-control",
+Slider.prototype.classNameTag = "slider";
 
 Slider.prototype.setValue = function (v) {
 	var mr, mx;

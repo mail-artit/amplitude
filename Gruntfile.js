@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 dest: "chrome/js/app.js"
             },
             chrome_css: {
-                src: ["vendor/slider/css/style.css", "app/css/*", ".tmp/css/*"],
+                src: ["app/css/*", ".tmp/css/*"],
                 dest: "chrome/css/app.css"
             }
         },

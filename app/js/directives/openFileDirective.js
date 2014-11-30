@@ -10,7 +10,7 @@
         return {
             restrict: 'A',
             scope: {
-                model: "=ngModel"
+                model: '=ngModel'
             },
             link: function ($scope, $element) {
                 $element.on("change", function () {
