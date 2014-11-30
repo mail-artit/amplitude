@@ -158,6 +158,14 @@ Slider.prototype.setMoving = function(moving) {
 	this._moving = moving;
 };
 
+Slider.prototype.setDisabled = function(disabled) {
+	this._disabled = disabled;
+}
+
+Slider.prototype.isDisabled = function() {
+	return this._disabled;
+}
+
 Slider.prototype.setOrientation = function (sOrientation) {
 	if (sOrientation != this._orientation) {
 		this.element.className = this.element.className.replace(this._orientation, sOrientation);
@@ -167,7 +175,6 @@ Slider.prototype.setOrientation = function (sOrientation) {
 };
 
 Slider.prototype.recalculate = function() {
-
 	var w = this.element.offsetWidth;
 	var h = this.element.offsetHeight;
 	var hw = this.handle.offsetWidth;
@@ -203,13 +210,15 @@ Slider.prototype.ontimer = function () {
 	var ht = this.handle.offsetTop;
 
 	if (this._orientation == "horizontal") {
-		this.setValue(((this._mouseX - 
-			(this.line.firstChild.getBoundingClientRect().left + 
-				window.pageXOffset - 
-				document.documentElement.clientLeft)) /
-			this.line.firstChild.offsetWidth)*this.getMaximum());
+		if(!this.isDisabled()) {
+			this.setValue(((this._mouseX - 
+				(this.line.firstChild.getBoundingClientRect().left + 
+					window.pageXOffset - 
+					document.documentElement.clientLeft)) /
+				this.line.firstChild.offsetWidth)*this.getMaximum());
 
-		this.onchange && this.onchange({"mouse": 0});
+			this.onchange && this.onchange({"mouse": 0});
+		}
 	}
 
 	this._timer.start();

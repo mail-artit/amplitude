@@ -8,7 +8,8 @@ amplitude.directive("slider", function($parse) {
 		'link': function($scope, $element, $attributes)  {
 
 			var data = null,
-				slider = null;
+				slider = null,
+        _setWhileSliding = 1;
 
 			data = document.createElement('input'),
         	slider = new Slider($element[0], data);
@@ -25,12 +26,9 @@ amplitude.directive("slider", function($parse) {
       		});
 
       		$scope.$watch('model.value', function (value) {
-        		slider.setValue(value);
-      		});
-
-      		$scope.$watch('model.block', function (block) {
-            if(!block) return;
-        		slider.setBlockIncrement(block);
+            if(_setWhileSliding || !slider.isMoving()) {
+        		  slider.setValue(value);
+            }
       		});
       		
       		$scope.$watch('model.background', function (background) {
@@ -45,12 +43,20 @@ amplitude.directive("slider", function($parse) {
 
           $scope.$watch('model.handler', function (handler) {
             if(!handler && handler !== 0) return;
-            var h =  $element[0].children[1];
+            var h = $element[0].children[1];
             if(!handler) {
-              h.style.display = 'none';
+              h.style.visibility = 'hidden';
+              slider.setDisabled(1);
             } else {
-              h.style.display = 'block';
+              h.style.visibility = 'visible';
+              slider.setDisabled(0);
             }
+            slider.setValue(0);
+          });
+
+          $scope.$watch('model.setWhileSliding', function (setWhileSliding) {
+            if(!setWhileSliding && setWhileSliding !== 0) return;
+            _setWhileSliding = setWhileSliding;
           });
 		}
 	}

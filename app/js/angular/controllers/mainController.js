@@ -18,7 +18,6 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	$scope.volumeSlider = {
 		'max': 100,
 		'value': 100,
-		'block': 10,
 		'onchange': function(sender) {
 			var val = $scope.volumeSlider.value,
             	gradVal = Math.floor(120-(120/100*val)),
@@ -42,7 +41,6 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	$scope.panSlider = {
 		'max': 100,
 		'value': 50,
-		'block': 10,
 		'stickTo': [50,15],
 		'onchange': function(sender) {
 			var val = $scope.panSlider.value,
@@ -74,6 +72,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		'max': 0,
 		'value': 0,
 		'handler': 0,
+		'setWhileSliding': 0,
 		'onchange': function(sender) {
 
 			if(!$scope.currentSound || !$scope.currentSound.audio) return;
@@ -82,7 +81,6 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 
 	        if(sender && sender.mouse) {
 	            $scope.currentSound.audio.currentTime = val;
-	            $scope.currentSound.currentTime = val;
 	            clearTimeout($scope.scrollingText.stillTimeout);
 	            $scope.scrollingText.still = null;
 	        } else if(sender) {
@@ -93,7 +91,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	                "/" +
 	                utils.secondsToString($scope.currentSound.audio.duration, ":") +
 	                " " +
-	                Math.floor(val/$scope.currentSound.audio.currentTime*100)
+	                Math.floor(val/$scope.currentSound.audio.duration*100)
 	                + "%";
 
 	            $scope.scrollingText.stillTimeout = setTimeout(function() {
@@ -109,10 +107,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 
 	$scope.$on('timeupdate', function() {
 		$scope.scrollingText.text = $scope.currentSound.getScrollingText();
-		//if(!durationSlider.isMoving()) {
-            $scope.durationSlider.value = $scope.currentSound.audio.currentTime*1000;
-        //}
-        
+        $scope.durationSlider.value = $scope.currentSound.audio.currentTime*1000;
         $scope.durationSlider.max = $scope.currentSound.audio.duration*1000;
         $scope.$apply();
 	});
@@ -126,14 +121,15 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		$scope.channels = sound.source.channelCount;
 		$scope.displayPanel.currentSound = sound;
 		$scope.displayPanel.state = "playing";
+		$scope.durationSlider.handler = 1;
 		$scope.$apply();
 	});
 
 	$scope.$on('currentSoundDestructed', function() {
 		$scope.displayPanel.currentSound = null;
 		$scope.displayPanel.state = "default";
-		$scope.durationSlider.value = 0;
-		$scope.$apply();
+		$scope.durationSlider.handler = 0;
+		$scope.scrollingText.still = null;
 	});
 
 	$window.onfocus = function() {
@@ -175,7 +171,4 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
         }
     };
 
-    $scope.$watch('config.playing', function(playing) {
-    	$scope.durationSlider.handler = playing;
-    });
 }]);
