@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                     "vendor/slider/js/timer.js",
                     "vendor/slider/js/slider.js",
                     "vendor/id3/id3.min.js",
-                    "app/js/angular/**"
+                    "app/js/**"
                 ],
                 dest: "chrome/js/app.js"
             },

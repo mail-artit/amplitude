@@ -44,7 +44,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		'stickTo': [50,15],
 		'onchange': function(sender) {
 			var val = $scope.panSlider.value,
-	            gradVal = Math.floor(120+-120*(50-val)*(val > 50 ? -1 : 1)/50),
+	            gradVal = Math.floor(120-120*(50-val)*(val > 50 ? -1 : 1)/50),
 	            gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
 
             $scope.config.pan = val;
