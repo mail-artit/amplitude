@@ -40,7 +40,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	};
 
 	$scope.panSlider = {
-		'max': 0,
+		'max': 100,
 		'value': 50,
 		'block': 10,
 		'stickTo': [50,15],
@@ -71,7 +71,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	};
 
 	$scope.durationSlider = {
-		'max': 100,
+		'max': 0,
 		'value': 0,
 		'handler': 0,
 		'onchange': function(sender) {
