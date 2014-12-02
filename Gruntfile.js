@@ -1,43 +1,39 @@
 module.exports = function(grunt) {
     grunt.initConfig({
-        concat: {
-            common_sass: {
-                src: [".tmp/sass/*", "app/sass/**"],
-                dest: ".tmp/dest/sass/common.scss"
-            },
-            chrome_js: {
-                src: [
-                    "vendor/angular/angular.js",
-                    "vendor/slider/js/range.js",
-                    "vendor/slider/js/timer.js",
-                    "vendor/slider/js/slider.js",
-                    "vendor/id3/id3.min.js",
-                    "app/js/**"
-                ],
-                dest: "chrome/js/app.js"
-            },
-            chrome_css: {
-                src: ["app/css/*", ".tmp/css/*"],
-                dest: "chrome/css/app.css"
-            }
-        },
         svgzr: {
             svg: {
                 options: {
                     files: {
-                        cwdSvg: 'app/svg/',
+                        cwdSvg: 'app/svg',
                     },
                     prefix: 'svg-',
                     svg: {
-                        destFile: '.tmp/sass/svg.scss'
+                        destFile: '.tmp/svg.scss'
                     }
                 }
+            }
+        },
+        concat: {
+            common_sass: {
+                src: [".tmp/svg.scss", "app/**/*.scss"],
+                dest: ".tmp/all.scss"
+            },
+            chrome_js: {
+                src: [
+                    "vendor/**/*.js",
+                    "app/**/*.js"
+                ],
+                dest: "chrome/app.js"
+            },
+            chrome_css: {
+                src: ["legacy/content.css", ".tmp/all.css"],
+                dest: "chrome/app.css"
             }
         },
         sass: {
             common: {
                 files: {
-                    '.tmp/css/common.css': '.tmp/dest/sass/common.scss'
+                    '.tmp/all.css': '.tmp/all.scss'
                 }
             }
         },
@@ -51,15 +47,9 @@ module.exports = function(grunt) {
                 },
                 {
                     expand: true,
-                    cwd: "app/html",
-                    src: ["**"],
+                    cwd: "app/controllers/main",
+                    src: ["**.html"],
                     dest: "chrome/"
-                },
-                {
-                    expand: true,
-                    cwd: "app/images",
-                    src: ["**"],
-                    dest: "chrome/images"
                 }]
             }
         },
@@ -86,13 +76,11 @@ module.exports = function(grunt) {
         "sass:common"
     ]);
 
-    grunt.registerTask("build:common", [
-        "common",
-        "copy:chrome",
-    ]);
+    grunt.registerTask("build:common", []);
 
     grunt.registerTask("build:chrome", [
-        "build:common",
+        "common",
+        "copy:chrome",
         "concat:chrome_js",
         "concat:chrome_css"
     ]);
