@@ -1,0 +1,9 @@
+-refactoring folders
+-refactoring slider
+-refactoring css to sass
+-service for managing audio and events
+-remove parent scope
+-vendorService for chrome 
+-reafactor directories
+-publish to github
+-publish to appstore
