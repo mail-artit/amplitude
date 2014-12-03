@@ -71,7 +71,7 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	$scope.durationSlider = {
 		'max': 0,
 		'value': 0,
-		'handler': 0,
+		'disabled': 1,
 		'setWhileSliding': 0,
 		'onchange': function(sender) {
 
@@ -121,14 +121,14 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		$scope.channels = sound.source.channelCount;
 		$scope.displayPanel.currentSound = sound;
 		$scope.displayPanel.state = "playing";
-		$scope.durationSlider.handler = 1;
+		$scope.durationSlider.disabled = 0;
 		$scope.$apply();
 	});
 
 	$scope.$on('currentSoundDestructed', function() {
 		$scope.displayPanel.currentSound = null;
 		$scope.displayPanel.state = "default";
-		$scope.durationSlider.handler = 0;
+		$scope.durationSlider.disabled = 1;
 		$scope.scrollingText.still = null;
 	});
 

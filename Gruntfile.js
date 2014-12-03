@@ -1,3 +1,5 @@
+var path = require("path");
+
 module.exports = function(grunt) {
     grunt.initConfig({
         svgzr: {
@@ -13,6 +15,15 @@ module.exports = function(grunt) {
                 }
             }
         },
+        ngtemplates: {
+            amplitude: {
+                src: 'app/**/*.tpl.html',
+                dest: '.tmp/templates.js',
+                options: {
+                    url: function (url) { return path.basename(url); }
+                }
+            }
+        },
         concat: {
             common_sass: {
                 src: [".tmp/svg.scss", "app/**/*.scss"],
@@ -21,7 +32,8 @@ module.exports = function(grunt) {
             chrome_js: {
                 src: [
                     "vendor/**/*.js",
-                    "app/**/*.js"
+                    "app/**/*.js",
+                    ".tmp/templates.js"
                 ],
                 dest: "chrome/app.js"
             },
@@ -48,7 +60,7 @@ module.exports = function(grunt) {
                 {
                     expand: true,
                     cwd: "app/controllers/main",
-                    src: ["**.html"],
+                    src: ["main.html"],
                     dest: "chrome/"
                 }]
             }
@@ -69,11 +81,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-svgzr');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-angular-templates');
 
     grunt.registerTask("common", [
         "svgzr:svg",
         "concat:common_sass",
-        "sass:common"
+        "sass:common",
+        "ngtemplates:amplitude"
     ]);
 
     grunt.registerTask("build:common", []);

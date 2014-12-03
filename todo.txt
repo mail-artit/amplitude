@@ -1,4 +1,3 @@
--refactoring slider
 -refactoring css to sass
 -service for managing audio and events
 -remove parent scope

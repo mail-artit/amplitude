@@ -5,3 +5,50 @@
     height: 25px;
     margin-left: 25px;
 }
+
+.pan-slider {
+	.slider {
+		margin-left: 3px;
+	}
+}
+
+.duration-slider {
+
+	.slider.horizontal {
+
+		margin-top: 8px;
+		margin-left: 8px;
+		margin-right: 8px;
+
+		.line {
+			height: 22px;
+
+			div {
+				height: 20px;
+			    background: transparent;
+			    background-color: rgba(0,0,0,0.1);
+			    border-radius: 0;
+			}
+		}
+
+		.handle {
+			width: 50px;
+		    height: 11px;
+		    border-radius: 0;
+		    border: 5px solid rgb(191,191,59);
+		    background: transparent;
+		    background-color: rgb(250,247,147);
+		    -webkit-box-shadow: none;
+		}
+
+		.handle:after {
+			background: transparent;
+		    background-color: rgb(191,191,59);
+		    width: 38px;
+		    height: 5px;
+		    margin-left: 2px;
+		}
+
+	}
+
+}

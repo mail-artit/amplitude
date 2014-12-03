@@ -52,43 +52,5 @@
 			background: -webkit-linear-gradient(left, black 0%, black 10%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 45%, black 45%, black 55%, rgba(0,0,0,0) 55%, rgba(0,0,0,0) 90%, black 90%, black 100%);
 		}
 
-		/** TODO: move to main.scss */
-		&.pan-slider {
-    		margin-left: 3px;
-		}
-
-		&.duration-slider {
-			margin-top: 8px;
-    		margin-left: 8px;
-
-    		.line {
-    			height: 22px;
-
-    			div {
-    				height: 20px;
-				    background: transparent;
-				    background-color: rgba(0,0,0,0.1);
-				    border-radius: 0;
-    			}
-    		}
-
-    		.handle {
-    			width: 50px;
-			    height: 11px;
-			    border-radius: 0;
-			    border: 5px solid rgb(191,191,59);
-			    background: transparent;
-			    background-color: rgb(250,247,147);
-			    -webkit-box-shadow: none;
-    		}
-
-    		.handle:after {
-    			background: transparent;
-			    background-color: rgb(191,191,59);
-			    width: 38px;
-			    height: 5px;
-			    margin-left: 2px;
-    		}
-    	}
 	}
 }
