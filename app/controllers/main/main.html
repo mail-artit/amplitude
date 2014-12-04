@@ -10,21 +10,21 @@
         
         <div class="section-header">
         
-            <div class="inline section-header-logo">&#9776;</div>
+            <div class="section-header-menu">&#9776;</div>
             
-            <div class="inline section-header-spacer section-header-spacer-amplitude"></div>
+            <div class="section-header-spacer-amplitude"></div>
             
-            <div class="inline section-header-title" ng-bind="config.title"></div>
+            <div class="section-header-title" ng-bind="config.title"></div>
             
-            <div class="inline section-header-spacer section-header-spacer-amplitude"></div>
+            <div class="section-header-spacer-amplitude"></div>
            
-            <div id="h-minimize" class="inline section-header-icon section-header-minimize"></div>
+            <div class="section-header-minimize"></div>
             
-            <div class="inline section-header-icon section-header-windowshade"></div>
+            <div class="section-header-windowshade"></div>
             
-            <div id="h-close" class="inline section-header-icon section-header-close">
-                <div class="cross cross1"></div>
-                <div class="cross cross2"></div>
+            <div class="section-header-close">
+                <div class="cross1"></div>
+                <div class="cross2"></div>
             </div>
             
         </div>
@@ -33,70 +33,68 @@
         
             <canvas display-panel ng-model="displayPanel" class="fft-canvas" width="153" height="63"></canvas>
             
-            <div scrolling-text ng-model="scrollingText" class="inline label scrolling-label"></div>
+            <div scrolling-text ng-model="scrollingText" class="scrolling-text"></div>
             
-            <div ng-bind="kbps" class="inline label kbps-label"></div>
+            <div ng-bind="kbps" class="kbps-label"></div>
             
-            <div class="inline text">kbps</div>
+            <div class="text">kbps</div>
             
-            <div ng-bind="khz" class="inline label khz-label"></div>
+            <div ng-bind="khz" class="khz-label"></div>
             
-            <div class="inline text">kHz</div>
+            <div class="text">kHz</div>
             
-            <div class="inline khz-spacer"></div>
+            <div class="khz-spacer"></div>
             
-            <div class="inline mono-label" ng-class="{active : channels === 1}">mono</div>
-            
-            <div class="inline stereo-label" ng-class="{active : channels > 1}">stereo</div>
+            <div class="mono-label" ng-class="{active : channels === 1}">mono</div>
+
+            <div class="stereo-label" ng-class="{active : channels > 1}">stereo</div>
            
-            <slider ng-model="volumeSlider" class="inline" style="width: 121px; height: 20px;"></slider>
+            <slider ng-model="volumeSlider" class="volume-slider"></slider>
             
-            <slider ng-model="panSlider" class="inline pan-slider" style="width: 76px; height: 20px;"></slider>
+            <slider ng-model="panSlider" class="pan-slider"></slider>
             
-            <div class="inline button switch mtop first disabled"><span class="inline"></span><span class="inline">eq</span></div>
+            <div class="switch first disabled"><span></span><span class="inline">eq</span></div>
             
-            <div class="inline button switch mtop disabled"><span class="inline"></span><span class="inline">pl</span></div>
+            <div class="switch disabled"><span></span><span class="inline">pl</span></div>
             
-            <div class="clearfix"></div>
-            
-            <slider ng-model="durationSlider" class="duration-slider" style="width:  442px; height: 22px;"></slider>
+            <slider ng-model="durationSlider" class="duration-slider"></slider>
             
             <div class="buttons">
             
-                <div class="inline button prev disabled">
+                <div class="prev-button disabled">
                     <span class="line"></span>
                     <span class="left-arrow"></span>
                 </div>
                 
-                <div ng-click="play()" class="inline button play">
+                <div ng-click="play()" class="play-button">
                     <span class="right-arrow"></span>
                 </div>
                 
-                <div ng-click="pause()" class="inline button pause">
+                <div ng-click="pause()" class="pause-button">
                     <span class="line1"></span>
                     <span class="line2"></span>
                 </div>
                 
-                <div ng-click="stop()" class="inline button stop">
+                <div ng-click="stop()" class="stop-button">
                     <span class="square"></span>
                 </div>
                 
-                <div class="inline button next disabled">
+                <div class="next-button disabled">
                     <span class="right-arrow"></span>
                     <span class="line"></span>
                 </div>
                 
-                <div class="inline button open">
+                <div class="open-button">
                     <span class="up-arrow"></span>
                     <span class="line"></span>
-                    <input open-file ng-model="openFile" type="file" id="open" accept="audio/mp3"/>
+                    <input open-file ng-model="openFile" type="file" accept="audio/mp3"/>
                 </div>
             
-                <div class="inline button switch mtop off disabled"><span class="inline"></span><span class="inline">shuffle</span></div>
+                <div class="switch disabled"><span></span><span>shuffle</span></div>
 
-                <div ng-click="config.repeat = (config.repeat + 1) % 2" class="inline button switch mtop" ng-class="{active: config.repeat}"><span class="inline"></span><span class="inline" style="margin-top: 1px; margin-bottom: -1px">&#8635;</span></div>
+                <div ng-click="config.repeat = (config.repeat + 1) % 2" class="switch" ng-class="{active: config.repeat}"><span></span><span>&#8635;</span></div>
             
-                <a ng-href="{{config.homepage}}" class="inline" target="_blank"><div id="logo" class="logo"></div></a>
+                <a ng-href="{{config.homepage}}" target="_blank"><div class="logo"></div></a>
             </div>
         </div>
     </section>

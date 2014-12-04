@@ -35,11 +35,11 @@ module.exports = function(grunt) {
                     "app/**/*.js",
                     ".tmp/templates.js"
                 ],
-                dest: "chrome/app.js"
+                dest: "chrome-pkg/app.js"
             },
             chrome_css: {
-                src: ["legacy/content.css", ".tmp/all.css"],
-                dest: "chrome/app.css"
+                src: [".tmp/all.css"],
+                dest: "chrome-pkg/app.css"
             }
         },
         sass: {
@@ -53,23 +53,24 @@ module.exports = function(grunt) {
             chrome: {
                 files: [{
                     expand: true,
-                    cwd: "app/chrome",
+                    cwd: "chrome-app",
                     src: ["**"],
-                    dest: "chrome/"
+                    dest: "chrome-pkg/"
                 },
                 {
                     expand: true,
                     cwd: "app/controllers/main",
                     src: ["main.html"],
-                    dest: "chrome/"
+                    dest: "chrome-pkg/"
                 }]
             }
         },
         watch: {
             chrome: {
                 files: [
-                  "app/**",
-                  "vendor/**"
+                    "chrome-app/**",
+                    "app/**",
+                    "vendor/**"
                 ],
                 tasks: ["build:chrome"]
             }

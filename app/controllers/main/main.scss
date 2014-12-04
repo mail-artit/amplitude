@@ -1,54 +1,316 @@
-.logo {
-	@extend .svg-logo;
-	background-size: 100%;
-    width: 25px;
-    height: 25px;
-    margin-left: 25px;
-}
+.section-content {
 
-.pan-slider {
-	.slider {
+
+	.logo {
+		@extend .svg-logo;
+		@extend .inline;
+		background-size: 100%;
+	    width: 25px;
+	    height: 25px;
+	    margin-left: 25px;
+	}
+
+	.volume-slider {
+		@extend .inline;
+		@extend .slider-margin;
+		margin-top: 2px;
+		width: 121px;
+		height: 20px;
+	}
+
+	.pan-slider {
+		@extend .volume-slider;
+		width: 76px;
+		height: 20px;
 		margin-left: 3px;
 	}
-}
 
-.duration-slider {
+	.duration-slider {
+		width:  442px;
+		height: 22px;
+		.slider.horizontal {
 
-	.slider.horizontal {
+			margin-top: 8px;
+			margin-left: 8px;
+			margin-right: 8px;
 
-		margin-top: 8px;
-		margin-left: 8px;
-		margin-right: 8px;
+			.line {
+				height: 22px;
 
-		.line {
-			height: 22px;
+				div {
+					height: 20px;
+				    background: transparent;
+				    background-color: rgba(0,0,0,0.1);
+				    border-radius: 0;
+				}
+			}
 
-			div {
-				height: 20px;
-			    background: transparent;
-			    background-color: rgba(0,0,0,0.1);
+			.handle {
+				width: 50px;
+			    height: 11px;
 			    border-radius: 0;
+			    border: 5px solid rgb(191,191,59);
+			    background: transparent;
+			    background-color: rgb(250,247,147);
+			    -webkit-box-shadow: none;
+			}
+
+			.handle:after {
+				background: transparent;
+			    background-color: rgb(191,191,59);
+			    width: 38px;
+			    height: 5px;
+			    margin-left: 2px;
+			}
+
+		}
+
+	}
+
+	.fft-canvas {
+	    margin-left: 7px;
+	    margin-right: 10px;
+	    margin-top: 10px;
+	    float: left;
+	    border: 3px groove rgb(22,26,35);
+	    background-color: #000000;
+	}
+
+	.label {
+		@extend .inline;
+	    background-color: black;
+	    color: #00AA00;
+	    border: 3px groove rgb(22,26,35);
+	    text-transform: uppercase;
+	    line-height: 16px;
+	    font-size: 14px;
+	    padding: 0 2px;
+	}
+
+	.scrolling-text {
+		@extend .label;
+	    margin-top: 10px;
+	    width: 263px;
+	    overflow: hidden;
+	    white-space: nowrap;
+	}
+
+	.text {
+		@extend .inline;
+	    color: white;
+	    font-size: 14px;
+	    line-height: 20px;
+	    margin-top: 7px;
+	    margin-left: 3px;
+	    margin-right: 7px;
+	}
+
+	.kbps-label, .khz-label {
+	    margin-top: 7px;
+	    text-align: right;
+	}
+
+	.kbps-label {
+		@extend .label;
+	    min-width: 26px;
+	}
+
+	.khz-label {
+		@extend .label;
+	    min-width: 17px;
+	}
+
+	.khz-spacer {
+		@extend .inline;
+	    width: 48px;
+	}
+
+	.mono-label {
+		@extend .inline;
+	    font-size: 12px;
+	    font-weight: 600;
+	    line-height: 14px;
+	    margin-top: 10px;
+	    color: gray;
+
+	    &.active {
+	    	color: #AA0000;
+	    	background-image: -webkit-radial-gradient(center center, contain, rgba(176,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+	    }
+	}
+
+	.stereo-label {
+		@extend .mono-label;
+	    margin-left: 8px;
+
+	    &.active {
+	    	color: #00AA00;
+	    	background-image: -webkit-radial-gradient(center center, contain, rgba(0,176,0,0.4) 0%, rgba(0,0,0,0) 100%);
+	    }
+	}
+
+	.switch {
+		@extend .button;
+	    padding: 0 4px;
+	    font-size: 11px;
+	    line-height: 16px;
+	    width: auto;
+	    height: auto;
+	    margin-top: 5px;
+
+	    span {
+	    	@extend .inline;
+
+	    	&:first-child {
+			    margin-top: 4px;
+			    margin-right: 4px;
+			    width: 6px;
+			    height: 6px;
+			    background-color: black;	
+	    	}
+	    }
+
+	    &.active {
+	    	span {
+	    		&:first-child {
+	    			background-color: green;
+	    		}
+	    	}
+	    }
+
+	    &.first {
+	    	margin-left: 2px;
+	    	margin-right: 4px;
+	    }
+	}
+
+	.buttons {
+	    margin-top: 14px;
+	    margin-left: 7px;
+
+	    .button {
+	    	margin-right: 3px;
+	    }
+
+	    .open-button {
+			@extend .button;
+
+		    margin-left: 7px;
+		    margin-right: 10px;
+		    overflow: hidden;
+		    position: relative;
+
+		    input {
+			    width: 100%;
+			    height: 100%;
+			    opacity: 0;
+			    -webkit-app-region: no-drag;
+		    }
+
+		    .up-arrow {
+		    	position: absolute;
+			    display: block;
+			    width: 0;
+			    height: 0;
+			    border-left: 8px solid transparent;
+			    border-right: 8px solid transparent;
+			    border-bottom: 7px solid rgb(70,90,107);
+			    top: 7px;
+			    left: 12px;
+		    }
+
+		    .line {
+			    position: absolute;
+			    display: block;
+			    width: 16px;
+			    height: 2px;
+			    top: 17px;
+			    left: 12px;
+			    background-color: rgb(70,90,107);
+		    }
+		}
+
+		.prev-button {
+			@extend .button;
+			.line {
+				position: absolute;
+		   		display: block;
+		    	width: 2px;
+		    	height: 14px;
+		    	background-color: rgb(70,90,107);
+		    	top: 6px;
+		    	left: 13px;
+			}
+
+			.left-arrow, .right-arrow{
+				position: absolute;
+			    display: block;
+			    width: 0;
+			    height: 0;
+			    top: 6px;
+			    border-top: 7px solid transparent;
+			    border-bottom: 7px solid transparent;
+			    border-right: 9px solid rgb(70,90,107);
+		    	left: 17px;
 			}
 		}
 
-		.handle {
-			width: 50px;
-		    height: 11px;
-		    border-radius: 0;
-		    border: 5px solid rgb(191,191,59);
-		    background: transparent;
-		    background-color: rgb(250,247,147);
-		    -webkit-box-shadow: none;
+		.next-button {
+			@extend .prev-button;
+			.line {
+		    	left: 24px;
+			}
+
+			.right-arrow {
+				border-right: 0;
+				border-left: 9px solid rgb(70,90,107);
+		    	left: 13px;
+			}
 		}
 
-		.handle:after {
-			background: transparent;
-		    background-color: rgb(191,191,59);
-		    width: 38px;
-		    height: 5px;
-		    margin-left: 2px;
+		.stop-button {
+			@extend .button;
+			.square{
+		    	position: absolute;
+			    display: block;
+			    height: 14px;
+			    width: 15px;
+			    left: 12px;
+			    top: 6px;
+			    background-color: rgb(70,90,107);
+			}
 		}
 
+		.pause-button {
+			@extend .button;
+			.line1, .line2 {
+				position: absolute;
+			    display: block;
+			    height: 14px;
+			    width: 5px;
+			    top: 6px;
+			    background-color: rgb(70,90,107);
+			}
+			.line1 {
+		    	left: 12px;
+			}
+			.line2 {
+				left: 22px;
+			}
+		}
+
+		.play-button {
+			@extend .button;
+			.right-arrow {
+			    position: absolute;
+			    left: 14px;
+			    top: 6px;
+			    width: 0;
+			    height: 0;
+			    border-top: 7px solid transparent;
+			    border-bottom: 7px solid transparent;
+			    border-left: 14px solid rgb(70,90,107);
+			}
+		}
 	}
-
 }

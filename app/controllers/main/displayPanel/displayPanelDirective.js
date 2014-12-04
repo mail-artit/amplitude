@@ -35,7 +35,7 @@
                         gradient = context.createLinearGradient(0, 39, 0, 69);
                         gradient.addColorStop(0.1, 'red');
                         gradient.addColorStop(0.12, 'yellow');
-                        gradient.addColorStop(1, 'rgb(0,170,0');
+                        gradient.addColorStop(1, 'rgb(0,170,0)');
                     }
                     return gradient;
                 }

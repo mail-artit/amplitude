@@ -1,0 +1,194 @@
+body {
+    margin: 0;
+    font-size: 0;
+    font-family: "Courier New", Courier, monospace;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    overflow: hidden;
+}
+
+a {
+    -webkit-app-region: no-drag;
+}
+
+* {
+    cursor: default;
+}
+
+.section {
+    border: 3px groove rgb(22,26,35);
+    border-width: 3px;
+    height: 194px;
+    width: 474px;
+    background: -webkit-linear-gradient(-45deg, #31314a 0%,#4e4e72 50%,#31314a 100%);
+    position: relative;
+}
+
+.section-content {
+    position: relative;
+    border: 3px groove rgb(22,26,35);
+    height: 165px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.section-header {
+
+	height: 20px;
+	position: relative;
+
+	.section-header-menu {
+		@extend .inline;
+		line-height: 24px;
+		font-size: 14px;
+		margin-left: 7px;
+		margin-right: 8px;
+		color: #42442e;
+		cursor: not-allowed;
+		-webkit-app-region: no-drag;
+	}
+
+	.section-header-spacer {
+		@extend .inline;
+	    background-image: -webkit-gradient(linear, left top, left bottom,
+	    color-stop(0, rgb(66,66,66)),
+	    color-stop(0.47, rgb(66,66,66)),
+	    color-stop(0.47, #000000),
+	    color-stop(0.57, #000000),
+	    color-stop(0.57, rgb(66,68,46)),
+	    color-stop(1, rgb(66,68,46)));
+	    height: 10px;
+	    margin-top: 5px;
+	    border-radius: 3px 3px;
+	    border: 1px solid black;
+	}
+
+	.section-header-spacer-amplitude {
+		@extend .section-header-spacer;
+	    width: 147px;
+	}
+
+	.section-header-title {
+		@extend .inline;
+	    margin: 1px 10px 0 10px;
+	    font-family: Impact, Charcoal, sans-serif;
+	    text-transform: uppercase;
+	    font-size: 15px;
+	    color: slategrey;
+	}
+
+	.section-header-icon {
+		@extend .inline;
+	    margin-top: 5px;
+	    width: 12px;
+	    height: 12px;
+	    border-radius: 3px 3px;
+	    -webkit-app-region: no-drag;
+	}
+
+	.section-header-minimize {
+		@extend .section-header-icon;
+	    margin-left: 10px;
+	    background-image: -webkit-gradient(linear, left top, left bottom,
+	    color-stop(0, #000000),
+	    color-stop(0.45, rgb(33,33,33)),
+	    color-stop(0.50, rgb(66,66,66)),
+	    color-stop(0.65, rgb(66,66,66)),
+	    color-stop(1, rgb(150,150,150)));
+	}
+
+	.section-header-windowshade {
+		@extend .section-header-icon;
+	    cursor: not-allowed;
+	    margin-left: 5px;
+	    margin-right: 5px;
+	    background-image: -webkit-gradient(linear, left bottom, left top,
+	    color-stop(0, #000000),
+	    color-stop(0.45, rgb(33,33,33)),
+	    color-stop(0.50, rgb(66,66,66)),
+	    color-stop(0.65, rgb(66,66,66)),
+	    color-stop(1, rgb(150,150,150)));
+	}
+
+	.section-header-close {
+		@extend .section-header-icon;
+	    background-color: rgb(11,11,11);
+	    overflow: hidden;
+	}
+
+	.cross {
+	    position: relative;
+	    width: 2px;
+	    height: 15px;
+	    background-color: rgb(191,191,141);
+	    border-radius: 2px;
+	    -webkit-filter: blur(1px);
+	    left: 5px;
+	}
+
+	.cross1 {
+		@extend .cross;
+	    -webkit-transform: rotate(45deg);
+	    top: -1px;
+	}
+
+	.cross2 {
+		@extend .cross;
+	    -webkit-transform: rotate(-45deg);
+	    top: -16px;
+	}
+
+}
+
+.active .section-header {
+
+	.section-header-menu {
+	    color: rgb(191,191,59);
+	}
+
+	.section-header-spacer {
+	    background-image: -webkit-gradient(linear, left top, left bottom,
+	    color-stop(0, rgb(250,247,147)),
+	    color-stop(0.47, rgb(250,247,147)),
+	    color-stop(0.47, #000000),
+	    color-stop(0.57, #000000),
+	    color-stop(0.57, rgb(191,191,59)),
+	    color-stop(1, rgb(191,191,59)));
+	}
+
+	.section-header-title {
+    	color: white;
+	}
+
+	.section-header-close {
+    	background-color: rgb(40,40,40);
+	}
+
+	.section-header-minimize {
+	    background-image: -webkit-gradient(linear, left top, left bottom,
+	    color-stop(0, rgb(66,62,50)),
+	    color-stop(0.45, rgb(157,169,109)),
+	    color-stop(0.50, rgb(157,169,109)),
+	    color-stop(0.65, rgb(157,169,109)),
+	    color-stop(1, rgb(210,226,225)));
+	}
+
+	.section-header-close > .cross {
+    	background-color: rgb(210,226,180);
+	}
+
+	.section-header-windowshade {
+	    background-image: -webkit-gradient(linear, left bottom, left top,
+	    color-stop(0, rgb(64,61,56)),
+	    color-stop(0.45,  rgb(157,169,109)),
+	    color-stop(0.50,  rgb(157,169,109)),
+	    color-stop(0.65,  rgb(157,169,109)),
+	    color-stop(0.90, rgb(210,226,225)),
+	    color-stop(1, rgb(210,226,225)));
+	}
+
+	.section-header-close > .cross {
+    	background-color: rgb(210,226,180);
+	}
+
+}

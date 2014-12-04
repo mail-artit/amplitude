@@ -9,7 +9,7 @@ amplitude.controller('AmplitudeController', ['utils', '$scope', function(utils, 
 	};
 
 	$scope.currentSound = null;
-    $scope.audioContext = new AudioContext();
+    $scope.audioContext = new webkitAudioContext();
 
     $scope.makeSound = function(tags) {
         var ret =  {
