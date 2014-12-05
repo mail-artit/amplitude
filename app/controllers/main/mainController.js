@@ -1,5 +1,17 @@
-amplitude.controller('MainController', ['$window', 'utils', '$scope', function ($window, utils, $scope) {
+
+amplitude.controller('MainController', ['audioService', '$window', 'utils', '$scope', function (audioService, $window, utils, $scope) {
 	
+	function reset() {
+		$scope.displayPanel.state = "default";
+		$scope.durationSlider.disabled = 1;
+		$scope.scrollingText.still = null;
+	}
+
+	$scope.config = {
+		title : 'Amplitude',
+		homepage : 'https://artit.hu'
+	};
+
 	$scope.active = 1;
 
 	$scope.scrollingText = {
@@ -8,6 +20,17 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		'still' : null,
 		'state' : 'paused',
 		'stillTimeout': null
+	};
+
+	$scope.openFile = {
+		'parse' : function(files, callback) {
+			audioService.deinit();
+
+			id3(files[0], function(err, tags) {
+				audioService.init(tags, URL.createObjectURL(files[0]));
+	            callback();
+	        });
+		}
 	};
 
 	$scope.displayPanel = {
@@ -24,7 +47,8 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
             	gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
         
         	$scope.volumeSlider.background = gradient;
-        	$scope.config.volume = val;
+
+        	audioService.volume(val);
 
 	        if(sender) {
 	            clearTimeout($scope.scrollingText.stillTimeout);
@@ -47,7 +71,8 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	            gradVal = Math.floor(120-120*(50-val)*(val > 50 ? -1 : 1)/50),
 	            gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
 
-            $scope.config.pan = val;
+            audioService.pan(val);
+
         	$scope.panSlider.background = gradient;
         
 	        if(sender) {
@@ -75,12 +100,10 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 		'setWhileSliding': 0,
 		'onchange': function(sender) {
 
-			if(!$scope.currentSound || !$scope.currentSound.audio) return;
-
 			var val = $scope.durationSlider.value / 1000;
 
 	        if(sender && sender.mouse) {
-	            $scope.currentSound.audio.currentTime = val;
+	        	audioService.seek(val);
 	            clearTimeout($scope.scrollingText.stillTimeout);
 	            $scope.scrollingText.still = null;
 	        } else if(sender) {
@@ -89,10 +112,10 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	            $scope.scrollingText.still = "seek to: " +
 	                utils.secondsToString(val, ":")+
 	                "/" +
-	                utils.secondsToString($scope.currentSound.audio.duration, ":") +
+	                utils.secondsToString(audioService.duration(), ":") +
 	                " " +
-	                Math.floor(val/$scope.currentSound.audio.duration*100)
-	                + "%";
+	                Math.floor(val/audioService.duration()*100) +
+	                "%";
 
 	            $scope.scrollingText.stillTimeout = setTimeout(function() {
 	                $scope.scrollingText.still = null;
@@ -106,30 +129,26 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	$scope.channels = 0;
 
 	$scope.$on('timeupdate', function() {
-		$scope.scrollingText.text = $scope.currentSound.getScrollingText();
-        $scope.durationSlider.value = $scope.currentSound.audio.currentTime*1000;
-        $scope.durationSlider.max = $scope.currentSound.audio.duration*1000;
+		$scope.scrollingText.text = audioService.soundText();
+        $scope.durationSlider.value = audioService.currentTime()*1000;
+        $scope.durationSlider.max = audioService.duration()*1000;
         $scope.$apply();
 	});
 
 	$scope.$on('canplaythrough', function() {
-		var sound = $scope.currentSound;
-		$scope.scrollingText.text = sound.getScrollingText();
+		$scope.scrollingText.text = audioService.soundText();
 		$scope.scrollingText.state = 'scrolling';
 		$scope.kbps = 'N/A';
-		$scope.khz = Math.floor(sound.sampleRate/1000);
-		$scope.channels = sound.source.channelCount;
-		$scope.displayPanel.currentSound = sound;
+		$scope.khz = Math.floor(audioService.sampleRate()/1000);
+		$scope.channels = audioService.channelCount();
 		$scope.displayPanel.state = "playing";
 		$scope.durationSlider.disabled = 0;
 		$scope.$apply();
 	});
 
-	$scope.$on('currentSoundDestructed', function() {
-		$scope.displayPanel.currentSound = null;
-		$scope.displayPanel.state = "default";
-		$scope.durationSlider.disabled = 1;
-		$scope.scrollingText.still = null;
+	$scope.$on('currentSoundEnded', function() {
+		reset();
+		$scope.$apply();
 	});
 
 	$window.onfocus = function() {
@@ -143,32 +162,42 @@ amplitude.controller('MainController', ['$window', 'utils', '$scope', function (
 	};
 
 	$scope.pause = function() {
-        if($scope.currentSound && $scope.currentSound.audio) {
-            if(!$scope.currentSound.audio.paused) {
-                $scope.displayPanel.state = "paused";
-                $scope.currentSound.audio.pause();
-            } else {
-            	$scope.displayPanel.state = "playing";
-                $scope.currentSound.audio.play();
-            }
-        }
+		if(audioService.haveAudio()) {
+			if(!audioService.paused()) {
+				$scope.displayPanel.state = "paused";
+				audioService.pause();
+			} else {
+				$scope.displayPanel.state = "playing";
+				audioService.resume();
+			}
+		}
     };
 
     $scope.stop = function() {
-        $scope.destructCurrentSound();
+    	audioService.stop();
+    	reset();
     };
 
     $scope.play = function() {
-        if($scope.currentSound && $scope.currentSound.audio) {
-            if($scope.currentSound.audio.paused) {
-                $scope.displayPanel.state = "playing";
-                $scope.currentSound.audio.play();
-            } else {
-                $scope.currentSound.audio.currentTime = 0;
-            }
-        } else if($scope.currentSound) {
-            $scope.constructCurrentSound();
-        }
+    	if(audioService.haveAudio()) {
+			if(audioService.paused()) {
+				$scope.displayPanel.state = "playing";
+				audioService.resume();
+			} else {
+				audioService.seek(0);
+			}
+		} else {
+			$scope.displayPanel.state = "playing";
+			audioService.reinit();
+		}
     };
+
+    $scope.toggleRepeat = function() {
+    	audioService.setRepeat((audioService.isRepeat() + 1) % 2);
+    };
+
+    $scope.isRepeat = function() {
+    	return audioService.isRepeat();
+    }
 
 }]);

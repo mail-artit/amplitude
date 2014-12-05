@@ -11,17 +11,5 @@ amplitude.factory('utils', function() {
         return min+delim+mods;
     };
 
-    utils.pan = function(val, panner) {
-        var xDeg = (val / 100 * 90) - 45;
-        var zDeg = xDeg + 90;
-        if (zDeg > 90) {
-            zDeg = 180 - zDeg;
-        }
-        var x = Math.sin(xDeg * (Math.PI / 180));
-        var z = Math.sin(zDeg * (Math.PI / 180));
-
-        panner.setPosition(x, 0, z);
-    };
-
 	return utils;
 });

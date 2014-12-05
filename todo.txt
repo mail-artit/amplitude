@@ -1,5 +1,4 @@
--service for managing audio and events
--remove parent scope
 -vendorService for chrome 
+-refactor and validate
 -publish to github
 -publish to appstore

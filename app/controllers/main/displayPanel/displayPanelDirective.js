@@ -6,7 +6,7 @@
 
     'use strict';
 
-    amplitude.directive('displayPanel', ['utils', function (utils) {
+    amplitude.directive('displayPanel', ['audioService', 'utils', function (audioService, utils) {
 
         return {
             restrict: 'A',
@@ -42,7 +42,7 @@
 
                 function lazyFrequencyData(sound) {
                     if (!frequencyData) {
-                        frequencyData = new window.Uint8Array(sound.analyser.frequencyBinCount);
+                        frequencyData = new window.Uint8Array(audioService.frequencyBinCount());
                     }
                     return frequencyData;
                 }
@@ -192,24 +192,22 @@
 
                 function tick() {
 
-                    var sound = $scope.model.currentSound;
-
-                    if (!(sound && sound.audio && angular.isDefined(sound.currentTime))) {
+                    if (!audioService.haveAudio()) {
                         window.requestAnimationFrame(tick);
                         return;
                     }
 
                     context.clearRect(0, 0, canvasWidth, canvasHeight);
                     drawBackground();
-                    drawSeconds(sound.currentTime);
+                    drawSeconds(audioService.currentTime());
                     drawState();
 
                     context.fillStyle = lazyGradient();
 
-                    drawFFt(lazyFrequencyData(sound), sound.sampleRate);
+                    drawFFt(lazyFrequencyData(), audioService.sampleRate());
 
                     if (!paused) {
-                        sound.analyser.getByteFrequencyData(lazyFrequencyData(sound));
+                        audioService.getByteFrequencyData(lazyFrequencyData());
                         window.requestAnimationFrame(tick);
                     }
 

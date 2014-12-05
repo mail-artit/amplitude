@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" ng-app="amplitude" ng-controller="AmplitudeController">
+<html lang="en-us" ng-app="amplitude">
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="app.css">
@@ -92,7 +92,7 @@
             
                 <div class="switch disabled"><span></span><span>shuffle</span></div>
 
-                <div ng-click="config.repeat = (config.repeat + 1) % 2" class="switch" ng-class="{active: config.repeat}"><span></span><span>&#8635;</span></div>
+                <div ng-click="toggleRepeat()" class="switch" ng-class="{active: isRepeat()}"><span></span><span>&#8635;</span></div>
             
                 <a ng-href="{{config.homepage}}" target="_blank"><div class="logo"></div></a>
             </div>
