@@ -33,6 +33,7 @@ module.exports = function(grunt) {
                 src: [
                     "vendor/**/*.js",
                     "app/**/*.js",
+                    "chrome-app/app/**/*.js",
                     ".tmp/templates.js"
                 ],
                 dest: "chrome-pkg/app.js"
@@ -54,7 +55,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: "chrome-app",
-                    src: ["**"],
+                    src: ["**", "!**/app/**"],
                     dest: "chrome-pkg/"
                 },
                 {

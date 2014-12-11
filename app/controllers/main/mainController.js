@@ -1,5 +1,5 @@
 
-amplitude.controller('MainController', ['audioService', '$window', 'utils', '$scope', function (audioService, $window, utils, $scope) {
+amplitude.controller('MainController', ['externalService', 'audioService', '$window', 'utils', '$scope', function (externalService, audioService, $window, utils, $scope) {
 	
 	function reset() {
 		$scope.displayPanel.state = "default";
@@ -198,6 +198,14 @@ amplitude.controller('MainController', ['audioService', '$window', 'utils', '$sc
 
     $scope.isRepeat = function() {
     	return audioService.isRepeat();
-    }
+    };
+
+    $scope.close = function() {
+    	externalService.close();
+    };
+
+    $scope.minimize = function() {
+    	externalService.minimize();
+    };
 
 }]);

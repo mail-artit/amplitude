@@ -30,9 +30,8 @@
 
                     if (result.length < 31) {
                         dup = new Array(Math.floor((31 - result.length + 1) / result.length + 3)).join(str);
-                        result = result + dup.substr(0, 31 - str.length + index);
+                        result = result + dup.substr(0, 31 - str.length + index % str.length);
                     }
-
                 }
 
                 function tick() {
@@ -58,7 +57,6 @@
                     if (text === null) {
                         text = $scope.model.default;
                     } else {
-                        text = text.trim().replace(/[\x00-\x1F\x7F-\x9F]/gi, '');
                         $element.html(text);
                     }
 
