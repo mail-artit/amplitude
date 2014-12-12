@@ -17,11 +17,9 @@
 	}
 
 	&.horizontal {
-		-webkit-app-region: no-drag;
 		
 		* {
 			cursor: ew-resize;
-			-webkit-app-region: no-drag;
 		}
 
 		.line {

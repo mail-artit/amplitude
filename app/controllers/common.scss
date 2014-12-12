@@ -1,3 +1,15 @@
+body {
+    margin: 0;
+    font-size: 0;
+    font-family: "Courier New", Courier, monospace;
+    -webkit-user-select: none;
+    overflow: hidden;
+}
+
+* {
+    cursor: default;
+}
+
 .inline {
     display: inline-block;
     vertical-align: top;
@@ -5,7 +17,6 @@
 
 .button {
 	@extend .inline;
-    -webkit-app-region: no-drag;
     background-color: rgb(173,188,196);
     border-radius: 3px;
     border: 1px solid black;
