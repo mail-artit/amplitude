@@ -1,211 +1,223 @@
 
-amplitude.controller('MainController', ['externalService', 'audioService', '$window', 'utils', '$scope', function (externalService, audioService, $window, utils, $scope) {
-	
-	function reset() {
-		$scope.displayPanel.state = "default";
-		$scope.durationSlider.disabled = 1;
-		$scope.scrollingText.still = null;
-	}
+/*jslint browser: true, devel: true*/
+/*global amplitude, id3, URL*/
 
-	$scope.config = {
-		title : 'Amplitude',
-		homepage : 'https://artit.hu'
-	};
+(function () {
 
-	$scope.active = 1;
+    'use strict';
 
-	$scope.scrollingText = {
-		'default': $scope.config.title,
-		'text' : null,
-		'still' : null,
-		'state' : 'paused',
-		'stillTimeout': null
-	};
+    amplitude.controller('MainController', ['externalService', 'audioService', '$window', 'utils', '$scope', function (externalService, audioService, $window, utils, $scope) {
 
-	$scope.openFile = {
-		'parse' : function(files, callback) {
-			audioService.deinit();
+        function reset() {
+            $scope.displayPanel.state = 'default';
+            $scope.durationSlider.disabled = 1;
+            $scope.scrollingText.still = null;
+        }
 
-			id3(files[0], function(err, tags) {
-				audioService.init(tags, URL.createObjectURL(files[0]));
-	            callback();
-	        });
-		}
-	};
+        $scope.config = {
+            title: 'Amplitude',
+            homepage: 'https://artit.hu'
+        };
 
-	$scope.displayPanel = {
-		'state' : 'default',
-		'currentSound' : null
-	};
+        $scope.active = 1;
 
-	$scope.volumeSlider = {
-		'max': 100,
-		'value': 100,
-		'onchange': function(sender) {
-			var val = $scope.volumeSlider.value,
-            	gradVal = Math.floor(120-(120/100*val)),
-            	gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
-        
-        	$scope.volumeSlider.background = gradient;
+        $scope.scrollingText = {
+            'default': $scope.config.title,
+            'text': null,
+            'still': null,
+            'state': 'paused',
+            'stillTimeout': null
+        };
 
-        	audioService.volume(val);
+        $scope.openFile = {
+            'parse': function (files, callback) {
+                audioService.deinit();
 
-	        if(sender) {
-	            clearTimeout($scope.scrollingText.stillTimeout);
-	            $scope.scrollingText.still = "volume: "+val+"%";
-	            $scope.$apply();
-	            $scope.scrollingText.stillTimeout = setTimeout(function() {
-	                $scope.scrollingText.still = null;
-	                $scope.$apply();
-	            }, 1000);
-	        }
-		}
-	};
+                id3(files[0], function (err, tags) {
+                    if (err) {
+                        console.log(err);
+                        return callback();
+                    }
+                    audioService.init(tags, URL.createObjectURL(files[0]));
+                });
+            }
+        };
 
-	$scope.panSlider = {
-		'max': 100,
-		'value': 50,
-		'stickTo': [50,15],
-		'onchange': function(sender) {
-			var val = $scope.panSlider.value,
-	            gradVal = Math.floor(120-120*(50-val)*(val > 50 ? -1 : 1)/50),
-	            gradient = "-webkit-linear-gradient(top, hsl("+gradVal+", 75%, 35%) 0%, hsl("+gradVal+", 76%, 50%) 100%)";
+        $scope.displayPanel = {
+            'state': 'default',
+            'currentSound': null
+        };
 
-            audioService.pan(val);
+        $scope.volumeSlider = {
+            'max': 100,
+            'value': 100,
+            'onchange': function (sender) {
+                var val = $scope.volumeSlider.value,
+                    gradVal = Math.floor(120 - (120 / 100 * val)),
+                    gradient = '-webkit-linear-gradient(top, hsl(' + gradVal + ', 75%, 35%) 0%, hsl(' + gradVal + ', 76%, 50%) 100%)';
 
-        	$scope.panSlider.background = gradient;
-        
-	        if(sender) {
-	            clearTimeout($scope.scrollingText.stillTimeout);
-	            $scope.scrollingText.still = "balance: " + 
-	                (val === 50 ? 
-	                    "center" : 
-	                    (val < 50 ?
-	                        (Math.floor((50 - val)/50*100) + "% left") :
-	                        (Math.floor((val-50)/50*100) + "% right")
-	                            ));
-	            $scope.$apply();
-	            $scope.scrollingText.stillTimeout = setTimeout(function() {
-	                $scope.scrollingText.still = null;
-	                $scope.$apply();
-	            }, 1000);
-	        }
-		}
-	};
+                $scope.volumeSlider.background = gradient;
 
-	$scope.durationSlider = {
-		'max': 0,
-		'value': 0,
-		'disabled': 1,
-		'setWhileSliding': 0,
-		'onchange': function(sender) {
+                audioService.volume(val);
 
-			var val = $scope.durationSlider.value / 1000;
+                if (sender) {
+                    clearTimeout($scope.scrollingText.stillTimeout);
+                    $scope.scrollingText.still = 'volume: ' + val + '%';
+                    $scope.$apply();
+                    $scope.scrollingText.stillTimeout = setTimeout(function () {
+                        $scope.scrollingText.still = null;
+                        $scope.$apply();
+                    }, 1000);
+                }
+            }
+        };
 
-	        if(sender && sender.mouse) {
-	        	audioService.seek(val);
-	            clearTimeout($scope.scrollingText.stillTimeout);
-	            $scope.scrollingText.still = null;
-	        } else if(sender) {
-	            clearTimeout($scope.scrollingText.stillTimeout);
-	            
-	            $scope.scrollingText.still = "seek to: " +
-	                utils.secondsToString(val, ":")+
-	                "/" +
-	                utils.secondsToString(audioService.duration(), ":") +
-	                " " +
-	                Math.floor(val/audioService.duration()*100) +
-	                "%";
+        $scope.panSlider = {
+            'max': 100,
+            'value': 50,
+            'stickTo': [50, 15],
+            'onchange': function (sender) {
+                var val = $scope.panSlider.value,
+                    gradVal = Math.floor(120 - 120 * (50 - val) * (val > 50 ? -1 : 1) / 50),
+                    gradient = '-webkit-linear-gradient(top, hsl(' + gradVal + ', 75%, 35%) 0%, hsl(' + gradVal + ', 76%, 50%) 100%)';
 
-	            $scope.scrollingText.stillTimeout = setTimeout(function() {
-	                $scope.scrollingText.still = null;
-	            }, 1000);
-	        }
-		}
-	};
+                audioService.pan(val);
 
-	$scope.kbps = '\u00A0';
-	$scope.khz = '\u00A0';
-	$scope.channels = 0;
+                $scope.panSlider.background = gradient;
 
-	$scope.$on('timeupdate', function() {
-		$scope.scrollingText.text = audioService.soundText();
-        $scope.durationSlider.value = audioService.currentTime()*1000;
-        $scope.durationSlider.max = audioService.duration()*1000;
-        $scope.$apply();
-	});
+                if (sender) {
+                    clearTimeout($scope.scrollingText.stillTimeout);
+                    $scope.scrollingText.still = 'balance: ' +
+                        (val === 50 ?
+                                'center' :
+                                (val < 50 ?
+                                        (Math.floor((50 - val) / 50 * 100) + '% left') :
+                                        (Math.floor((val - 50) / 50 * 100) + '% right')
+                                ));
+                    $scope.$apply();
+                    $scope.scrollingText.stillTimeout = setTimeout(function () {
+                        $scope.scrollingText.still = null;
+                        $scope.$apply();
+                    }, 1000);
+                }
+            }
+        };
 
-	$scope.$on('canplaythrough', function() {
-		$scope.scrollingText.text = audioService.soundText();
-		$scope.scrollingText.state = 'scrolling';
-		$scope.kbps = 'N/A';
-		$scope.khz = Math.floor(audioService.sampleRate()/1000);
-		$scope.channels = audioService.channelCount();
-		$scope.displayPanel.state = "playing";
-		$scope.durationSlider.disabled = 0;
-		$scope.$apply();
-	});
+        $scope.durationSlider = {
+            'max': 0,
+            'value': 0,
+            'disabled': 1,
+            'setWhileSliding': 0,
+            'onchange': function (sender) {
 
-	$scope.$on('currentSoundEnded', function() {
-		reset();
-		$scope.$apply();
-	});
+                var val = $scope.durationSlider.value / 1000;
 
-	$window.onfocus = function() {
-		$scope.active = 1;
-		$scope.$apply();
-	};
+                if (sender && sender.mouse) {
+                    audioService.seek(val);
+                    clearTimeout($scope.scrollingText.stillTimeout);
+                    $scope.scrollingText.still = null;
+                } else if (sender) {
+                    clearTimeout($scope.scrollingText.stillTimeout);
 
-	$window.onblur = function() {
-		$scope.active = 0;
-		$scope.$apply();
-	};
+                    $scope.scrollingText.still = 'seek to: ' +
+                        utils.secondsToString(val, ':') +
+                        '/' +
+                        utils.secondsToString(audioService.duration(), ':') +
+                        ' ' +
+                        Math.floor(val / audioService.duration() * 100) +
+                        '%';
 
-	$scope.pause = function() {
-		if(audioService.haveAudio()) {
-			if(!audioService.paused()) {
-				$scope.displayPanel.state = "paused";
-				audioService.pause();
-			} else {
-				$scope.displayPanel.state = "playing";
-				audioService.resume();
-			}
-		}
-    };
+                    $scope.scrollingText.stillTimeout = setTimeout(function () {
+                        $scope.scrollingText.still = null;
+                    }, 1000);
+                }
+            }
+        };
 
-    $scope.stop = function() {
-    	audioService.stop();
-    	reset();
-    };
+        $scope.kbps = '\u00A0';
+        $scope.khz = '\u00A0';
+        $scope.channels = 0;
 
-    $scope.play = function() {
-    	if(audioService.haveAudio()) {
-			if(audioService.paused()) {
-				$scope.displayPanel.state = "playing";
-				audioService.resume();
-			} else {
-				audioService.seek(0);
-			}
-		} else {
-			$scope.displayPanel.state = "playing";
-			audioService.reinit();
-		}
-    };
+        $scope.$on('timeupdate', function () {
+            $scope.scrollingText.text = audioService.soundText();
+            $scope.durationSlider.value = audioService.currentTime() * 1000;
+            $scope.durationSlider.max = audioService.duration() * 1000;
+            $scope.$apply();
+        });
 
-    $scope.toggleRepeat = function() {
-    	audioService.setRepeat((audioService.isRepeat() + 1) % 2);
-    };
+        $scope.$on('canplaythrough', function () {
+            $scope.scrollingText.text = audioService.soundText();
+            $scope.scrollingText.state = 'scrolling';
+            $scope.kbps = 'N/A';
+            $scope.khz = Math.floor(audioService.sampleRate() / 1000);
+            $scope.channels = audioService.channelCount();
+            $scope.displayPanel.state = 'playing';
+            $scope.durationSlider.disabled = 0;
+            $scope.$apply();
+        });
 
-    $scope.isRepeat = function() {
-    	return audioService.isRepeat();
-    };
+        $scope.$on('currentSoundEnded', function () {
+            reset();
+            $scope.$apply();
+        });
 
-    $scope.close = function() {
-    	externalService.close();
-    };
+        $window.onfocus = function () {
+            $scope.active = 1;
+            $scope.$apply();
+        };
 
-    $scope.minimize = function() {
-    	externalService.minimize();
-    };
+        $window.onblur = function () {
+            $scope.active = 0;
+            $scope.$apply();
+        };
 
-}]);
+        $scope.pause = function () {
+            if (audioService.haveAudio()) {
+                if (!audioService.paused()) {
+                    $scope.displayPanel.state = 'paused';
+                    audioService.pause();
+                } else {
+                    $scope.displayPanel.state = 'playing';
+                    audioService.resume();
+                }
+            }
+        };
+
+        $scope.stop = function () {
+            audioService.stop();
+            reset();
+        };
+
+        $scope.play = function () {
+            if (audioService.haveAudio()) {
+                if (audioService.paused()) {
+                    $scope.displayPanel.state = 'playing';
+                    audioService.resume();
+                } else {
+                    audioService.seek(0);
+                }
+            } else {
+                $scope.displayPanel.state = 'playing';
+                audioService.reinit();
+            }
+        };
+
+        $scope.toggleRepeat = function () {
+            audioService.setRepeat((audioService.isRepeat() + 1) % 2);
+        };
+
+        $scope.isRepeat = function () {
+            return audioService.isRepeat();
+        };
+
+        $scope.close = function () {
+            externalService.close();
+        };
+
+        $scope.minimize = function () {
+            externalService.minimize();
+        };
+
+    }]);
+
+}());

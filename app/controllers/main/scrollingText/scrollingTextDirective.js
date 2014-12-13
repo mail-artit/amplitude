@@ -6,16 +6,16 @@
 
     'use strict';
 
-    amplitude.directive("scrollingText", function () {
+    amplitude.directive('scrollingText', function () {
 
         return {
             restrict: 'A',
             scope: {
-                model: "=ngModel"
+                model: '=ngModel'
             },
             link: function ($scope, $element) {
 
-                var str = "",
+                var str = '',
                     index = 0,
                     paused = 1,
                     timer = null,
@@ -79,16 +79,16 @@
 
                 $scope.$watch('model.state', function (state) {
                     switch (state) {
-                    case "paused":
+                    case 'paused':
                         paused = 1;
                         window.clearTimeout(timer);
                         break;
-                    case "stopped":
+                    case 'stopped':
                         index = 0;
                         paused = 1;
                         window.clearTimeout(timer);
                         break;
-                    case "scrolling":
+                    case 'scrolling':
                         if (paused) {
                             paused = 0;
                             tick();

@@ -12,6 +12,7 @@
     "grunt-svgzr": "0.3.2",
     "grunt-sass": "0.16.1",
     "node-sass": "1.2.3",
-    "grunt-angular-templates": "0.5.7"
+    "grunt-angular-templates": "0.5.7",
+    "grunt-jslint": "1.1.12"
   }
 }

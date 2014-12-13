@@ -1,5 +1,3 @@
--remove "" from js
--refactor and validate
 -svg icons
 -publish to github
 -publish to appstore

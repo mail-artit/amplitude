@@ -6,7 +6,7 @@
 
     'use strict';
 
-    amplitude.directive("slider", function () {
+    amplitude.directive('slider', function () {
 
         return {
             restrict: 'E',
@@ -48,14 +48,14 @@
                         hh = handle.offsetHeight,
                         lh = line.offsetHeight;
 
-                    if (orientation === "horizontal") {
+                    if (orientation === 'horizontal') {
                         handle.style.left = (w - hw) * (getValue() - getMinimum()) /
-                            (getMaximum() - getMinimum()) + "px";
-                        handle.style.top = (h - hh) / 2 + "px";
-                        line.style.top = (h - lh) / 2 + "px";
+                            (getMaximum() - getMinimum()) + 'px';
+                        handle.style.top = (h - hh) / 2 + 'px';
+                        line.style.top = (h - lh) / 2 + 'px';
                         line.style.left = 0;
-                        line.style.width = (w - 2) + "px";
-                        line.children[0].style.width = (w - 4) + "px";
+                        line.style.width = (w - 2) + 'px';
+                        line.children[0].style.width = (w - 4) + 'px';
                     }
                 }
 
@@ -89,7 +89,7 @@
 
                 function ontimer() {
 
-                    if (orientation === "horizontal") {
+                    if (orientation === 'horizontal') {
                         if (!disabled) {
                             setValue(((mouseX -
                                 line.children[0].getBoundingClientRect().left -
@@ -97,7 +97,7 @@
                                 element.ownerDocument.documentElement.clientLeft) / line.children[0].offsetWidth) * getMaximum());
 
                             onchange({
-                                "mouse": 0
+                                'mouse': 0
                             });
                         }
                     }
@@ -112,11 +112,11 @@
                 }
 
                 function onmouseup() {
-                    element.ownerDocument.removeEventListener("mousemove", onmousemove, true);
-                    element.ownerDocument.removeEventListener("mouseup", onmouseup, true);
+                    element.ownerDocument.removeEventListener('mousemove', onmousemove, true);
+                    element.ownerDocument.removeEventListener('mouseup', onmouseup, true);
                     timer.stop();
                     onchange({
-                        "mouse": 1
+                        'mouse': 1
                     });
                     moving = 0;
                     currentInstance = null;
@@ -125,8 +125,8 @@
                 function onmousedown(e) {
                     moving = 1;
                     currentInstance = this;
-                    element.ownerDocument.addEventListener("mousemove", onmousemove, true);
-                    element.ownerDocument.addEventListener("mouseup", onmouseup, true);
+                    element.ownerDocument.addEventListener('mousemove', onmousemove, true);
+                    element.ownerDocument.addEventListener('mouseup', onmouseup, true);
                     mouseX = e.pageX;
                     ontimer();
                 }

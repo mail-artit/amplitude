@@ -40,7 +40,7 @@
                     return gradient;
                 }
 
-                function lazyFrequencyData(sound) {
+                function lazyFrequencyData() {
                     if (!frequencyData) {
                         frequencyData = new window.Uint8Array(audioService.frequencyBinCount());
                     }
@@ -60,12 +60,12 @@
                             [width, heigthDiv2 + config.width, config.width, heigthDiv2 - config.width],
                             [config.width, height, width - config.width, config.width]
                         ],
-                        parts = ["1110111", "0010010", "1011101", "1011011", "0111010", "1101011", "1101111", "1010010", "1111111", "1111011"],
+                        parts = ['1110111', '0010010', '1011101', '1011011', '0111010', '1101011', '1101111', '1010010', '1111111', '1111011'],
                         part = parts[number],
                         i;
 
                     for (i = 0; i < 7; i += 1) {
-                        if (part[i] === "1") {
+                        if (part[i] === '1') {
                             context.fillRect(x + partCoords[i][0], y + partCoords[i][1], partCoords[i][2], partCoords[i][3]);
                         }
                     }
@@ -77,9 +77,9 @@
                         n,
                         numberPositions = [30, 54, 76, 110, 132];
 
-                    context.fillStyle = "#00AA00";
+                    context.fillStyle = '#00AA00';
 
-                    val = utils.secondsToString(s, "");
+                    val = utils.secondsToString(s, '');
 
                     if (!noSound) {
                         for (i = 0, n = val.length; i < n; i += 1) {
@@ -110,7 +110,7 @@
                     var i,
                         j;
 
-                    context.fillStyle = "rgb(20,20,35)";
+                    context.fillStyle = 'rgb(20,20,35)';
 
                     for (i = 0; i < canvasWidth; i += config.step) {
                         for (j = 0; j < canvasHeight; j += config.step) {

@@ -91,14 +91,24 @@
                     }]
                 }
             },
+            jslint : {
+                all : {
+                    src: [
+                        './Gruntfile.js',
+                        './app/**/*.js',
+                        './chrome-app/**/*.js'
+                    ]
+                }
+            },
             watch: {
                 chrome: {
                     files: [
+                        './Gruntfile.js',
                         'chrome-app/**',
                         'app/**',
                         'vendor/**'
                     ],
-                    tasks: ['build:chrome']
+                    tasks: ['jslint:all', 'build:chrome']
                 }
             }
         });
@@ -109,6 +119,7 @@
         grunt.loadNpmTasks('grunt-svgzr');
         grunt.loadNpmTasks('grunt-sass');
         grunt.loadNpmTasks('grunt-angular-templates');
+        grunt.loadNpmTasks('grunt-jslint');
 
         grunt.registerTask('common', [
             'svgzr:svg',
@@ -127,6 +138,7 @@
         ]);
 
         grunt.registerTask('default', [
+            'jslint:all',
             'build:chrome',
             'watch:chrome'
         ]);
