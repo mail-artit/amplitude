@@ -1,3 +1,4 @@
 -svg icons
+-minifier
 -publish to github
 -publish to appstore
