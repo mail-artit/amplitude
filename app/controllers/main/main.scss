@@ -2,9 +2,9 @@
 
 
 	.logo {
-		@extend .svg-logo;
+		@extend .svg-assets;
 		@extend .inline;
-		background-size: 100%;
+		background-size: auto 100%;
 	    width: 25px;
 	    height: 25px;
 	    margin-left: 25px;

@@ -21,12 +21,13 @@
 	position: relative;
 
 	.section-header-menu {
+		@extend .svg-assets;
 		@extend .inline;
-		line-height: 24px;
-		font-size: 14px;
-		margin-left: 7px;
-		margin-right: 8px;
-		color: #42442e;
+		background-size: auto 100%;
+		background-position: -26px 0;
+	    width: 13px;
+	    height: 13px;
+		margin: 4px 8px 0 7px;
 		cursor: not-allowed;
 	}
 
@@ -124,7 +125,7 @@
 .active .section-header {
 
 	.section-header-menu {
-	    color: rgb(191,191,59);
+	    background-position: -13px 0;
 	}
 
 	.section-header-spacer {
