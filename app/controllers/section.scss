@@ -1,6 +1,5 @@
 .section {
-    border: 3px groove rgb(22,26,35);
-    border-width: 3px;
+    border: 3px solid rgba(0,0,0,0.3);
     height: 194px;
     width: 474px;
     background: -webkit-linear-gradient(-45deg, #31314a 0%,#4e4e72 50%,#31314a 100%);
@@ -9,8 +8,8 @@
 
 .section-content {
     position: relative;
-    border: 3px groove rgb(22,26,35);
-    height: 165px;
+    border: 3px solid rgba(0,0,0,0.3);
+    height: 163px;
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -27,7 +26,7 @@
 		background-position: -26px 0;
 	    width: 13px;
 	    height: 13px;
-		margin: 4px 8px 0 7px;
+		margin: 3px 8px 0 7px;
 		cursor: not-allowed;
 	}
 
@@ -41,23 +40,20 @@
 	    color-stop(0.57, rgb(66,68,46)),
 	    color-stop(1, rgb(66,68,46)));
 	    height: 10px;
-	    margin-top: 5px;
+	    margin-top: 4px;
 	    border-radius: 3px 3px;
 	    border: 1px solid black;
-	}
-
-	.section-header-spacer-amplitude {
-		@extend .section-header-spacer;
-	    width: 147px;
+	    width: 151px;
 	}
 
 	.section-header-title {
+		@extend .svg-assets;
 		@extend .inline;
-	    margin: 1px 10px 0 10px;
-	    font-family: Impact, Charcoal, sans-serif;
-	    text-transform: uppercase;
-	    font-size: 15px;
-	    color: slategrey;
+		background-size: auto 100%;
+		background-position: -119px 0;
+		width: 68px;
+		height: 17px;
+		margin: 2px 5px 0 5px;
 	}
 
 	.section-header-icon {
@@ -139,7 +135,7 @@
 	}
 
 	.section-header-title {
-    	color: white;
+		background-position: -51px 0;
 	}
 
 	.section-header-close {

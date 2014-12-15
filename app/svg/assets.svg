@@ -11,9 +11,9 @@
    version="1.1"
    id="svg2"
    height="300"
-   width="900"
+   width="3300"
    inkscape:version="0.91pre2 r13516"
-   sodipodi:docname="logo.svg">
+   sodipodi:docname="assets.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -30,7 +30,7 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.6825"
-     inkscape:cx="266.76209"
+     inkscape:cx="2738.9424"
      inkscape:cy="104.50708"
      inkscape:window-x="393"
      inkscape:window-y="368"
@@ -263,7 +263,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -282,8 +282,7 @@
            cx="85.314003"
            id="circle53_1_"
            style="fill:#d5d5d5;fill-opacity:1"
-           transform="matrix(6.738074,0,0,6.738074,427.3039,-1231.0296)"
-           d="M 116.55,85.711998 A 31.236,31.236 0 0 1 85.314003,116.948 a 31.236,31.236 0 0 1 -31.236,-31.236002 31.236,31.236 0 0 1 31.236,-31.236 31.236,31.236 0 0 1 31.235997,31.236 z" />
+           transform="matrix(6.738074,0,0,6.738074,427.3039,-1231.0296)" />
         <path
            style="fill:#f7f7f7;fill-opacity:1;fill-rule:nonzero;stroke:none"
            d="m 1214.1535,-652.61013 c 0,116.06552 -94.0897,210.15521 -210.1551,210.15521 -29.01641,0 -56.65931,-5.88062 -81.80193,-16.51505 67.54514,-172.77053 85.28233,-248.08566 184.16233,-373.57457 25.1427,10.63444 27.2263,12.31693 46.2416,31.33224 19.0154,19.0153 34.4037,41.65765 45.038,66.80028 10.6345,25.14261 16.5151,52.78552 16.5151,81.80189 z"
@@ -323,7 +322,7 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:274.00610352px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:0px;word-spacing:0px;fill:#bfbf3b;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:274.00610352px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:0px;word-spacing:0px;fill:#bfbf3b;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      x="312.99695"
      y="250.76089"
      id="text4212"
@@ -334,7 +333,7 @@
        id="tspan4181">☰</tspan></text>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:274.00610352px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:0px;word-spacing:0px;fill:#42442e;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4212);"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:274.00610352px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:0px;word-spacing:0px;fill:#42442e;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4212)"
      x="612.99695"
      y="250.76089"
      id="text4212-1"
@@ -343,4 +342,28 @@
        x="612.99695"
        y="250.76089"
        id="tspan4181-2">☰</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:227.69309998px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Ultra-Bold';letter-spacing:-0.00914894px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="1148.4994"
+     y="204.56802"
+     id="text4182"
+     sodipodi:linespacing="125%"
+     transform="scale(0.82716633,1.2089467)"><tspan
+       sodipodi:role="line"
+       id="tspan4184"
+       x="1148.4994"
+       y="204.56802">AMPLITUDE</tspan></text>
+  <text
+     transform="scale(0.82716633,1.2089467)"
+     sodipodi:linespacing="125%"
+     id="text4206"
+     y="204.56802"
+     x="2599.2354"
+     style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:227.69309998px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Ultra-Bold';letter-spacing:-0.00914894px;word-spacing:0px;fill:#708090;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     xml:space="preserve"><tspan
+       y="204.56802"
+       x="2599.2354"
+       id="tspan4208"
+       sodipodi:role="line">AMPLITUDE</tspan></text>
 </svg>
