@@ -26,11 +26,11 @@
 
                     var dup = null;
 
-                    result = str.substr(index % str.length, 31);
+                    result = str.substr(index % str.length, 32);
 
-                    if (result.length < 31) {
-                        dup = new Array(Math.floor((31 - result.length + 1) / result.length + 3)).join(str);
-                        result = result + dup.substr(0, 31 - str.length + index % str.length);
+                    if (result.length < 32) {
+                        dup = new Array(Math.floor((32 - result.length + 1) / result.length + 3)).join(str);
+                        result = result + dup.substr(0, 32 - str.length + index % str.length);
                     }
                 }
 
@@ -47,7 +47,7 @@
                     index += 1;
 
                     if (!paused) {
-                        timer = window.setTimeout(tick, 100);
+                        timer = window.setTimeout(tick, 150);
                     }
 
                 }
