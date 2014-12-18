@@ -90,30 +90,9 @@
 
 	.section-header-close {
 		@extend .section-header-icon;
-	    background-color: rgb(11,11,11);
-	    overflow: hidden;
-	}
-
-	.cross {
-	    position: relative;
-	    width: 2px;
-	    height: 15px;
-	    background-color: rgb(191,191,141);
-	    border-radius: 2px;
-	    -webkit-filter: blur(1px);
-	    left: 5px;
-	}
-
-	.cross1 {
-		@extend .cross;
-	    -webkit-transform: rotate(45deg);
-	    top: -1px;
-	}
-
-	.cross2 {
-		@extend .cross;
-	    -webkit-transform: rotate(-45deg);
-	    top: -16px;
+		@extend .svg-assets;
+		background-size: auto 100%;
+		background-position: -144px 0;
 	}
 
 }
@@ -139,7 +118,7 @@
 	}
 
 	.section-header-close {
-    	background-color: rgb(40,40,40);
+    	background-position: -132px;
 	}
 
 	.section-header-minimize {
@@ -151,10 +130,6 @@
 	    color-stop(1, rgb(210,226,225)));
 	}
 
-	.section-header-close > .cross {
-    	background-color: rgb(210,226,180);
-	}
-
 	.section-header-windowshade {
 	    background-image: -webkit-gradient(linear, left bottom, left top,
 	    color-stop(0, rgb(64,61,56)),
@@ -163,10 +138,6 @@
 	    color-stop(0.65,  rgb(157,169,109)),
 	    color-stop(0.90, rgb(210,226,225)),
 	    color-stop(1, rgb(210,226,225)));
-	}
-
-	.section-header-close > .cross {
-    	background-color: rgb(210,226,180);
 	}
 
 }
