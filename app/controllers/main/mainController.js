@@ -16,7 +16,7 @@
 
         $scope.config = {
             title: 'Amplitude',
-            homepage: 'https://artit.hu'
+            homepage: 'https://github.com/artit91/amplitude'
         };
 
         $scope.active = 1;
