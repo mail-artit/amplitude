@@ -124,20 +124,46 @@
                         'chrome-pkg/app.css': ['chrome-pkg/app.css']
                     }
                 }
+            },
+            compress: {
+                chrome: {
+                    options: {
+                        mode: 'zip',
+                        archive: 'chrome-pkg/package.zip'
+                    },
+                    files: [{
+                        expand: true,
+                        cwd: 'chrome-pkg',
+                        src: ['**']
+                    }]
+                }
+            },
+            clean: {
+                common: ['.tmp'],
+                chrome: ['chrome-pkg']
             }
         });
 
-        grunt.loadNpmTasks('grunt-contrib-watch');
-        grunt.loadNpmTasks('grunt-contrib-concat');
-        grunt.loadNpmTasks('grunt-contrib-copy');
-        grunt.loadNpmTasks('grunt-svgzr');
-        grunt.loadNpmTasks('grunt-sass');
-        grunt.loadNpmTasks('grunt-angular-templates');
-        grunt.loadNpmTasks('grunt-jslint');
-        grunt.loadNpmTasks('grunt-contrib-uglify');
-        grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+        ['grunt-contrib-watch',
+            'grunt-contrib-concat',
+            'grunt-contrib-copy',
+            'grunt-svgzr',
+            'grunt-sass',
+            'grunt-angular-templates',
+            'grunt-jslint',
+            'grunt-contrib-uglify',
+            'grunt-contrib-cssmin',
+            'grunt-contrib-compress',
+            'grunt-contrib-clean'
+            ].forEach(function (tasks) {
+
+            grunt.loadNpmTasks(tasks);
+
+        });
 
         grunt.registerTask('common', [
+            'clean:common',
             'svgzr:svg',
             'ngtemplates:amplitude',
             'concat:common_sass',
@@ -145,6 +171,7 @@
         ]);
 
         grunt.registerTask('build:chrome', [
+            'clean:chrome',
             'jslint:all',
             'common',
             'concat:chrome_sass',
@@ -154,10 +181,11 @@
             'concat:chrome_css'
         ]);
 
-        grunt.registerTask('chrome:package', [
+        grunt.registerTask('package:chrome', [
             'build:chrome',
             'uglify:chrome',
-            'cssmin:chrome'
+            'cssmin:chrome',
+            'compress:chrome'
         ]);
 
         grunt.registerTask('default', [

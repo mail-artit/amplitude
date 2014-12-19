@@ -1,3 +1,2 @@
--zip package
 -publish to github
 -publish to appstore
