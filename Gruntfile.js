@@ -108,7 +108,21 @@
                         'app/**',
                         'vendor/**'
                     ],
-                    tasks: ['jslint:all', 'build:chrome']
+                    tasks: ['build:chrome']
+                }
+            },
+            uglify: {
+                chrome: {
+                    files: {
+                        'chrome-pkg/app.js': ['chrome-pkg/app.js']
+                    }
+                }
+            },
+            cssmin: {
+                chrome: {
+                    files: {
+                        'chrome-pkg/app.css': ['chrome-pkg/app.css']
+                    }
                 }
             }
         });
@@ -120,6 +134,8 @@
         grunt.loadNpmTasks('grunt-sass');
         grunt.loadNpmTasks('grunt-angular-templates');
         grunt.loadNpmTasks('grunt-jslint');
+        grunt.loadNpmTasks('grunt-contrib-uglify');
+        grunt.loadNpmTasks('grunt-contrib-cssmin');
 
         grunt.registerTask('common', [
             'svgzr:svg',
@@ -129,6 +145,7 @@
         ]);
 
         grunt.registerTask('build:chrome', [
+            'jslint:all',
             'common',
             'concat:chrome_sass',
             'sass:chrome',
@@ -137,8 +154,13 @@
             'concat:chrome_css'
         ]);
 
+        grunt.registerTask('chrome:package', [
+            'build:chrome',
+            'uglify:chrome',
+            'cssmin:chrome'
+        ]);
+
         grunt.registerTask('default', [
-            'jslint:all',
             'build:chrome',
             'watch:chrome'
         ]);
