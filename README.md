@@ -1,3 +1,6 @@
+
+[![available in the chrome web store](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_206x58.png "available in the chrome web store")](https://chrome.google.com/webstore/detail/amplitude/ipahbincndemiicmbicnbjacloloaied)
+
 #installing amplitude
 
 1. install node
