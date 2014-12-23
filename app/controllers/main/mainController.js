@@ -218,6 +218,10 @@
             externalService.minimize();
         };
 
+        $scope.togglePl = function () {
+            externalService.open('pl');
+        };
+
     }]);
 
 }());
