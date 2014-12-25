@@ -211,7 +211,7 @@
         };
 
         $scope.close = function () {
-            externalService.close();
+            externalService.closeAll();
         };
 
         $scope.minimize = function () {
@@ -219,7 +219,17 @@
         };
 
         $scope.togglePl = function () {
-            externalService.open('pl');
+            if (!$scope.isOpen('pl')) {
+                externalService.open('pl', function () {
+                    $scope.$apply();
+                });
+            } else {
+                externalService.close('pl');
+            }
+        };
+
+        $scope.isOpen = function (id) {
+            return externalService.isOpen(id);
         };
 
     }]);

@@ -9,21 +9,27 @@
     <section class="section" ng-class="{active: active}" ng-controller="MainController">
         
         <div class="section-header">
-        
-            <div class="section-header-menu"></div>
-            
-            <div class="section-header-spacer"></div>
-            
-            <div class="section-header-title"></div>
-            
-            <div class="section-header-spacer"></div>
-           
-            <div ng-click="minimize()" class="section-header-minimize"></div>
-            
-            <div class="section-header-windowshade"></div>
-            
-            <div ng-click="close()" class="section-header-close"></div>
-            
+            <div class="section-header-wrap">
+
+                <div class="section-header-cell">
+                    <div class="section-header-menu"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+
+                <div class="section-header-cell">                
+                    <div class="section-header-title"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+               
+                <div class="section-header-cell">
+                    <div ng-click="minimize()" class="section-header-minimize"></div>
+                    <div class="section-header-windowshade"></div>
+                    <div ng-click="close()" class="section-header-close"></div>
+                </div>
+
+            </div>
         </div>
         
         <div class="section-content">
@@ -52,7 +58,7 @@
             
             <div class="switch first disabled"><span></span><span class="inline">eq</span></div>
             
-            <div class="switch" ng-click="togglePl()"><span></span><span class="inline">pl</span></div>
+            <div class="switch" ng-click="togglePl()" ng-class="{active: isOpen('pl')}"><span></span><span class="inline">pl</span></div>
             
             <slider ng-model="durationSlider" class="duration-slider"></slider>
             
