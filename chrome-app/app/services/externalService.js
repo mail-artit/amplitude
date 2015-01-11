@@ -6,7 +6,7 @@
 
     'use strict';
 
-    amplitude.factory('externalService', [function () {
+    amplitude.factory('externalService', ['$window', function ($window) {
 
         var windowProperties = {
             'pl': {
@@ -26,14 +26,17 @@
             closeAll: function () {
                 var windows = chrome.app.window.getAll(),
                     i;
+
+                children = {};
+
                 for (i = 0; i < windows.length; i += 1) {
                     windows[i].close();
                 }
             },
 
             close: function (id) {
-                chrome.app.window.get(id).close();
                 delete children[id];
+                chrome.app.window.get(id).close();
             },
 
             minimize: function () {
@@ -47,6 +50,7 @@
             open: function (id, callback) {
                 chrome.app.window.create(id + '.html', windowProperties[id], function (window) {
                     children[id] = window;
+                    window.contentWindow.parent = $window;
                     callback();
                 });
             },
@@ -66,6 +70,10 @@
                 }
 
                 return ret;
+            },
+
+            parentInjector: function () {
+                return $window.parent.angular.element($window.parent.document.querySelector('[ng-controller]')).injector();
             }
         };
     }]);

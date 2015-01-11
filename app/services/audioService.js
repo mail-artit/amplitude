@@ -21,7 +21,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'externalService', fun
 
         for (i = 0; i < children.length; i += 1) {
             win = children[i];
-            win.angular.element(document.querySelector('html')).scope().$broadcast(event);
+            win.angular.element(win.document.querySelector('html')).scope().$broadcast(event);
         }
 
         $rootScope.$broadcast(event);

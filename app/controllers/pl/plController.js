@@ -6,7 +6,9 @@
 
     'use strict';
 
-    amplitude.controller('PlController', ['$scope', '$window', function ($scope, $window) {
+    amplitude.controller('PlController', ['$scope', '$window', 'externalService', function ($scope, $window, externalService) {
+
+        externalService = externalService.parentInjector().get('externalService');
 
         $scope.active = 1;
 
@@ -24,6 +26,9 @@
             console.log('this is a test!');
         });
 
+        $scope.close = function () {
+            externalService.close('pl');
+        };
 
     }]);
 

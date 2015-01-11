@@ -161,6 +161,10 @@
             $scope.$apply();
         });
 
+        $scope.$on('UICloseWindow', function (id) {
+            externalService.close(id);
+        });
+
         $window.onfocus = function () {
             $scope.active = 1;
             $scope.$apply();
