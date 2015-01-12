@@ -2,7 +2,7 @@
 /*jslint browser: true*/
 /*global amplitude */
 
-amplitude.factory('audioService', ['$rootScope', 'utils', function ($rootScope, utils) {
+amplitude.factory('audioService', ['$rootScope', 'utils', 'externalService', function ($rootScope, utils, externalService) {
 
     'use strict';
 
@@ -13,6 +13,19 @@ amplitude.factory('audioService', ['$rootScope', 'utils', function ($rootScope, 
         },
         currentSound = null,
         audioContext = new window.webkitAudioContext();
+
+    function broadcast(event) {
+        var children = externalService.getChildren(),
+            i,
+            win;
+
+        for (i = 0; i < children.length; i += 1) {
+            win = children[i];
+            win.angular.element(win.document.querySelector('html')).scope().$broadcast(event);
+        }
+
+        $rootScope.$broadcast(event);
+    }
 
     function pan(val) {
         var xDeg = (val / 100 * 90) - 45,
@@ -62,7 +75,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', function ($rootScope, 
 
     function deinit() {
         destructCurrentSound();
-        $rootScope.$broadcast('currentSoundEnded');
+        broadcast('currentSoundEnded');
     }
 
     function constructCurrentSound() {
@@ -81,7 +94,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', function ($rootScope, 
         audio.addEventListener('canplaythrough', function () {
             if (currentSound && currentSound.audio) {
                 currentSound.audio.play();
-                $rootScope.$broadcast('canplaythrough');
+                broadcast('canplaythrough');
             }
         });
 
@@ -89,7 +102,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', function ($rootScope, 
             if (currentSound && currentSound.audio) {
                 currentSound.duration = currentSound.audio.duration;
                 currentSound.currentTime = currentSound.audio.currentTime;
-                $rootScope.$broadcast('timeupdate');
+                broadcast('timeupdate');
             }
         });
 

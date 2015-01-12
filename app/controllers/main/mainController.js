@@ -211,11 +211,25 @@
         };
 
         $scope.close = function () {
-            externalService.close();
+            externalService.closeAll();
         };
 
         $scope.minimize = function () {
             externalService.minimize();
+        };
+
+        $scope.togglePl = function () {
+            if (!$scope.isOpen('pl')) {
+                externalService.open('pl', function () {
+                    $scope.$apply();
+                });
+            } else {
+                externalService.close('pl');
+            }
+        };
+
+        $scope.isOpen = function (id) {
+            return externalService.isOpen(id);
         };
 
     }]);
