@@ -6,19 +6,19 @@
 
     'use strict';
 
-    amplitude.factory('externalService', ['$window', function ($window) {
+    amplitude.factory('windowService', ['$window', function ($window) {
 
         var windowProperties = {
-            'pl': {
-                'id': 'pl',
-                'frame': 'none',
-                'resizable': true,
-                'innerBounds': {
-                    'width': 480,
-                    'height': 200
+                'pl': {
+                    'id': 'pl',
+                    'frame': 'none',
+                    'resizable': true,
+                    'innerBounds': {
+                        'width': 480,
+                        'height': 200
+                    }
                 }
-            }
-        },
+            },
             children = {};
 
         return {
@@ -75,6 +75,8 @@
             parentInjector: function () {
                 return $window.parent.angular.element($window.parent.document.querySelector('[ng-controller]')).injector();
             }
+
+
         };
     }]);
 

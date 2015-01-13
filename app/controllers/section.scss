@@ -1,5 +1,5 @@
 .section {
-	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
     border: 3px solid rgba(0,0,0,0.3);
     height: 100%;
     width: 100%;
@@ -11,7 +11,7 @@
 
 .section-content {
     position: relative;
-	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
     border: 3px solid rgba(0,0,0,0.3);
     position: absolute;
     top: 21px;

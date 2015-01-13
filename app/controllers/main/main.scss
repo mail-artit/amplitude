@@ -52,7 +52,7 @@
 			    border: 5px solid rgb(191,191,59);
 			    background: transparent;
 			    background-color: rgb(250,247,147);
-			    -webkit-box-shadow: none;
+			    box-shadow: none;
 			}
 
 			.handle:after {
@@ -199,12 +199,6 @@
 		    margin-right: 10px;
 		    overflow: hidden;
 		    position: relative;
-
-		    input {
-			    width: 100%;
-			    height: 100%;
-			    opacity: 0;
-		    }
 
 		    .up-arrow {
 		    	position: absolute;

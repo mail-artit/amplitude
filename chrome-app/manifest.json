@@ -17,5 +17,10 @@
         "128": "ico128.png"
     },
     "minimum_chrome_version": "38.0.2125.101",
-    "offline_enabled": true
+    "offline_enabled": true,
+    "permissions": [
+        {
+            "fileSystem": ["write"]
+        }
+    ]
 }

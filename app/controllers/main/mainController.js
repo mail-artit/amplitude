@@ -1,12 +1,12 @@
 
 /*jslint browser: true, devel: true*/
-/*global amplitude, id3, URL*/
+/*global amplitude*/
 
 (function () {
 
     'use strict';
 
-    amplitude.controller('MainController', ['externalService', 'audioService', '$window', 'utils', '$scope', function (externalService, audioService, $window, utils, $scope) {
+    amplitude.controller('MainController', ['windowService', 'fileService', 'audioService', '$window', 'utils', '$scope', function (windowService, fileService, audioService, $window, utils, $scope) {
 
         function reset() {
             $scope.displayPanel.state = 'default';
@@ -27,20 +27,6 @@
             'still': null,
             'state': 'paused',
             'stillTimeout': null
-        };
-
-        $scope.openFile = {
-            'parse': function (files, callback) {
-                audioService.deinit();
-
-                id3(files[0], function (err, tags) {
-                    if (err) {
-                        console.log(err);
-                        return callback();
-                    }
-                    audioService.init(tags, URL.createObjectURL(files[0]));
-                });
-            }
         };
 
         $scope.displayPanel = {
@@ -211,25 +197,29 @@
         };
 
         $scope.close = function () {
-            externalService.closeAll();
+            windowService.closeAll();
         };
 
         $scope.minimize = function () {
-            externalService.minimize();
+            windowService.minimize();
         };
 
         $scope.togglePl = function () {
             if (!$scope.isOpen('pl')) {
-                externalService.open('pl', function () {
+                windowService.open('pl', function () {
                     $scope.$apply();
                 });
             } else {
-                externalService.close('pl');
+                windowService.close('pl');
             }
         };
 
         $scope.isOpen = function (id) {
-            return externalService.isOpen(id);
+            return windowService.isOpen(id);
+        };
+
+        $scope.openFile = function () {
+            fileService.openFile();
         };
 
     }]);

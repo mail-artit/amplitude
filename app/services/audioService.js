@@ -2,7 +2,7 @@
 /*jslint browser: true*/
 /*global amplitude */
 
-amplitude.factory('audioService', ['$rootScope', 'utils', 'externalService', function ($rootScope, utils, externalService) {
+amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', function ($rootScope, utils, windowService) {
 
     'use strict';
 
@@ -15,7 +15,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'externalService', fun
         audioContext = new window.webkitAudioContext();
 
     function broadcast(event) {
-        var children = externalService.getChildren(),
+        var children = windowService.getChildren(),
             i,
             win;
 
