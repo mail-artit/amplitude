@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="amplitude">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+    <section class="section child" ng-class="{active: active}" ng-controller="VisualController">
+        
+        <div class="section-header">
+            <div class="section-header-wrap">
+
+                <div class="section-header-spacer"></div>
+
+                <div class="section-header-cell">                
+                    <div class="section-header-pl"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+               
+                <div class="section-header-cell">
+                    <div class="section-header-windowshade"></div>
+                    <div ng-click="close()" class="section-header-close"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section-content">
+            <canvas width="389"  height="178" style="background-color: black; left: 0"/>
+        <div>
+
+    </section>
+</body>
+</html>

@@ -17,6 +17,15 @@
                         'width': 480,
                         'height': 200
                     }
+                },
+                'visual': {
+                    'id': 'visual',
+                    'frame': 'none',
+                    'resizable': true,
+                    'innerBounds': {
+                        'width': 320,
+                        'height': 240
+                    }
                 }
             },
             children = {};

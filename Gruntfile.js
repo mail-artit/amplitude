@@ -93,6 +93,11 @@
                         cwd: 'app/controllers/pl',
                         src: ['pl.html'],
                         dest: 'chrome-pkg/'
+                    }, {
+                        expand: true,
+                        cwd: 'app/controllers/visual',
+                        src: ['visual.html'],
+                        dest: 'chrome-pkg/'
                     }]
                 }
             },

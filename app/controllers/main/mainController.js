@@ -204,13 +204,13 @@
             windowService.minimize();
         };
 
-        $scope.togglePl = function () {
-            if (!$scope.isOpen('pl')) {
-                windowService.open('pl', function () {
+        $scope.toggleWindow = function (id) {
+            if (!$scope.isOpen(id)) {
+                windowService.open(id, function () {
                     $scope.$apply();
                 });
             } else {
-                windowService.close('pl');
+                windowService.close(id);
             }
         };
 
