@@ -116,12 +116,18 @@
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.fillStyle = '#4e4e72';
                         utils.getBuckets(lazyFrequencyData(), audioService.sampleRate(), function (avg, bucket, length) {
-                            var em = canvas.width / 24,
+                            var em = (canvas.height > canvas.width ? canvas.width : canvas.height) / 12,
+                                spacing = (canvas.height > canvas.width ? 2 : 3),
                                 targetWidth = canvas.width - 4 * em,
-                                width = (targetWidth - (length - 1) * em / 3) / length,
-                                height = avg * canvas.height / 1.5;
+                                width = (targetWidth - (length - 1) * em / spacing) / length,
+                                height = avg * (canvas.height - 4 * em),
+                                coords;
 
-                            ctx.fillRect(2 * em + bucket * (width + em / 3), canvas.height - height, width, height);
+                            ctx.lineWidth = avg * ((em / spacing) / 4);
+                            ctx.strokeStyle = '#9494aa';
+                            coords = [2 * em + bucket * (width + em / spacing), canvas.height - (em / spacing) / 8, width, -height];
+                            ctx.fillRect.apply(ctx, coords);
+                            ctx.strokeRect.apply(ctx, coords);
                         });
                     }
 
@@ -135,8 +141,15 @@
 
                 function resize() {
                     starsCanvas.style.background = 'black';
-                    starsCanvas.width = $element[0].parentNode.clientWidth;
-                    starsCanvas.height = $element[0].parentNode.clientHeight;
+
+                    if (!$window.document.webkitIsFullScreen) {
+                        starsCanvas.width = $element[0].parentNode.clientWidth;
+                        starsCanvas.height = $element[0].parentNode.clientHeight || $window.screen.height;
+                    } else {
+                        starsCanvas.width = $window.screen.width;
+                        starsCanvas.height = $window.screen.height;
+                    }
+
                     fftCanvas.style.position = 'absolute';
                     fftCanvas.width = starsCanvas.width;
                     fftCanvas.height = starsCanvas.height / 2;
@@ -145,8 +158,10 @@
                 $window.onresize = resize;
 
                 $element[0].ondblclick = function () {
-                    if (!$window.webkitIsFullScreen) {
+                    if (!$window.document.webkitIsFullScreen) {
                         $element[0].webkitRequestFullscreen();
+                    } else {
+                        $window.document.webkitCancelFullScreen();
                     }
                 };
 
