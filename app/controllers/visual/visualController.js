@@ -22,9 +22,9 @@
             $scope.$apply();
         };
 
-        $scope.$on('timeupdate', function () {
+        /*$scope.$on('timeupdate', function () {
             console.log('this is a test!');
-        });
+        });*/
 
         $scope.close = function () {
             windowService.close('visual');

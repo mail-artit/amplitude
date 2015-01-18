@@ -12,7 +12,7 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', funct
             repeat: 0
         },
         currentSound = null,
-        audioContext = new window.webkitAudioContext();
+        audioContext = new window.AudioContext();
 
     function broadcast(event) {
         var children = windowService.getChildren(),
