@@ -24,7 +24,9 @@
                     'resizable': true,
                     'innerBounds': {
                         'width': 320,
-                        'height': 240
+                        'height': 196,
+                        'minWidth': 320,
+                        'minHeight': 196
                     }
                 }
             },
