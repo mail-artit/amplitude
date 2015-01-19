@@ -16,7 +16,8 @@
                     'innerBounds': {
                         'width': 480,
                         'height': 200
-                    }
+                    },
+                    'state': 'normal'
                 },
                 'visual': {
                     'id': 'visual',
@@ -27,7 +28,8 @@
                         'height': 196,
                         'minWidth': 320,
                         'minHeight': 196
-                    }
+                    },
+                    'state': 'normal'
                 }
             },
             children = {};
