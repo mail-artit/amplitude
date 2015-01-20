@@ -1,6 +1,6 @@
 
-/*jslint browser: true*/
-/*global amplitude */
+/*jslint browser: true, devel: true*/
+/*global amplitude, Blob, URL */
 
 amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', function ($rootScope, utils, windowService) {
 
