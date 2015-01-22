@@ -6,7 +6,21 @@ amplitude.controller('VisualController', ['$scope', '$window', 'windowService', 
 
     'use strict';
 
+    var audioService = windowService.parentInjector().get('audioService');
+
     windowService = windowService.parentInjector().get('windowService');
+
+    $scope.visualCanvas = {
+        'data': {
+            'artist': 'AMPLITUDE',
+            'title': ''
+        }
+    };
+
+    if (audioService.haveAudio()) {
+        $scope.visualCanvas.data.artist = audioService.currentSound().artist;
+        $scope.visualCanvas.data.title = audioService.currentSound().title;
+    }
 
     $scope.active = 1;
 
@@ -20,12 +34,15 @@ amplitude.controller('VisualController', ['$scope', '$window', 'windowService', 
         $scope.$apply();
     };
 
-    /*$scope.$on('timeupdate', function () {
-        console.log('this is a test!');
-    });*/
-
     $scope.close = function () {
         windowService.close('visual');
     };
+
+    $scope.$on('constructcurrentsound', function () {
+        var currentSound = audioService.currentSound();
+        $scope.visualCanvas.data.artist = currentSound.artist;
+        $scope.visualCanvas.data.title = currentSound.title;
+        $scope.$apply();
+    });
 
 }]);

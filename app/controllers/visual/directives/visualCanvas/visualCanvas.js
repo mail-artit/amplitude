@@ -1,6 +1,6 @@
 
 /*jslint browser: true, devel: true*/
-/*global angular, amplitude*/
+/*global angular, amplitude, textFit*/
 
 amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', function ($window, windowService, utils) {
 
@@ -8,6 +8,9 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
 
     return {
         restrict: 'E',
+        scope: {
+            model: '=ngModel'
+        },
         link: function ($scope, $element) {
 
             //unused jslint error
@@ -17,7 +20,8 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                 starsCanvas = angular.element('<canvas>')[0],
                 fftCanvas = angular.element('<canvas>')[0],
                 image = angular.element('<div>')[0],
-                text = angular.element('<div>')[0],
+                artist = angular.element('<div>')[0],
+                title = angular.element('<div>')[0],
                 starsCtx = starsCanvas.getContext("2d"),
                 fftCtx = fftCanvas.getContext("2d"),
                 stars = new Array(1024),
@@ -27,12 +31,19 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                 speed = 0;
 
             image.className = 'amp-logo';
+            artist.className = 'text-frame';
+            title.className = 'text-frame';
+
+            fftCanvas.style.position = 'absolute';
+            artist.style.position = 'absolute';
+            title.style.position = 'absolute';
+            image.style.position = 'absolute';
 
             $element[0].appendChild(fftCanvas);
             $element[0].appendChild(image);
+            $element[0].appendChild(artist);
+            $element[0].appendChild(title);
             $element[0].appendChild(starsCanvas);
-
-            text.toString();
 
             function lazyFrequencyData() {
                 if (!frequencyData) {
@@ -149,6 +160,31 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                 $window.requestAnimationFrame(draw);
             }
 
+            function layoutTexts() {
+
+                artist.style.left = parseInt(image.style.left, 10) + parseInt(image.style.width, 10) + 'px';
+                artist.style.top = image.style.top;
+                artist.style.right = 2 * em + 'px';
+                artist.style.height = parseInt(image.style.height, 10) / ($scope.model.data.title ? 1.61803398875 : 1) + 'px';
+
+                title.style.left = artist.style.left;
+                title.style.right = artist.style.right;
+                title.style.top = parseInt(artist.style.top, 10) + parseInt(artist.style.height, 10) + 'px';
+                title.style.height = parseInt(image.style.height, 10) - parseInt(artist.style.height, 10) + 'px';
+
+                artist.style.lineHeight = artist.style.height;
+                title.style.lineHeight = title.style.height;
+
+                artist.innerHTML = $scope.model.data.artist;
+                title.innerHTML = $scope.model.data.title || '';
+
+                textFit(artist, {maxFontSize: parseInt(artist.style.height, 10)});
+
+                if ($scope.model.data.title) {
+                    textFit(title, {maxFontSize: parseInt(title.style.height, 10)});
+                }
+            }
+
             function resize() {
                 starsCanvas.style.background = 'black';
 
@@ -160,17 +196,18 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                     starsCanvas.height = $window.screen.height;
                 }
 
-                fftCanvas.style.position = 'absolute';
                 fftCanvas.width = starsCanvas.width;
                 fftCanvas.height = starsCanvas.height / 2;
 
                 em = starsCanvas.height / 12;
 
-                image.style.position = 'absolute';
                 image.style.top = fftCanvas.height + em + 'px';
                 image.style.height = fftCanvas.height - 3 * em + 'px';
                 image.style.width = image.style.height;
                 image.style.left = 2 * em + 'px';
+
+                layoutTexts();
+
             }
 
             $window.onresize = resize;
@@ -182,6 +219,10 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                     $window.document.webkitCancelFullScreen();
                 }
             };
+
+            $scope.$watch('model.data', function () {
+                layoutTexts();
+            }, true);
 
             initStars();
             resize();

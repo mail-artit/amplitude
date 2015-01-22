@@ -129,6 +129,8 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', funct
         currentSound.analyser.fftSize = 2048;
 
         currentSound.audio = audio;
+
+        broadcast('constructcurrentsound');
     }
 
     function setVolume(value) {
@@ -218,6 +220,10 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', funct
         destructCurrentSound();
     }
 
+    function getCurrentSound() {
+        return haveAudio() && currentSound;
+    }
+
     return {
         'pan': setPan,
         'volume': setVolume,
@@ -239,7 +245,8 @@ amplitude.factory('audioService', ['$rootScope', 'utils', 'windowService', funct
         'getByteFrequencyData': getByteFrequencyData,
         'setRepeat': setRepeat,
         'isRepeat': isRepeat,
-        'stop': stopCurrentSound
+        'stop': stopCurrentSound,
+        'currentSound': getCurrentSound
     };
 
 }]);
