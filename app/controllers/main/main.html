@@ -34,7 +34,7 @@
         
         <div class="section-content">
         
-            <canvas display-panel ng-model="displayPanel" class="fft-canvas" width="153" height="63"></canvas>
+            <canvas display-panel ng-model="displayPanel" class="fft-canvas" width="153" height="63" ng-click="toggleWindow('visual')"></canvas>
             
             <div scrolling-text ng-model="scrollingText" class="scrolling-text"></div>
             
@@ -58,7 +58,7 @@
             
             <div class="switch first disabled"><span></span><span class="inline">eq</span></div>
             
-            <div class="switch" ng-click="togglePl()" ng-class="{active: isOpen('pl')}"><span></span><span class="inline">pl</span></div>
+            <div class="switch" ng-click="toggleWindow('pl')" ng-class="{active: isOpen('pl')}"><span></span><span class="inline">pl</span></div>
             
             <slider ng-model="durationSlider" class="duration-slider"></slider>
             

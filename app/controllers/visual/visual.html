@@ -6,7 +6,7 @@
     <script type="text/javascript" src="app.js"></script>
 </head>
 <body>
-    <section class="section child" ng-class="{active: active}" ng-controller="PlController">
+    <section class="section child" ng-class="{active: active}" ng-controller="VisualController">
         
         <div class="section-header">
             <div class="section-header-wrap">
@@ -28,6 +28,7 @@
         </div>
 
         <div class="section-content">
+            <visual-canvas class="visual" ng-model="visualCanvas"></visual-canvas>
         </div>
 
     </section>

@@ -2,34 +2,28 @@
 /*jslint browser: true, devel: true*/
 /*global amplitude*/
 
-(function () {
-
+amplitude.controller('PlController', ['$scope', '$window', 'windowService', function ($scope, $window, windowService) {
     'use strict';
+    windowService = windowService.parentInjector().get('windowService');
 
-    amplitude.controller('PlController', ['$scope', '$window', 'windowService', function ($scope, $window, windowService) {
+    $scope.active = 1;
 
-        windowService = windowService.parentInjector().get('windowService');
-
+    $window.onfocus = function () {
         $scope.active = 1;
+        $scope.$apply();
+    };
 
-        $window.onfocus = function () {
-            $scope.active = 1;
-            $scope.$apply();
-        };
+    $window.onblur = function () {
+        $scope.active = 0;
+        $scope.$apply();
+    };
 
-        $window.onblur = function () {
-            $scope.active = 0;
-            $scope.$apply();
-        };
+    $scope.$on('timeupdate', function () {
+        console.log('this is a test!');
+    });
 
-        $scope.$on('timeupdate', function () {
-            console.log('this is a test!');
-        });
+    $scope.close = function () {
+        windowService.close('pl');
+    };
 
-        $scope.close = function () {
-            windowService.close('pl');
-        };
-
-    }]);
-
-}());
+}]);
