@@ -1,10 +1,23 @@
 
 /*jslint devel: true*/
-/*global amplitude, id3, URL, chrome*/
+/*global amplitude, id3, URL, chrome, async*/
 
-amplitude.factory('fileService', ['audioService', function (audioService) {
+amplitude.factory('fileService', ['playlistService', 'audioService', function (playlistService, audioService) {
 
     'use strict';
+
+    function parseEntry(callback) {
+        return function (file) {
+            id3(file, function (err, tags) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    playlistService.add(tags, URL.createObjectURL(file));
+                    callback();
+                }
+            });
+        };
+    }
 
     return {
 
@@ -14,18 +27,20 @@ amplitude.factory('fileService', ['audioService', function (audioService) {
                 'acceptsMultiple': true,
                 'accepts': [{'extensions': ['mp3']}]
             }, function (entry) {
-                if (entry[0]) {
-                    entry[0].file(function (file) {
-                        id3(file, function (err, tags) {
-                            if (err) {
-                                console.error(err);
-                                return;
-                            }
-                            audioService.deinit();
-                            audioService.init(tags, URL.createObjectURL(file));
-                        });
-                    });
+
+                if (!entry || !entry.length) {
+                    return;
                 }
+
+                audioService.deinit();
+                playlistService.empty();
+
+                async.mapSeries(entry, function (item, callback) {
+                    item.file(parseEntry(callback));
+                }, function () {
+                    playlistService.play();
+                });
+
             });
         }
 

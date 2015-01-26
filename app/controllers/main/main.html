@@ -64,7 +64,7 @@
             
             <div class="buttons">
             
-                <div class="prev-button disabled">
+                <div ng-click="prev()" class="prev-button">
                     <span class="line"></span>
                     <span class="left-arrow"></span>
                 </div>
@@ -82,7 +82,7 @@
                     <span class="square"></span>
                 </div>
                 
-                <div class="next-button disabled">
+                <div ng-click="next()" class="next-button">
                     <span class="right-arrow"></span>
                     <span class="line"></span>
                 </div>
@@ -94,7 +94,7 @@
             
                 <div class="switch disabled"><span></span><span>shuffle</span></div>
 
-                <div ng-click="toggleRepeat()" class="switch" ng-class="{active: isRepeat()}"><span></span><span>&#8635;</span></div>
+                <div ng-click="toggleRepeat()" class="switch" ng-class="{active: repeat}"><span></span><span>&#8635;</span></div>
             
                 <a ng-href="{{config.homepage}}" target="_blank"><div class="logo"></div></a>
             </div>

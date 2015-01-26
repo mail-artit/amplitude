@@ -2,7 +2,7 @@
 /*jslint browser: true, devel: true*/
 /*global amplitude*/
 
-amplitude.controller('MainController', ['windowService', 'fileService', 'audioService', '$window', 'utils', '$scope', function (windowService, fileService, audioService, $window, utils, $scope) {
+amplitude.controller('MainController', ['windowService', 'fileService', 'audioService', 'playlistService', '$window', 'utils', '$scope', function (windowService, fileService, audioService, playlistService, $window, utils, $scope) {
 
     'use strict';
 
@@ -141,8 +141,12 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
     });
 
     $scope.$on('currentSoundEnded', function () {
-        reset();
-        $scope.$apply();
+        if (playlistService.hasNext() || $scope.repeat) {
+            playlistService.next();
+        } else {
+            reset();
+            $scope.$apply();
+        }
     });
 
     $window.onfocus = function () {
@@ -186,12 +190,22 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
         }
     };
 
-    $scope.toggleRepeat = function () {
-        audioService.setRepeat((audioService.isRepeat() + 1) % 2);
+    $scope.next = function () {
+        if (!playlistService.isEmpty()) {
+            playlistService.next();
+        }
     };
 
-    $scope.isRepeat = function () {
-        return audioService.isRepeat();
+    $scope.prev = function () {
+        if (!playlistService.isEmpty()) {
+            playlistService.prev();
+        }
+    };
+
+    $scope.repeat = 0;
+
+    $scope.toggleRepeat = function () {
+        $scope.repeat = (($scope.repeat + 1) % 2);
     };
 
     $scope.close = function () {
