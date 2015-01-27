@@ -13,7 +13,9 @@ amplitude.factory('windowService', ['$window', function ($window) {
                 'resizable': true,
                 'innerBounds': {
                     'width': 480,
-                    'height': 200
+                    'height': 200,
+                    'minWidth': 480,
+                    'minHeight': 200
                 },
                 'state': 'normal'
             },
