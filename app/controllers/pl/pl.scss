@@ -1,18 +1,23 @@
-.pl-container {
-	position: absolute;
-	background-color: black;
-	top: 5px;
-	bottom: 41px;
-	left: 5px;
-	right: 5px;
-	overflow-y: scroll;
+.pl {
+
+	&-container {
+		position: absolute;
+		background-color: black;
+		top: 5px;
+		bottom: 41px;
+		left: 5px;
+		right: 5px;
+		overflow-y: scroll;
+	}
+
+	&-controls {
+		position: absolute;
+		height: 21px;
+		bottom: 5px;
+		left: 5px;
+		right: 5px;
+		padding: 7px 0;
+	}
+
 }
 
-.pl-controls {
-	position: absolute;
-	height: 21px;
-	bottom: 5px;
-	left: 5px;
-	right: 5px;
-	padding: 7px 0;
-}

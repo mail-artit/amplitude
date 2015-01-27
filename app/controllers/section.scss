@@ -1,5 +1,5 @@
 .section {
-	box-sizing: border-box;
+    box-sizing: border-box;
     border: 3px solid rgba(0,0,0,0.3);
     height: 100%;
     width: 100%;
@@ -7,150 +7,145 @@
     position: relative;
     padding: 4px 5px 4px 5px;
     position: relative;
-}
 
-.section-content {
-    position: relative;
-	box-sizing: border-box;
-    border: 3px solid rgba(0,0,0,0.3);
-    position: absolute;
-    top: 21px;
-  	left: 5px;
-  	right: 5px;
-  	bottom: 5px;
-}
+    &-content {
+        position: relative;
+        box-sizing: border-box;
+        border: 3px solid rgba(0,0,0,0.3);
+        position: absolute;
+        top: 21px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+    }
 
-.section-header {
+    &-header {
 
-	padding-bottom: 4px;
-	display: table;
-	width: 100%;
+        padding-bottom: 4px;
+        display: table;
+        width: 100%;
 
-	.section-header-wrap {
-		display: table-row;
-	}
+        &-wrap {
+            display: table-row;
+        }
 
-	.section-header-cell {
-		display: table-cell;
-		white-space: nowrap;
-	}
+        &-cell {
+            display: table-cell;
+            white-space: nowrap;
+        }
 
-	.section-header-menu {
-		@extend .svg-assets;
-		@extend .inline;
-		background-size: auto 100%;
-		background-position: -26px 0;
-	    width: 13px;
-	    height: 13px;
-		margin-right: 8px;
-		cursor: not-allowed;
-	}
+        &-menu {
+            @extend .svg-assets;
+            @extend .inline;
+            background-size: auto 100%;
+            background-position: -26px 0;
+            width: 13px;
+            height: 13px;
+            margin-right: 8px;
+            cursor: not-allowed;
 
-	.section-header-spacer {
-		@extend .section-header-cell;
-	    background-image: -webkit-gradient(linear, left top, left bottom,
-	    color-stop(0, rgb(66,66,66)),
-	    color-stop(0.47, rgb(66,66,66)),
-	    color-stop(0.47, #000000),
-	    color-stop(0.57, #000000),
-	    color-stop(0.57, rgb(66,68,46)),
-	    color-stop(1, rgb(66,68,46)));
-	    height: 10px;
-	    border-radius: 3px 3px;
-	    border: 1px solid black;
-	    width: 50%;
-	}
+            .active & {
+                background-position: -13px 0;
+            }
+        }
 
-	.section-header-title {
-		@extend .svg-assets;
-		background-size: auto 100%;
-		background-position: -100px 0;
-		width: 52px;
-		height: 14px;
-		margin: 0 5px 0 5px;
-	}
+        &-spacer {
+            @extend .section-header-cell;
+            background-image: -webkit-gradient(linear, left top, left bottom,
+            color-stop(0, rgb(66,66,66)),
+            color-stop(0.47, rgb(66,66,66)),
+            color-stop(0.47, #000000),
+            color-stop(0.57, #000000),
+            color-stop(0.57, rgb(66,68,46)),
+            color-stop(1, rgb(66,68,46)));
+            height: 10px;
+            border-radius: 3px 3px;
+            border: 1px solid black;
+            width: 50%;
 
-	.section-header-icon {
-		@extend .inline;
-	    width: 12px;
-	    height: 12px;
-	    border-radius: 3px 3px;
-	}
+            .active & {
+                background-image: -webkit-gradient(linear, left top, left bottom,
+                color-stop(0, rgb(250,247,147)),
+                color-stop(0.47, rgb(250,247,147)),
+                color-stop(0.47, #000000),
+                color-stop(0.57, #000000),
+                color-stop(0.57, rgb(191,191,59)),
+                color-stop(1, rgb(191,191,59)));
+            }
+        }
 
-	.section-header-minimize {
-		@extend .section-header-icon;
-	    margin-left: 5px;
-	    background-image: -webkit-gradient(linear, left top, left bottom,
-	    color-stop(0, #000000),
-	    color-stop(0.45, rgb(33,33,33)),
-	    color-stop(0.50, rgb(66,66,66)),
-	    color-stop(0.65, rgb(66,66,66)),
-	    color-stop(1, rgb(150,150,150)));
-	}
+        &-title {
+            @extend .svg-assets;
+            background-size: auto 100%;
+            background-position: -100px 0;
+            width: 52px;
+            height: 14px;
+            margin: 0 5px 0 5px;
 
-	.section-header-windowshade {
-		@extend .section-header-icon;
-	    cursor: not-allowed;
-	    margin-left: 5px;
-	    margin-right: 5px;
-	    background-image: -webkit-gradient(linear, left bottom, left top,
-	    color-stop(0, #000000),
-	    color-stop(0.45, rgb(33,33,33)),
-	    color-stop(0.50, rgb(66,66,66)),
-	    color-stop(0.65, rgb(66,66,66)),
-	    color-stop(1, rgb(150,150,150)));
-	}
+            .active & {
+                background-position: -44px 0;
+            }
+        }
 
-	.section-header-close {
-		@extend .section-header-icon;
-		@extend .svg-assets;
-		background-size: auto 100%;
-		background-position: -144px 0;
-	}
+        &-icon {
+            @extend .inline;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px 3px;
+        }
 
-}
+        &-minimize {
+            @extend .section-header-icon;
+            margin-left: 5px;
+            background-image: -webkit-gradient(linear, left top, left bottom,
+                color-stop(0, #000000),
+                color-stop(0.45, rgb(33,33,33)),
+                color-stop(0.50, rgb(66,66,66)),
+                color-stop(0.65, rgb(66,66,66)),
+                color-stop(1, rgb(150,150,150)));
 
-.active .section-header {
+            .active & {
+                background-image: -webkit-gradient(linear, left top, left bottom,
+                    color-stop(0, rgb(66,62,50)),
+                    color-stop(0.45, rgb(157,169,109)),
+                    color-stop(0.50, rgb(157,169,109)),
+                    color-stop(0.65, rgb(157,169,109)),
+                    color-stop(1, rgb(210,226,225)));
+            }
+        }
 
-	.section-header-menu {
-	    background-position: -13px 0;
-	}
+        &-windowshade {
+            @extend .section-header-icon;
+            cursor: not-allowed;
+            margin-left: 5px;
+            margin-right: 5px;
+            background-image: -webkit-gradient(linear, left bottom, left top,
+                color-stop(0, #000000),
+                color-stop(0.45, rgb(33,33,33)),
+                color-stop(0.50, rgb(66,66,66)),
+                color-stop(0.65, rgb(66,66,66)),
+                color-stop(1, rgb(150,150,150)));
 
-	.section-header-spacer {
-	    background-image: -webkit-gradient(linear, left top, left bottom,
-	    color-stop(0, rgb(250,247,147)),
-	    color-stop(0.47, rgb(250,247,147)),
-	    color-stop(0.47, #000000),
-	    color-stop(0.57, #000000),
-	    color-stop(0.57, rgb(191,191,59)),
-	    color-stop(1, rgb(191,191,59)));
-	}
+            .active & {
+                background-image: -webkit-gradient(linear, left bottom, left top,
+                    color-stop(0, rgb(64,61,56)),
+                    color-stop(0.45,  rgb(157,169,109)),
+                    color-stop(0.50,  rgb(157,169,109)),
+                    color-stop(0.65,  rgb(157,169,109)),
+                    color-stop(0.90, rgb(210,226,225)),
+                    color-stop(1, rgb(210,226,225)));
+            }
+        }
 
-	.section-header-title {
-		background-position: -44px 0;
-	}
+        &-close {
+            @extend .section-header-icon;
+            @extend .svg-assets;
+            background-size: auto 100%;
+            background-position: -144px 0;
 
-	.section-header-close {
-    	background-position: -132px;
-	}
-
-	.section-header-minimize {
-	    background-image: -webkit-gradient(linear, left top, left bottom,
-	    color-stop(0, rgb(66,62,50)),
-	    color-stop(0.45, rgb(157,169,109)),
-	    color-stop(0.50, rgb(157,169,109)),
-	    color-stop(0.65, rgb(157,169,109)),
-	    color-stop(1, rgb(210,226,225)));
-	}
-
-	.section-header-windowshade {
-	    background-image: -webkit-gradient(linear, left bottom, left top,
-	    color-stop(0, rgb(64,61,56)),
-	    color-stop(0.45,  rgb(157,169,109)),
-	    color-stop(0.50,  rgb(157,169,109)),
-	    color-stop(0.65,  rgb(157,169,109)),
-	    color-stop(0.90, rgb(210,226,225)),
-	    color-stop(1, rgb(210,226,225)));
-	}
-
+            .active & {
+                background-position: -132px;
+            }
+        }
+    }
 }
