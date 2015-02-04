@@ -2,7 +2,7 @@
 /*jslint browser: true, devel: true*/
 /*global amplitude, Blob, URL */
 
-amplitude.factory('playlistService', ['audioService', 'utils', function (audioService, utils) {
+amplitude.factory('playlistService', ['audioService', 'broadcasterService', 'utils', function (audioService, broadcasterService, utils) {
     'use strict';
 
     var playlist = [],
@@ -16,6 +16,7 @@ amplitude.factory('playlistService', ['audioService', 'utils', function (audioSe
         }
         audioService.stop();
         audioService.init(playlist[playlistIndex]);
+        broadcasterService.broadcast('playlistChange');
     }
 
     function prevInPlaylist() {
@@ -26,6 +27,7 @@ amplitude.factory('playlistService', ['audioService', 'utils', function (audioSe
         }
         audioService.stop();
         audioService.init(playlist[playlistIndex]);
+        broadcasterService.broadcast('playlistChange');
     }
 
     function hasNextInPlaylist() {
@@ -36,11 +38,13 @@ amplitude.factory('playlistService', ['audioService', 'utils', function (audioSe
         var sound = utils.makeSound(tags);
         sound.src = src;
         playlist.push(sound);
+        broadcasterService.broadcast('playlistChange');
     }
 
     function emptyPlaylist() {
         playlist = [];
         playlistIndex = 0;
+        broadcasterService.broadcast('playlistChange');
     }
 
     function isPlaylistEmpty() {
@@ -51,6 +55,14 @@ amplitude.factory('playlistService', ['audioService', 'utils', function (audioSe
         audioService.init(playlist[playlistIndex]);
     }
 
+    function getPlaylistIndex() {
+        return playlistIndex;
+    }
+
+    function getPlaylist() {
+        return playlist;
+    }
+
     return {
         'next': nextInPlaylist,
         'prev': prevInPlaylist,
@@ -58,7 +70,9 @@ amplitude.factory('playlistService', ['audioService', 'utils', function (audioSe
         'empty': emptyPlaylist,
         'isEmpty': isPlaylistEmpty,
         'add': addToPlaylist,
-        'play': playCurrent
+        'play': playCurrent,
+        'playlist': getPlaylist,
+        'playlistIndex': getPlaylistIndex
     };
 
 }]);

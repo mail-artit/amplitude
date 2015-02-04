@@ -28,14 +28,31 @@
         </div>
 
         <div class="section-content">
-            <div class="pl-container">
+            <div class="pl-container-wrap">
+                <div class="pl-container">
+                    <div class="pl-table">
+                        <div class="pl-table-row" ng-repeat="sound in playlist" ng-class="{current: $index === playlistIndex}">
+                            <div class="pl-table-cell-1" ng-class="{ten: playlist.length > 9, hundred: playlist.length > 99}">{{$index + 1}}.</div>
+                            <div class="pl-table-cell-2">{{sound.artist}} - {{sound.title}}</div>
+                            <div class="pl-table-cell-3">{{transformDuration(sound.duration)}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="pl-controls">
-                <div class="button">Add</div>
-                <div class="button">Rem</div>
-                <div class="button">Sel</div>
-                <div class="button">Misc</div>
-                <!--<div class="button">List opts</div>-->
+                <div ng-repeat="menu in menus" class="button-context" ng-class="{first: $first, disabled: menu.disabled}">
+                    <div class="button-context-wrap" ng-click="overlayMenu(menu, $event)">
+                        <div class="button-context-cell">{{menu.title}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-context-overlay" ng-class="{hidden: !overlay.menu.length}" ng-style="{bottom: overlay.position.bottom + 'px', left: overlay.position.left + 'px'}">
+                <div class="button-context">
+                    <div ng-repeat="menu in overlay.menu" class="button-context-wrap" ng-class="{disabled: menu.disabled, first: $first}">
+                        <div class="button-context-cell" ng-click="menu.fn(menu)">{{menu.title}}</div>
+                    </div>
+                </div>
             </div>
         </div>
 

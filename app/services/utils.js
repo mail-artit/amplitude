@@ -1,5 +1,5 @@
 
-/*jslint bitwise: true */
+/*jslint bitwise: true, devel: true */
 /*global amplitude*/
 
 amplitude.factory('utils', [function () {
@@ -8,11 +8,14 @@ amplitude.factory('utils', [function () {
 
     var utils = {};
 
-    utils.secondsToString = function (s, delim) {
+    utils.secondsToString = function (s, delim, noprefix) {
         var min = Math.floor(s / 60),
             mods = Math.floor(s) - min * 60;
 
-        min = min < 10 ? '0' + min : String(min);
+        if (!noprefix) {
+            min = min < 10 ? '0' + min : String(min);
+        }
+
         mods = mods < 10 ? '0' + mods : String(mods);
 
         return min + delim + mods;
@@ -64,7 +67,6 @@ amplitude.factory('utils', [function () {
     };
 
     utils.makeSound = function (tags) {
-
         var ret = {
             'title': tags.title || 'Unknown Title',
             'artist': tags.artist || 'Unknown Artist',

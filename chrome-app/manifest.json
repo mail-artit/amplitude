@@ -20,7 +20,7 @@
     "offline_enabled": true,
     "permissions": [
         {
-            "fileSystem": ["write"]
+            "fileSystem": ["write", "directory"]
         },
         "fullscreen",
         "alwaysOnTopWindows"

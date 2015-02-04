@@ -1,0 +1,63 @@
+.button-context {
+	@extend .button;
+	position: relative;
+	width: 35px;
+	margin-left: 14px;
+	height: auto;
+	border: none;
+
+	&-overlay {
+		position: absolute;
+	}
+
+	&-overlay & {
+		margin-left: 0;
+	}
+
+	&.first {
+		margin-left: 6px;
+	}
+
+	&:before {
+		content: " ";
+		display: block;
+		position: absolute;
+		left: -6px;
+		top: 0;
+		bottom: 0;
+		width: 5px;
+		background-color: #adbcc4;
+		border: 1px solid black;
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+	}
+
+	&.disabled:before {
+		background-color: rgb(128, 128, 128);
+	}
+	
+	&-wrap {
+		display: table;
+		width: 100%;
+		border-radius: 3px;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+		border: 1px solid black;
+
+		&.disabled {
+			background-color: rgb(128, 128, 128);
+		}
+
+		.button-context-overlay &:not(.first) {
+			margin-top: -1px;
+		}
+	}
+
+	&-cell {
+		display: table-cell;
+		font-size: 11px;
+		text-align: center;
+		vertical-align: middle;
+		height: 25px;
+	}
+}

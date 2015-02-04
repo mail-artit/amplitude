@@ -2,7 +2,7 @@
 /*jslint browser: true, devel: true*/
 /*global amplitude, Blob, URL */
 
-amplitude.factory('audioService', ['$rootScope', 'windowService', function ($rootScope, windowService) {
+amplitude.factory('audioService', ['broadcasterService', function (broadcasterService) {
 
     'use strict';
 
@@ -12,19 +12,6 @@ amplitude.factory('audioService', ['$rootScope', 'windowService', function ($roo
         },
         currentSound = null,
         audioContext = new window.AudioContext();
-
-    function broadcast(event) {
-        var children = windowService.getChildren(),
-            i,
-            win;
-
-        for (i = 0; i < children.length; i += 1) {
-            win = children[i];
-            win.angular.element(win.document.querySelector('html')).scope().$broadcast(event);
-        }
-
-        $rootScope.$broadcast(event);
-    }
 
     function pan(val) {
         var xDeg = (val / 100 * 90) - 45,
@@ -56,7 +43,7 @@ amplitude.factory('audioService', ['$rootScope', 'windowService', function ($roo
 
     function deinit() {
         destructCurrentSound();
-        broadcast('currentSoundEnded');
+        broadcasterService.broadcast('currentSoundEnded');
     }
 
     function constructCurrentSound() {
@@ -68,7 +55,7 @@ amplitude.factory('audioService', ['$rootScope', 'windowService', function ($roo
         audio.addEventListener('canplaythrough', function () {
             if (currentSound && currentSound.audio) {
                 currentSound.audio.play();
-                broadcast('canplaythrough');
+                broadcasterService.broadcast('canplaythrough');
             }
         });
 
@@ -76,7 +63,7 @@ amplitude.factory('audioService', ['$rootScope', 'windowService', function ($roo
             if (currentSound && currentSound.audio) {
                 currentSound.duration = currentSound.audio.duration;
                 currentSound.currentTime = currentSound.audio.currentTime;
-                broadcast('timeupdate');
+                broadcasterService.broadcast('timeupdate');
             }
         });
 
@@ -104,7 +91,7 @@ amplitude.factory('audioService', ['$rootScope', 'windowService', function ($roo
 
         currentSound.audio = audio;
 
-        broadcast('constructcurrentsound');
+        broadcasterService.broadcast('constructcurrentsound');
     }
 
     function init(current) {
