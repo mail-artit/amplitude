@@ -48,22 +48,13 @@
 		&-cell {
 			display: table-cell;
 			text-align: right;
+
+			&-count {
+				white-space: pre;
+			}
 		}
 
 		&-cell-1 {
-			@extend .pl-table-cell;
-			width: 15px;
-
-			&.ten {
-				width: 22px;
-			}
-
-			&.hundred {
-				width: 30px;
-			}
-		}
-
-		&-cell-2 {
 			@extend .pl-table-cell;
 			text-align: left;
 			overflow: hidden;
@@ -72,7 +63,7 @@
 			padding: 0 5px;
 		}
 
-		&-cell-3 {
+		&-cell-2 {
 			@extend .pl-table-cell;
 			width: 50px;
 		}

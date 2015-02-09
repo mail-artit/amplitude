@@ -121,6 +121,13 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
         return utils.secondsToString(duration, ":", 1);
     };
 
+    $scope.transformCounter = function (count) {
+        var maxLength = Math.floor(Math.log10($scope.playlist.length)) + 1,
+            length = Math.floor(Math.log10(count)) + 1;
+
+        return new Array(maxLength - length + 1).join(' ') + count + '.';
+    };
+
     angular.forEach(['playlistChange', 'timeupdate'], function (value) {
         $scope.$on(value, function () {
             $scope.playlist = playlistService.playlist();

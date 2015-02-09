@@ -32,9 +32,8 @@
                 <div class="pl-container">
                     <div class="pl-table">
                         <div class="pl-table-row" ng-repeat="sound in playlist" ng-class="{current: $index === playlistIndex}">
-                            <div class="pl-table-cell-1" ng-class="{ten: playlist.length > 9, hundred: playlist.length > 99}">{{$index + 1}}.</div>
-                            <div class="pl-table-cell-2">{{sound.artist}} - {{sound.title}}</div>
-                            <div class="pl-table-cell-3">{{transformDuration(sound.duration)}}</div>
+                            <div class="pl-table-cell-1"><span class="pl-table-cell-count">{{transformCounter($index + 1)}}</span> {{sound.artist}} - {{sound.title}}</div>
+                            <div class="pl-table-cell-2">{{transformDuration(sound.duration)}}</div>
                         </div>
                     </div>
                 </div>
