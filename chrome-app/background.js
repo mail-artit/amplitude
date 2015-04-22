@@ -8,9 +8,10 @@
     chrome.app.runtime.onLaunched.addListener(function () {
 
         chrome.app.window.create('main.html', {
+            'id': 'main',
             'frame': 'none',
             'resizable': false,
-            'bounds': {
+            'innerBounds': {
                 'width': 480,
                 'height': 200
             }

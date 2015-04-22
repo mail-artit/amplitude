@@ -1,0 +1,21 @@
+.section-content {
+	.visual:-webkit-full-screen {
+	    position: fixed;
+	    width: 100%;
+	    top: 0;
+	    background: none;
+	}
+
+	.visual {
+		.amp-logo {
+			@extend .svg-assets;
+			background-size: auto 100%;
+		}
+
+		.text-frame {
+			font-family: sans-serif;
+			color: white;
+		}
+	}
+}
+

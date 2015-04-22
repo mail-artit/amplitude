@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="amplitude">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+    <section class="section child" ng-class="{active: active}" ng-controller="PlController">
+        
+        <div class="section-header">
+            <div class="section-header-wrap">
+
+                <div class="section-header-spacer"></div>
+
+                <div class="section-header-cell">                
+                    <div class="section-header-title-pl"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+               
+                <div class="section-header-cell">
+                    <div class="section-header-windowshade"></div>
+                    <div ng-click="close()" class="section-header-close"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section-content">
+            <div class="pl-container-wrap">
+                <div class="pl-container">
+                    <div ui-sortable class="pl-table">
+                        <div class="pl-table-row"
+                            ng-repeat="sound in playlist"
+                            ng-click="select($event, sound)"
+                            ng-dblclick="jumpTo(sound)" 
+                            ng-class="{current: $index === playlistIndex,  selected: selectedIndices.indexOf($index) !== -1}">
+                            <div class="pl-table-cell-1"><span class="pl-table-cell-count">{{transformCounter($index + 1)}}</span> {{sound.artist}} - {{sound.title}}</div>
+                            <div class="pl-table-cell-2">{{transformDuration(sound.duration)}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pl-controls">
+                <div ng-repeat="menu in menus" class="button-context" ng-class="{first: $first, disabled: menu.disabled}">
+                    <div class="button-context-wrap" ng-click="overlayMenu(menu, $event)">
+                        <div class="button-context-cell">{{menu.title}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-context-overlay" ng-class="{hidden: !overlay.menu.length}" ng-style="{bottom: overlay.position.bottom + 'px', left: overlay.position.left + 'px'}">
+                <div class="button-context">
+                    <div ng-repeat="menu in overlay.menu" class="button-context-wrap" ng-class="{disabled: menu.disabled, first: $first}">
+                        <div class="button-context-cell" ng-click="menu.fn(menu)">{{menu.title}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

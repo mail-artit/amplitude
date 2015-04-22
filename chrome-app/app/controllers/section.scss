@@ -1,5 +1,5 @@
 .section-header {
-	.section-header-menu, .section-header-icon {
+	&-menu, &-icon {
 		-webkit-app-region: no-drag;
 	}
 }

@@ -9,21 +9,27 @@
     <section class="section" ng-class="{active: active}" ng-controller="MainController">
         
         <div class="section-header">
-        
-            <div class="section-header-menu"></div>
-            
-            <div class="section-header-spacer"></div>
-            
-            <div class="section-header-title"></div>
-            
-            <div class="section-header-spacer"></div>
-           
-            <div ng-click="minimize()" class="section-header-minimize"></div>
-            
-            <div class="section-header-windowshade"></div>
-            
-            <div ng-click="close()" class="section-header-close"></div>
-            
+            <div class="section-header-wrap">
+
+                <div class="section-header-cell">
+                    <div class="section-header-menu"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+
+                <div class="section-header-cell">                
+                    <div class="section-header-title"></div>
+                </div>
+
+                <div class="section-header-spacer"></div>
+               
+                <div class="section-header-cell">
+                    <div ng-click="minimize()" class="section-header-minimize"></div>
+                    <div class="section-header-windowshade"></div>
+                    <div ng-click="close()" class="section-header-close"></div>
+                </div>
+
+            </div>
         </div>
         
         <div class="section-content">
@@ -52,13 +58,13 @@
             
             <div class="switch first disabled"><span></span><span class="inline">eq</span></div>
             
-            <div class="switch disabled"><span></span><span class="inline">pl</span></div>
+            <div class="switch" ng-click="toggleWindow('pl')" ng-class="{active: isOpen('pl')}"><span></span><span class="inline">pl</span></div>
             
             <slider ng-model="durationSlider" class="duration-slider"></slider>
             
             <div class="buttons">
             
-                <div class="prev-button disabled">
+                <div ng-click="prev()" class="prev-button">
                     <span class="line"></span>
                     <span class="left-arrow"></span>
                 </div>
@@ -76,20 +82,19 @@
                     <span class="square"></span>
                 </div>
                 
-                <div class="next-button disabled">
+                <div ng-click="next()" class="next-button">
                     <span class="right-arrow"></span>
                     <span class="line"></span>
                 </div>
                 
-                <div class="open-button">
+                <div class="open-button" ng-click="openFile()">
                     <span class="up-arrow"></span>
                     <span class="line"></span>
-                    <input open-file ng-model="openFile" type="file" accept="audio/mp3"/>
                 </div>
             
                 <div class="switch disabled"><span></span><span>shuffle</span></div>
 
-                <div ng-click="toggleRepeat()" class="switch" ng-class="{active: isRepeat()}"><span></span><span>&#8635;</span></div>
+                <div ng-click="toggleRepeat()" class="switch" ng-class="{active: repeat}"><span></span><span>&#8635;</span></div>
             
                 <a ng-href="{{config.homepage}}" target="_blank"><div class="logo"></div></a>
             </div>
