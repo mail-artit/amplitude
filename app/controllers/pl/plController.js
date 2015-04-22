@@ -23,8 +23,7 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
                     'title': 'ADD DIR',
                     'fn': function () {
                         fileService.addDir(function () {
-                            $scope.overlay = [];
-                            $scope.$apply();
+                            $scope.hideOverlay();
                         });
                     }
                 },
@@ -32,8 +31,7 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
                     'title': 'ADD FILE',
                     'fn': function () {
                         fileService.addFile(function () {
-                            $scope.overlay = [];
-                            $scope.$apply();
+                            $scope.hideOverlay();
                         });
                     }
                 }
@@ -47,13 +45,25 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
                     'disabled': 1
                 },
                 {
-                    'title': 'REM ALL'
+                    'title': 'REM ALL',
+                    'fn': function () {
+                        playlistService.empty();
+                        $scope.hideOverlay();
+                    }
                 },
                 {
-                    'title': 'CROP'
+                    'title': 'CROP',
+                    'fn': function () {
+                        playlistService.removeSelected(1);
+                        $scope.hideOverlay();
+                    }
                 },
                 {
-                    'title': 'REM SEL'
+                    'title': 'REM SEL',
+                    'fn': function () {
+                        playlistService.removeSelected();
+                        $scope.hideOverlay();
+                    }
                 }
             ]
         },
@@ -61,13 +71,25 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
             'title': 'SEL',
             'submenus': [
                 {
-                    'title': 'INV SEL'
+                    'title': 'INV SEL',
+                    'fn': function () {
+                        playlistService.selectInverse();
+                        $scope.hideOverlay();
+                    }
                 },
                 {
-                    'title': 'SEL ZERO'
+                    'title': 'SEL ZERO',
+                    'fn': function () {
+                        playlistService.selectNone();
+                        $scope.hideOverlay();
+                    }
                 },
                 {
-                    'title': 'SEL ALL'
+                    'title': 'SEL ALL',
+                    'fn': function () {
+                        playlistService.selectAll();
+                        $scope.hideOverlay();
+                    }
                 }
             ]
         },
@@ -79,10 +101,19 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
 
     $scope.playlist = playlistService.playlist();
     $scope.playlistIndex = playlistService.playlistIndex();
+    $scope.selectedIndices = playlistService.selectedIndices();
 
     $scope.overlay = {
         'menu': [],
         'position': {}
+    };
+
+    $scope.jumpTo = function (sound) {
+        playlistService.jumpTo(sound);
+    };
+
+    $scope.select = function (event, sound) {
+        playlistService.select(sound, event.shiftKey, event.ctrlKey);
     };
 
     $window.onclick = function (event) {
@@ -90,6 +121,11 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
             $scope.overlay = [];
             $scope.$apply();
         }
+    };
+
+    $scope.hideOverlay = function () {
+        $scope.overlay = [];
+        $scope.safeApply();
     };
 
     $scope.overlayMenu = function (menu, event) {
@@ -128,11 +164,22 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
         return new Array(maxLength - length + 1).join(' ') + count + '.';
     };
 
+    $scope.safeApply = function (fn) {
+        var phase = this.$root.$$phase;
+        if (phase === '$apply' || phase === '$digest') {
+            if (fn && typeof fn === 'function') {
+                fn();
+            }
+        } else {
+            this.$apply(fn);
+        }
+    };
+
     angular.forEach(['playlistChange', 'timeupdate'], function (value) {
         $scope.$on(value, function () {
             $scope.playlist = playlistService.playlist();
             $scope.playlistIndex = playlistService.playlistIndex();
-            $scope.$apply();
+            $scope.safeApply();
         });
     });
 

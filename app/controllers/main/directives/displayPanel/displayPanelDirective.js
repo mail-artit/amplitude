@@ -75,7 +75,7 @@ amplitude.directive('displayPanel', ['audioService', 'utils', function (audioSer
                     n,
                     numberPositions = [30, 54, 76, 110, 132];
 
-                context.fillStyle = '#00AA00';
+                context.fillStyle = '#00FF00';
 
                 val = utils.secondsToString(s, '');
 

@@ -186,7 +186,7 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
             }
         } else {
             $scope.displayPanel.state = 'playing';
-            audioService.reinit();
+            playlistService.play();
         }
     };
 

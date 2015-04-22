@@ -75,7 +75,7 @@
 	.label {
 		@extend .inline;
 	    background-color: black;
-	    color: #00AA00;
+	    color: #00FF00;
 	    border: 3px solid rgb(22,26,35);
 	    text-transform: uppercase;
 	    line-height: 16px;
@@ -140,7 +140,7 @@
 	    margin-left: 8px;
 
 	    &.active {
-	    	color: #00AA00;
+	    	color: #00FF00;
 	    	background-image: -webkit-radial-gradient(center center, contain, rgba(0,176,0,0.4) 0%, rgba(0,0,0,0) 100%);
 	    }
 	}

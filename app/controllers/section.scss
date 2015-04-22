@@ -87,6 +87,18 @@
             }
         }
 
+        &-title-pl {
+            @extend .svg-assets;
+            background-size: auto 100%;
+            background-position: -182px 1px;
+            width: 44px;
+            height: 14px;
+            margin: 0px 5px 0 5px;
+            .active & {
+                background-position: -229px 1px;
+            }
+        }
+
         &-icon {
             @extend .inline;
             width: 12px;
