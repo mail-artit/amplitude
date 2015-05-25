@@ -64,7 +64,7 @@ amplitude.factory('windowService', ['$window', function ($window) {
             chrome.app.window.create(id + '.html', windowProperties[id], function (window) {
                 children[id] = window;
                 window.contentWindow.parent = $window;
-                callback();
+                window.contentWindow.document.addEventListener('DOMContentLoaded', callback, false);
             });
         },
 

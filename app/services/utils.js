@@ -32,6 +32,10 @@ amplitude.factory('utils', [function () {
             step = sampleRate / 2048,
             targetBucket;
 
+        if (!data) {
+            return;
+        }
+
         while (i < data.length) {
 
             hz = step * i;

@@ -8,6 +8,7 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
 
     function reset() {
         $scope.displayPanel.state = 'default';
+        $scope.displayPanel.clear();
         $scope.durationSlider.disabled = 1;
         $scope.scrollingText.still = null;
     }
@@ -129,6 +130,10 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
         $scope.$apply();
     });
 
+    $scope.$on('frequencyData', function () {
+        $scope.displayPanel.update();
+    });
+
     $scope.$on('canplaythrough', function () {
         $scope.scrollingText.text = audioService.soundText();
         $scope.scrollingText.state = 'scrolling';
@@ -147,6 +152,10 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
             reset();
             $scope.$apply();
         }
+    });
+
+    $scope.$on('paused', function () {
+        $scope.displayPanel.pause();
     });
 
     $window.onfocus = function () {
@@ -185,8 +194,12 @@ amplitude.controller('MainController', ['windowService', 'fileService', 'audioSe
                 audioService.seek(0);
             }
         } else {
-            $scope.displayPanel.state = 'playing';
             playlistService.play();
+            if (audioService.haveAudio()) {
+                $scope.displayPanel.state = 'playing';
+            } else {
+                $scope.displayPanel.state = 'stopped';
+            }
         }
     };
 

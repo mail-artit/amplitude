@@ -28,7 +28,8 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                 MAX_DEPTH = 16,
                 audioService = windowService.parentInjector().get('audioService'),
                 frequencyData,
-                speed = 0;
+                speed = 0,
+                paused = 0;
 
             image.className = 'amp-logo';
             artist.className = 'text-frame';
@@ -44,13 +45,6 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
             $element[0].appendChild(artist);
             $element[0].appendChild(title);
             $element[0].appendChild(starsCanvas);
-
-            function lazyFrequencyData() {
-                if (!frequencyData) {
-                    frequencyData = new window.Uint8Array(audioService.frequencyBinCount());
-                }
-                return frequencyData;
-            }
 
             function randomRange(minVal, maxVal) {
                 return Math.floor(Math.random() * (maxVal - minVal - 1)) + minVal;
@@ -75,7 +69,7 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                     sum = 0;
 
                 if (audioService.haveAudio()) {
-                    data = lazyFrequencyData();
+                    data = frequencyData;
                     for (i = 0, n = data.length; i < n; i += 1) {
                         sum += data[i];
                     }
@@ -94,8 +88,6 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                     py,
                     size,
                     shade;
-
-                ctx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
 
                 for (i = 0; i < stars.length; i += 1) {
 
@@ -128,8 +120,7 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
             function drawFft(canvas, ctx) {
 
                 if (audioService.haveAudio()) {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    utils.getBuckets(lazyFrequencyData(), audioService.sampleRate(), function (avg, bucket, length) {
+                    utils.getBuckets(frequencyData, audioService.sampleRate(), function (avg, bucket, length) {
                         var spacing = 3,
                             targetWidth = canvas.width - 4 * em,
                             width = (targetWidth - (length - 1) * em / spacing) / length,
@@ -144,20 +135,6 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
                     });
                 }
 
-            }
-
-            function draw() {
-                drawStars(starsCanvas, starsCtx);
-                drawFft(fftCanvas, fftCtx);
-
-                if (audioService.haveAudio()) {
-                    audioService.getByteFrequencyData(lazyFrequencyData());
-                    speed = getSpeed();
-                }
-
-                image.style.transform = 'scale(' + (1 + (speed / 5)) + ')';
-
-                $window.requestAnimationFrame(draw);
             }
 
             function layoutTexts() {
@@ -210,13 +187,40 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
 
             }
 
+            function tick() {
+                if (!paused) {
+                    starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+                    drawStars(starsCanvas, starsCtx);
+                    fftCtx.clearRect(0, 0, fftCanvas.width, fftCanvas.height);
+                    drawFft(fftCanvas, fftCtx);
+                    image.style.transform = 'scale(' + (1 + (speed / 5)) + ')';
+                }
+                $window.requestAnimationFrame(tick);
+            }
+
+            $scope.model.update = function update() {
+                if (audioService.haveAudio() && !audioService.paused()) {
+                    frequencyData = audioService.frequencyData();
+                    speed = getSpeed();
+                    paused = 0;
+                }
+            };
+
+            $scope.model.pause = function pause() {
+                paused = 1;
+            };
+
+            $scope.model.stop = function stop() {
+                paused = 1;
+                starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+                fftCtx.clearRect(0, 0, fftCanvas.width, fftCanvas.height);
+            };
+
             $window.onresize = resize;
 
             $element[0].ondblclick = function () {
                 if (!$window.document.webkitIsFullScreen) {
                     $element[0].webkitRequestFullscreen();
-                } else {
-                    $window.document.webkitCancelFullScreen();
                 }
             };
 
@@ -226,7 +230,7 @@ amplitude.directive('visualCanvas', ['$window', 'windowService', 'utils', functi
 
             initStars();
             resize();
-            draw();
+            tick();
         }
     };
 
