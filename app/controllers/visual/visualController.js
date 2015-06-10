@@ -12,6 +12,8 @@ amplitude.controller('VisualController', ['$scope', '$window', 'windowService', 
             'title': ''
         };
 
+    windowService.init('visual');
+
     windowService = windowService.parentInjector().get('windowService');
 
     $scope.visualCanvas = {

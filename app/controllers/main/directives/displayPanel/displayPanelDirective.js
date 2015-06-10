@@ -143,14 +143,18 @@ amplitude.directive('displayPanel', ['audioService', 'utils', '$window', functio
             }
 
 
+            function draw() {
+                context.clearRect(0, 0, canvasWidth, canvasHeight);
+                drawBackground();
+                drawSeconds(audioService.currentTime());
+                drawState();
+                context.fillStyle = lazyGradient();
+                drawFFt(frequencyData, audioService.sampleRate());
+            }
+
             function tick() {
                 if (!paused) {
-                    context.clearRect(0, 0, canvasWidth, canvasHeight);
-                    drawBackground();
-                    drawSeconds(audioService.currentTime());
-                    drawState();
-                    context.fillStyle = lazyGradient();
-                    drawFFt(frequencyData, audioService.sampleRate());
+                    draw();
                 }
                 $window.requestAnimationFrame(tick);
             }
@@ -177,7 +181,9 @@ amplitude.directive('displayPanel', ['audioService', 'utils', '$window', functio
             $scope.$watch('model.state', function ($state) {
                 state = $state;
                 $scope.model.update();
-                if (state === 'default') {
+                if (state === 'paused') {
+                    draw();
+                } else if (state === 'default') {
                     $scope.model.clear();
                 }
             });

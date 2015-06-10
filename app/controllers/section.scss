@@ -58,7 +58,8 @@
             color-stop(0.57, #000000),
             color-stop(0.57, rgb(66,68,46)),
             color-stop(1, rgb(66,68,46)));
-            height: 10px;
+            /** chrome hack */
+            min-height: 10px;
             border-radius: 3px 3px;
             border: 1px solid black;
             width: 50%;
@@ -85,18 +86,32 @@
             .active & {
                 background-position: -44px 0;
             }
-        }
+        
 
-        &-title-pl {
-            @extend .svg-assets;
-            background-size: auto 100%;
-            background-position: -182px 1px;
-            width: 44px;
-            height: 14px;
-            margin: 0px 5px 0 5px;
-            .active & {
-                background-position: -229px 1px;
+            &-pl {
+                @extend .svg-assets;
+                background-size: auto 100%;
+                background-position: -182px 1px;
+                width: 44px;
+                height: 14px;
+                margin: 0px 5px 0 5px;
+                .active & {
+                    background-position: -229px 1px;
+                }
             }
+
+            &-visual {
+                @extend .svg-assets;
+                background-size: auto 100%;
+                background-position: -276px 0px;
+                width: 40px;
+                height: 14px;
+                margin: 0px 5px 0 5px;
+                .active & {
+                    background-position: -318px 0px;
+                }
+            }
+
         }
 
         &-icon {

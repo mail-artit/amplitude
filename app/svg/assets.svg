@@ -11,7 +11,7 @@
    version="1.1"
    id="svg2"
    height="300"
-   width="5900"
+   width="7700"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="assets.svg">
   <sodipodi:namedview
@@ -23,19 +23,20 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
      id="namedview4183"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.35355339"
-     inkscape:cx="3946.1643"
+     inkscape:cx="6290.2598"
      inkscape:cy="-29.229003"
-     inkscape:window-x="1358"
-     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-y="426"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="svg2"
+     showborder="true" />
   <defs
      id="defs4">
     <linearGradient
@@ -486,7 +487,7 @@
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold">PLAYLIST</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:239.93621825999998000px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+     style="font-size:239.93621826px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
      x="5678.8613"
      y="214.24969"
      id="text3151-1"
@@ -496,5 +497,31 @@
        id="tspan3153-7"
        x="5678.8613"
        y="214.24969"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold;fill:#ffffff;fill-opacity:1">PLAYLIST</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold">PLAYLIST</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:252.60095215px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#708090;fill-opacity:1;stroke:none;font-family:Sans"
+     x="6504.5674"
+     y="225.55861"
+     id="text3151-17"
+     sodipodi:linespacing="125%"
+     transform="scale(0.91456849,1.0934118)"><tspan
+       sodipodi:role="line"
+       id="tspan3153-4"
+       x="6504.5674"
+       y="225.55861"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold">VISUAL</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:252.60095215000001000px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+     x="7488.6377"
+     y="225.55862"
+     id="text3151-17-0"
+     sodipodi:linespacing="125%"
+     transform="scale(0.9145685,1.0934118)"><tspan
+       sodipodi:role="line"
+       id="tspan3153-4-9"
+       x="7488.6377"
+       y="225.55862"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Segoe UI;-inkscape-font-specification:Segoe UI Bold;fill:#ffffff">VISUAL</tspan></text>
 </svg>

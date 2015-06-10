@@ -7,7 +7,7 @@
     "author": "Attila Varga <artit91@gmail.com>",
     "app": {
         "background": {
-            "scripts": ["background.js"],
+            "scripts": ["./app.js"],
             "persistent": false
         }
     },
