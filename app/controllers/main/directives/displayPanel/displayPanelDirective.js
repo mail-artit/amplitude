@@ -1,8 +1,8 @@
 
-/*jslint browser: true*/
+/*jslint browser: true, devel: true*/
 /*global angular, amplitude*/
 
-amplitude.directive('displayPanel', ['audioService', 'utils', function (audioService, utils) {
+amplitude.directive('displayPanel', ['audioService', 'utils', '$window', function (audioService, utils, $window) {
 
     'use strict';
 
@@ -17,16 +17,16 @@ amplitude.directive('displayPanel', ['audioService', 'utils', function (audioSer
                 canvasWidth = $attributes.width,
                 canvasHeight = $attributes.height,
                 state = null,
-                paused = 1,
                 gradient = null,
-                frequencyData = null,
                 config = {
                     width: 2,
                     padding: 1,
                     step: 4,
                     offsetX: 2,
                     offsetY: 2
-                };
+                },
+                frequencyData,
+                paused = 1;
 
             function lazyGradient() {
                 if (!gradient) {
@@ -36,13 +36,6 @@ amplitude.directive('displayPanel', ['audioService', 'utils', function (audioSer
                     gradient.addColorStop(1, 'rgb(0,170,0)');
                 }
                 return gradient;
-            }
-
-            function lazyFrequencyData() {
-                if (!frequencyData) {
-                    frequencyData = new window.Uint8Array(audioService.frequencyBinCount());
-                }
-                return frequencyData;
             }
 
             function drawNumber(number, x, y) {
@@ -149,58 +142,53 @@ amplitude.directive('displayPanel', ['audioService', 'utils', function (audioSer
                 });
             }
 
-            function tick() {
 
-                if (!audioService.haveAudio()) {
-                    window.requestAnimationFrame(tick);
-                    return;
-                }
-
+            function draw() {
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 drawBackground();
                 drawSeconds(audioService.currentTime());
                 drawState();
-
                 context.fillStyle = lazyGradient();
+                drawFFt(frequencyData, audioService.sampleRate());
+            }
 
-                drawFFt(lazyFrequencyData(), audioService.sampleRate());
-
+            function tick() {
                 if (!paused) {
-                    audioService.getByteFrequencyData(lazyFrequencyData());
-                    window.requestAnimationFrame(tick);
+                    draw();
                 }
-
+                $window.requestAnimationFrame(tick);
             }
 
-            function start() {
-                if (paused) {
+            $scope.model.update = function update() {
+                if (audioService.haveAudio() && !audioService.paused()) {
+                    frequencyData = audioService.frequencyData();
                     paused = 0;
-                    tick();
                 }
-            }
+            };
 
-            function stop() {
+            $scope.model.pause = function pause() {
+                paused = 1;
+            };
+
+            $scope.model.clear = function clear() {
                 paused = 1;
                 context.clearRect(0, 0, canvasWidth, canvasHeight);
                 drawBackground();
                 drawSeconds(1, 1);
                 drawState();
-            }
-
-            function pause() {
-                paused = 1;
-            }
+            };
 
             $scope.$watch('model.state', function ($state) {
                 state = $state;
-                if (state === 'playing') {
-                    start();
-                } else if (state === 'paused') {
-                    pause();
-                } else {
-                    stop();
+                $scope.model.update();
+                if (state === 'paused') {
+                    draw();
+                } else if (state === 'default') {
+                    $scope.model.clear();
                 }
             });
+
+            tick();
         }
     };
 

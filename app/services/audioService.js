@@ -2,7 +2,7 @@
 /*jslint browser: true, devel: true*/
 /*global amplitude, Blob, URL */
 
-amplitude.factory('audioService', ['broadcasterService', function (broadcasterService) {
+amplitude.factory('audioService', ['broadcasterService', '$window', function (broadcasterService, $window) {
 
     'use strict';
 
@@ -11,7 +11,21 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
             pan: 50
         },
         currentSound = null,
-        audioContext = new window.AudioContext();
+        frequencyDataArray = null,
+        audioContext = new window.AudioContext(),
+        frequencyDataTimer = {
+            'start': function () {
+                frequencyDataTimer.tick();
+            },
+            'tick': function () {
+                var start = new Date().getTime();
+                if (currentSound && currentSound.audio) {
+                    currentSound.analyser.getByteFrequencyData(frequencyDataArray);
+                    broadcasterService.broadcast('frequencyData');
+                }
+                $window.setTimeout(frequencyDataTimer.tick, 16 - (new Date().getTime() - start));
+            }
+        };
 
     function pan(val) {
         var xDeg = (val / 100 * 90) - 45,
@@ -38,6 +52,7 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
             currentSound.currentTime = 0;
             currentSound.audio.pause();
             currentSound.audio = null;
+            broadcasterService.broadcast('currentSoundDestructed');
         }
     }
 
@@ -91,6 +106,8 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
 
         currentSound.audio = audio;
 
+        frequencyDataArray = new $window.Uint8Array(currentSound.analyser.frequencyBinCount);
+
         broadcasterService.broadcast('constructcurrentsound');
     }
 
@@ -140,7 +157,10 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
     }
 
     function pauseCurrentSound() {
-        return haveAudio() && !currentSound.audio.paused && currentSound.audio.pause();
+        if (haveAudio() && !currentSound.audio.paused) {
+            broadcasterService.broadcast('paused');
+            currentSound.audio.pause();
+        }
     }
 
     function resumeCurrentSound() {
@@ -160,12 +180,8 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
         return haveAudio() && currentSound.audio.play();
     }
 
-    function getFrequencyBinCount() {
-        return haveAudio() && currentSound.analyser.frequencyBinCount;
-    }
-
-    function getByteFrequencyData(array) {
-        return haveAudio() && currentSound.analyser.getByteFrequencyData(array);
+    function frequencyData() {
+        return haveAudio() && frequencyDataArray;
     }
 
     function stopCurrentSound() {
@@ -175,6 +191,8 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
     function getCurrentSound() {
         return haveAudio() && currentSound;
     }
+
+    frequencyDataTimer.start();
 
     return {
         'pan': setPan,
@@ -193,8 +211,7 @@ amplitude.factory('audioService', ['broadcasterService', function (broadcasterSe
         'haveAudio': haveAudio,
         'play': playCurrentSound,
         'reinit': constructCurrentSound,
-        'frequencyBinCount': getFrequencyBinCount,
-        'getByteFrequencyData': getByteFrequencyData,
+        'frequencyData': frequencyData,
         'stop': stopCurrentSound,
         'currentSound': getCurrentSound
     };

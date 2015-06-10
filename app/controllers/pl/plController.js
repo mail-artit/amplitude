@@ -8,6 +8,8 @@ amplitude.controller('PlController', ['$scope', '$window', 'windowService', 'uti
     var fileService = windowService.parentInjector().get('fileService'),
         playlistService = windowService.parentInjector().get('playlistService');
 
+    windowService.init('pl');
+
     windowService = windowService.parentInjector().get('windowService');
 
     $scope.active = 1;

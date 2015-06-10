@@ -6,15 +6,18 @@ amplitude.controller('VisualController', ['$scope', '$window', 'windowService', 
 
     'use strict';
 
-    var audioService = windowService.parentInjector().get('audioService');
+    var audioService = windowService.parentInjector().get('audioService'),
+        defaultData = {
+            'artist': 'AMPLITUDE',
+            'title': ''
+        };
+
+    windowService.init('visual');
 
     windowService = windowService.parentInjector().get('windowService');
 
     $scope.visualCanvas = {
-        'data': {
-            'artist': 'AMPLITUDE',
-            'title': ''
-        }
+        'data': defaultData
     };
 
     if (audioService.haveAudio()) {
@@ -40,9 +43,22 @@ amplitude.controller('VisualController', ['$scope', '$window', 'windowService', 
 
     $scope.$on('constructcurrentsound', function () {
         var currentSound = audioService.currentSound();
+        $scope.visualCanvas.data = {};
         $scope.visualCanvas.data.artist = currentSound.artist;
         $scope.visualCanvas.data.title = currentSound.title;
         $scope.$apply();
+    });
+
+    $scope.$on('frequencyData', function () {
+        $scope.visualCanvas.update();
+    });
+
+    $scope.$on('paused', function () {
+        $scope.visualCanvas.pause();
+    });
+
+    $scope.$on('currentSoundDestructed', function () {
+        $scope.visualCanvas.stop();
     });
 
 }]);
