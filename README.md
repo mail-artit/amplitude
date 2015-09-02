@@ -7,9 +7,9 @@
 ---------------
 https://github.com/joyent/node/wiki/installing-node.js-via-package-manager
 
-2. install grunt-cli
+2. install gulp
 --------------------
-``npm install -g grunt-cli``
+`npm install -g gulp`
 
 3. install git
 --------------
@@ -17,7 +17,7 @@ http://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
 4. get amplitude
 ----------------
-git clone https://github.com/artit91/amplitude.git
+`git clone https://github.com/artit91/amplitude.git`
 
 5. install dependencies
 -----------------------
@@ -25,9 +25,9 @@ git clone https://github.com/artit91/amplitude.git
 
 `npm install`
 
-6. run grunt
+6. run gulp
 ------------
-`grunt`
+`gulp`
 
 7. install chrome
 -----------------
