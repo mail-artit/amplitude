@@ -45,4 +45,4 @@ http://i.imgur.com/etwxb2R.png
 
 select `chrome-pkg` dir
 
-click `Launch` if amplitude did not started
+click `Launch` if amplitude did not start
