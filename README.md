@@ -9,7 +9,7 @@ https://github.com/joyent/node/wiki/installing-node.js-via-package-manager
 
 2. install gulp
 --------------------
-`npm install -g gulp`
+`sudo npm install -g gulp`
 
 3. install git
 --------------
